@@ -1,0 +1,11 @@
+<resources>
+	<string name="app_name">iVan</string>
+
+	<string name="default_notification_channel_id">default_notification</string>
+	<string name="default_notification_channel_name">Default</string>
+	<string name="alert_notification_group_id">alert_group</string>
+	<string name="alert_notification_group_name">Alert</string>
+	<string name="detect_notification_channel_id">detect_notification</string>
+	<string name="detect_notification_channel_name">Child Detection</string>
+	<string name="title_activity_maps">Map</string>
+</resources>
