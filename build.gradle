@@ -1,61 +1,80 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 
 buildscript {
-    ext.kotlin_version = '1.2.0'
-    repositories {
-        google()
-        jcenter()
-    }
-    dependencies {
-        classpath 'com.android.tools.build:gradle:3.0.1'
-        classpath 'com.google.gms:google-services:3.1.1'
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+	ext.kotlin_version = '1.2.10'
+	repositories {
+		google()
+		jcenter()
+	}
+	dependencies {
+		classpath 'com.android.tools.build:gradle:3.0.1'
+		classpath 'com.google.gms:google-services:3.1.1'
+		classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
 
-        // NOTE: Do not place your application dependencies here; they belong
-        // in the individual module build.gradle files
-    }
+		// NOTE: Do not place your application dependencies here; they belong
+		// in the individual module build.gradle files
+	}
 }
 
 allprojects {
-    repositories {
-        google()
-        jcenter()
-    }
+	repositories {
+		google()
+		jcenter()
+	}
 }
 
 ext {
-    androidSupportLibVersion = '27.0.2'
-    googleServicesLibVersion = '11.6.2'
+	androidSupportLibVersion = '27.0.2'
+	googleServicesLibVersion = '11.8.0'
+	architectureComponentsVersion = '1.0.0'
+	daggerVersion = '2.14.1'
 
-    appcompatV7 = "com.android.support:appcompat-v7:$androidSupportLibVersion"
-    cardviewV7 = "com.android.support:cardview-v7:$androidSupportLibVersion"
-    palleteV7 = "com.android.support:palette-v7:$androidSupportLibVersion"
-    reclyclerviewV7 = "com.android.support:recyclerview-v7:$androidSupportLibVersion"
-    design = "com.android.support:design:$androidSupportLibVersion"
-    supportV4 = [
-            "com.android.support:support-v4:$androidSupportLibVersion",
-            "com.android.support:support-compat:$androidSupportLibVersion",
-            "com.android.support:support-core-ui:$androidSupportLibVersion",
-            "com.android.support:support-fragment:$androidSupportLibVersion"
-    ]
+	appcompatV7 = "com.android.support:appcompat-v7:$androidSupportLibVersion"
+	cardviewV7 = "com.android.support:cardview-v7:$androidSupportLibVersion"
+	palleteV7 = "com.android.support:palette-v7:$androidSupportLibVersion"
+	reclyclerviewV7 = "com.android.support:recyclerview-v7:$androidSupportLibVersion"
+	design = "com.android.support:design:$androidSupportLibVersion"
+	supportV4 = [
+			"com.android.support:support-v4:$androidSupportLibVersion",
+			"com.android.support:support-compat:$androidSupportLibVersion",
+			"com.android.support:support-core-ui:$androidSupportLibVersion",
+			"com.android.support:support-fragment:$androidSupportLibVersion"
+	]
 
-    googlePlayServices = [
-            "com.google.android.gms:play-services-base:$googleServicesLibVersion",
-            "com.google.android.gms:play-services-location:$googleServicesLibVersion",
-            "com.google.android.gms:play-services-maps:$googleServicesLibVersion"
-    ]
+	googlePlayServices = [
+			"com.google.android.gms:play-services-base:$googleServicesLibVersion",
+			"com.google.android.gms:play-services-location:$googleServicesLibVersion",
+			"com.google.android.gms:play-services-maps:$googleServicesLibVersion"
+	]
 
-    firebase = [
-            "com.google.firebase:firebase-core:$googleServicesLibVersion",
-            "com.google.firebase:firebase-database:$googleServicesLibVersion",
-            "com.google.firebase:firebase-storage:$googleServicesLibVersion",
-            "com.google.firebase:firebase-crash:$googleServicesLibVersion",
-            "com.google.firebase:firebase-auth:$googleServicesLibVersion",
-            "com.google.firebase:firebase-messaging:$googleServicesLibVersion",
-            "com.google.firebase:firebase-appindexing:$googleServicesLibVersion"
-    ]
+	firebase = [
+			"com.google.firebase:firebase-core:$googleServicesLibVersion",
+			"com.google.firebase:firebase-database:$googleServicesLibVersion",
+			"com.google.firebase:firebase-storage:$googleServicesLibVersion",
+			"com.google.firebase:firebase-crash:$googleServicesLibVersion",
+			"com.google.firebase:firebase-auth:$googleServicesLibVersion",
+			"com.google.firebase:firebase-messaging:$googleServicesLibVersion",
+			"com.google.firebase:firebase-appindexing:$googleServicesLibVersion"
+	]
+
+	architectureComponents = [
+			"android.arch.lifecycle:extensions:$architectureComponentsVersion",
+			"android.arch.persistence.room:runtime:$architectureComponentsVersion",
+			"android.arch.persistence.room:rxjava2:$architectureComponentsVersion",
+			"android.arch.lifecycle:reactivestreams:$architectureComponentsVersion"
+	]
+
+	architectureComponentsKapts = [
+			"android.arch.lifecycle:compiler:$architectureComponentsVersion",
+			"android.arch.persistence.room:compiler:$architectureComponentsVersion"
+	]
+
+	daggers = [
+	        "com.google.dagger:dagger-android:$daggerVersion",
+			"com.google.dagger:dagger-android-support:$daggerVersion"
+	]
 }
 
 task clean(type: Delete) {
-    delete rootProject.buildDir
+	delete rootProject.buildDir
 }

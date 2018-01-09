@@ -14,20 +14,19 @@
 		android:required="true"/>
 
 	<application
+		android:name=".IVanApplication"
 		android:allowBackup="true"
 		android:icon="@mipmap/ic_launcher"
 		android:label="@string/app_name"
 		android:roundIcon="@mipmap/ic_launcher_round"
 		android:supportsRtl="true"
 		android:theme="@style/AppTheme">
-		<activity android:name=".LoginActivity">
+		<activity android:name=".login.LoginActivity">
+			 <intent-filter>
+			 <action android:name="android.intent.action.MAIN"/>
 
-			<!-- <intent-filter> -->
-			<!-- <action android:name="android.intent.action.MAIN"/> -->
-
-
-			<!-- <category android:name="android.intent.category.LAUNCHER"/> -->
-			<!-- </intent-filter> -->
+			 <category android:name="android.intent.category.LAUNCHER"/>
+			 </intent-filter>
 		</activity>
 
 		<meta-data
@@ -65,16 +64,6 @@
 		<meta-data
 			android:name="com.google.firebase.messaging.default_notification_channel_id"
 			android:value="@string/default_notification_channel_id"/>
-
-		<activity android:name=".choose.ChooseCarActivity">
-		</activity>
-		<activity android:name=".map.MapActivity">
-			<intent-filter>
-				<action android:name="android.intent.action.MAIN"/>
-
-				<category android:name="android.intent.category.LAUNCHER"/>
-			</intent-filter>
-		</activity>
 	</application>
 
 </manifest>

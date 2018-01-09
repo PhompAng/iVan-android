@@ -17,9 +17,9 @@ internal class NotificationHelper(ctx: Context) : ContextWrapper(ctx) {
 	private val manager: NotificationManager by lazy {
 		getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 	}
-	val defaultChannelId by lazy { getString(R.string.default_notification_channel_id) }
+	val defaultChannelId: String by lazy { getString(R.string.default_notification_channel_id) }
 	private val defaultChannelName by lazy { getString(R.string.default_notification_channel_name) }
-	val detectChannelId by lazy { getString(R.string.detect_notification_channel_id) }
+	val detectChannelId: String by lazy { getString(R.string.detect_notification_channel_id) }
 	private val detectChannelName by lazy { getString(R.string.detect_notification_channel_name) }
 	private val alertGroupId by lazy { getString(R.string.alert_notification_group_id) }
 	private val alertGroupName by lazy { getString(R.string.alert_notification_group_name) }

@@ -4,8 +4,9 @@
 	<dimen name="space_small">4dp</dimen>
 	<dimen name="space_small_6dp">6dp</dimen>
 	<dimen name="space_normal">8dp</dimen>
-	<dimen name="space_large">16dp</dimen>
-	<dimen name="space_larger">24dp</dimen>
+	<dimen name="space_large">12dp</dimen>
+	<dimen name="space_larger">16dp</dimen>
+	<dimen name="space_large_24dp">24dp</dimen>
 	<dimen name="space_large_32dp">32dp</dimen>
 	<dimen name="space_large_36dp">36dp</dimen>
 	<dimen name="space_large_40dp">40dp</dimen>
