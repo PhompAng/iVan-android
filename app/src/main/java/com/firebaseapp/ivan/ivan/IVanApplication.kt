@@ -9,15 +9,15 @@ import timber.log.Timber
  * @author phompang on 9/1/2018 AD.
  */
 class IVanApplication : Application() {
-    override fun onCreate() {
-        super.onCreate()
-        NotificationHelper(this)
-        inDebugMode {
-            Timber.plant(object : Timber.DebugTree() {
-                override fun createStackElementTag(element: StackTraceElement): String? {
-                    return "${super.createStackElementTag(element)} : ${element.methodName} (${element.fileName}:${element.lineNumber})"
-                }
-            })
-        }
-    }
+	override fun onCreate() {
+		super.onCreate()
+		NotificationHelper(this)
+		inDebugMode {
+			Timber.plant(object : Timber.DebugTree() {
+				override fun createStackElementTag(element: StackTraceElement): String? {
+					return "${super.createStackElementTag(element)} : ${element.methodName} (${element.fileName}:${element.lineNumber})"
+				}
+			})
+		}
+	}
 }

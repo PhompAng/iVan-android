@@ -7,7 +7,7 @@ import com.firebaseapp.ivan.ivan.BuildConfig
  */
 
 inline fun inDebugMode(func: () -> Unit) {
-    if (BuildConfig.BUILD_TYPE == "debug") {
-        func()
-    }
+	if (BuildConfig.BUILD_TYPE == "debug") {
+		func()
+	}
 }
