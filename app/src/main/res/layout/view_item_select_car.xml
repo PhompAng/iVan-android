@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools">
+
+	<data>
+
+		<variable
+			name="car"
+			type="com.firebaseapp.ivan.ivan.model.Car" />
+		<variable
+			name="school"
+			type="com.firebaseapp.ivan.ivan.model.School" />
+	</data>
+
+	<android.support.constraint.ConstraintLayout
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:background="?attr/selectableItemBackground"
+		android:clickable="true"
+		android:focusable="true"
+		android:padding="@dimen/space_large">
+
+		<ImageView
+			android:id="@+id/carImageView"
+			android:layout_width="90dp"
+			android:layout_height="0dp"
+			app:layout_constraintDimensionRatio="1:1"
+			app:layout_constraintLeft_toLeftOf="parent"
+			app:layout_constraintTop_toTopOf="parent"
+			app:storage="@{car}"
+			tools:src="@color/colorAccent" />
+
+		<TextView
+			android:id="@+id/carPlateNumberTextView"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_marginStart="@dimen/space_large"
+			android:fontFamily="@font/kanit_regular"
+			android:text="@{car.plateNumber}"
+			android:textColor="@color/textColor"
+			android:textSize="@dimen/text_large_1"
+			app:layout_constraintLeft_toRightOf="@+id/carImageView"
+			app:layout_constraintTop_toTopOf="@+id/carImageView"
+			tools:text="ฮพ 3867" />
+
+		<TextView
+			android:id="@+id/provinceTextView"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_marginStart="@dimen/space_normal"
+			android:fontFamily="@font/kanit_regular"
+			android:text="@{car.province}"
+			android:textColor="@color/textColorPrimary"
+			android:textSize="@dimen/text_large_1"
+			app:layout_constraintLeft_toRightOf="@+id/carPlateNumberTextView"
+			app:layout_constraintTop_toTopOf="@+id/carPlateNumberTextView"
+			tools:text="กรุงเทพมหานคร" />
+
+		<TextView
+			android:id="@+id/schoolNameTextView"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:fontFamily="@font/kanit_regular"
+			android:text="@{school.name.th}"
+			android:textColor="@color/textColor"
+			android:textSize="@dimen/text_small_1"
+			app:layout_constraintLeft_toLeftOf="@+id/carPlateNumberTextView"
+			app:layout_constraintTop_toBottomOf="@+id/carPlateNumberTextView"
+			tools:text="โรงเรียนบดินทรเดชา (สิงห์ สิงหเสนี)" />
+
+		<LinearLayout
+			android:id="@+id/studentView"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:orientation="vertical"
+			app:layout_constraintLeft_toLeftOf="@id/carPlateNumberTextView"
+			app:layout_constraintTop_toBottomOf="@+id/schoolNameTextView"
+			app:studentList="@{car.students}" />
+	</android.support.constraint.ConstraintLayout>
+</layout>

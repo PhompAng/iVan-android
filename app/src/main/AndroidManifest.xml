@@ -21,7 +21,7 @@
 		android:roundIcon="@mipmap/ic_launcher_round"
 		android:supportsRtl="true"
 		android:theme="@style/AppTheme">
-		<activity android:name=".login.LoginActivity">
+		<activity android:name="com.firebaseapp.ivan.ivan.ui.login.LoginActivity">
 			<intent-filter>
 				<action android:name="android.intent.action.MAIN" />
 
@@ -36,12 +36,12 @@
 			android:name="com.google.android.geo.API_KEY"
 			android:value="AIzaSyBDdYKyYq6LiEd73NBiKX3bj19XyeC8BmQ" />
 
-		<service android:name=".services.MyFirebaseMessagingService">
+		<service android:name=".service.MyFirebaseMessagingService">
 			<intent-filter>
 				<action android:name="com.google.firebase.MESSAGING_EVENT" />
 			</intent-filter>
 		</service>
-		<service android:name=".services.MyFirebaseInstanceIDService">
+		<service android:name=".service.MyFirebaseInstanceIDService">
 			<intent-filter>
 				<action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
 			</intent-filter>
@@ -65,11 +65,10 @@
 			android:name="com.google.firebase.messaging.default_notification_channel_id"
 			android:value="@string/default_notification_channel_id" />
 
-		<activity android:name=".select.ChooseCarActivity" />
 		<activity
-			android:name=".MainActivity"
+			android:name=".ui.main.MainActivity"
 			android:label="@string/title_activity_main"
-			android:theme="@style/AppTheme.NoActionBar"></activity>
+			android:theme="@style/AppTheme.NoActionBar"/>
 	</application>
 
 </manifest>

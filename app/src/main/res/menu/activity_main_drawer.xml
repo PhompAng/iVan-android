@@ -8,6 +8,10 @@
 			android:id="@+id/nav_select_car"
 			android:icon="@drawable/ic_format_list_bulleted_black_24dp"
 			android:title="@string/select_car" />
+		<item
+			android:id="@+id/nav_car_tracking"
+			android:icon="@drawable/ic_format_list_bulleted_black_24dp"
+			android:title="@string/car_tracking" />
 	</group>
 
 </menu>

@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:tools="http://schemas.android.com/tools"
+	xmlns:app="http://schemas.android.com/apk/res-auto">
+	<data>
+		<variable
+			name="car"
+			type="com.firebaseapp.ivan.ivan.model.Car" />
+	</data>
+	<ViewFlipper
+		android:id="@+id/viewFlipper"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent">
+
+		<!--<ProgressBar-->
+			<!--android:layout_width="wrap_content"-->
+			<!--android:layout_height="wrap_content"-->
+			<!--android:layout_gravity="center" />-->
+
+		<android.support.design.widget.CoordinatorLayout
+			android:layout_width="match_parent"
+			android:layout_height="match_parent">
+
+			<LinearLayout
+				android:id="@+id/destinationView"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:layout_marginHorizontal="@dimen/space_large"
+				android:layout_marginVertical="@dimen/space_normal"
+				android:background="@android:color/white"
+				android:elevation="@dimen/elevation_normal"
+				android:orientation="vertical"
+				android:padding="@dimen/space_large">
+
+				<TextView
+					android:id="@+id/destinationTextView"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:fontFamily="@font/kanit_light"
+					android:textColor="@color/textColor"
+					android:textSize="@dimen/text_large_1"
+					tools:text="โรงเรียนของเราน่าอยู่" />
+
+				<TextView
+					android:id="@+id/arriveTimeTextView"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:fontFamily="@font/kanit_regular"
+					android:text="Approximate Time: 7:12 AM"
+					android:textColor="@color/textColor"
+					android:textSize="@dimen/text_large_1" />
+			</LinearLayout>
+
+			<com.google.android.gms.maps.MapView
+				android:id="@+id/map"
+				android:layout_width="match_parent"
+				android:layout_height="match_parent" />
+
+			<ImageView
+				android:id="@+id/carImageView"
+				android:layout_width="match_parent"
+				android:layout_height="250dp"
+				app:storage="@{car}"/>
+
+			<android.support.v4.widget.NestedScrollView
+				android:id="@+id/carBottomSheet"
+				android:layout_width="match_parent"
+				android:layout_height="match_parent"
+				android:layout_gravity="bottom"
+				android:background="@color/grey200"
+				android:elevation="16dp"
+				app:behavior_hideable="true"
+				app:behavior_peekHeight="200dp"
+				app:behavior_header_layout="@layout/bottom_sheet_car_header"
+				app:behavior_content_layout="@layout/bottom_sheet_car"
+				app:layout_behavior="com.github.reline.GoogleMapsBottomSheetBehavior" />
+		</android.support.design.widget.CoordinatorLayout>
+	</ViewFlipper>
+</layout>

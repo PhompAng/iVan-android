@@ -1,23 +1,32 @@
 package com.firebaseapp.ivan.ivan
 
-import android.app.Application
+import com.firebaseapp.ivan.ivan.di.AppLifecycleCallbacks
+import com.firebaseapp.ivan.ivan.di.DaggerAppComponent
+import com.firebaseapp.ivan.ivan.di.applyAutoInjector
 import com.firebaseapp.ivan.ivan.helper.NotificationHelper
-import com.firebaseapp.ivan.ivan.utils.inDebugMode
-import timber.log.Timber
+import dagger.android.AndroidInjector
+import dagger.android.support.DaggerApplication
+import javax.inject.Inject
 
 /**
  * @author phompang on 9/1/2018 AD.
  */
-class IVanApplication : Application() {
+class IVanApplication : DaggerApplication() {
+	@Inject lateinit var appLifecycleCallBack: AppLifecycleCallbacks
+
+	override fun applicationInjector(): AndroidInjector<out DaggerApplication> {
+		return DaggerAppComponent.builder().application(this).build()
+	}
+
 	override fun onCreate() {
 		super.onCreate()
+		applyAutoInjector()
+		appLifecycleCallBack.onCreate(this)
 		NotificationHelper(this)
-		inDebugMode {
-			Timber.plant(object : Timber.DebugTree() {
-				override fun createStackElementTag(element: StackTraceElement): String? {
-					return "${super.createStackElementTag(element)} : ${element.methodName} (${element.fileName}:${element.lineNumber})"
-				}
-			})
-		}
+	}
+
+	override fun onTerminate() {
+		appLifecycleCallBack.onTerminate(this)
+		super.onTerminate()
 	}
 }
