@@ -12,6 +12,11 @@
 			android:id="@+id/nav_car_tracking"
 			android:icon="@drawable/ic_format_list_bulleted_black_24dp"
 			android:title="@string/car_tracking" />
+		<item
+			android:id="@+id/nav_student_list"
+			android:icon="@drawable/ic_format_list_bulleted_black_24dp"
+			android:title="@string/student_list" />
+
 	</group>
 
 </menu>

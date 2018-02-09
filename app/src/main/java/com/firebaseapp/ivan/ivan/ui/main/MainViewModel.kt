@@ -13,7 +13,7 @@ import javax.inject.Inject
 /**
  * @author phompang on 21/1/2018 AD.
  */
-class MainViewModel @Inject constructor() : ViewModel() {
+class MainViewModel : ViewModel() {
 	private val parentRef = FirebaseDatabase.getInstance().reference.child("parents")
 	private var parentUid = MutableLiveData<String>()
 	private var parent = parentUid.switchMap {

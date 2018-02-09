@@ -3,15 +3,18 @@
 package com.firebaseapp.ivan.util
 
 import android.app.Activity
+import android.arch.lifecycle.ViewModel
+import android.arch.lifecycle.ViewModelProviders
 import android.support.annotation.AnimRes
 import android.support.annotation.IdRes
 import android.support.v4.app.Fragment
+import android.support.v4.app.FragmentActivity
 import android.support.v7.app.AppCompatActivity
 import android.widget.Toast
 
 /**
- * Created by phompang on 12/13/2017 AD.
- */
+* @author phompang on 12/13/2017 AD.
+*/
 
 fun Activity.toast(message: CharSequence, length: Int = Toast.LENGTH_LONG) {
 	Toast.makeText(this, message, length).show()

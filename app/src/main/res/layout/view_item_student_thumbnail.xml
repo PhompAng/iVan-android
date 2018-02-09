@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools">
+
+	<data>
+
+		<variable
+			name="student"
+			type="com.firebaseapp.ivan.ivan.model.Student" />
+	</data>
+
+	<android.support.constraint.ConstraintLayout
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:background="?attr/selectableItemBackground">
+
+		<ImageView
+			android:id="@+id/photoImageView"
+			android:layout_width="0dp"
+			android:layout_height="0dp"
+			app:layout_constraintDimensionRatio="1:1"
+			app:layout_constraintLeft_toLeftOf="parent"
+			app:layout_constraintRight_toRightOf="parent"
+			app:layout_constraintTop_toTopOf="parent"
+			app:circle="@{true}"
+			app:placeholder="@{@drawable/portrait_placeholder}"
+			app:storage="@{student}" />
+
+		<TextView
+			android:id="@+id/nameTextView"
+			android:layout_width="0dp"
+			android:layout_height="wrap_content"
+			android:fontFamily="@font/kanit_regular"
+			android:text="@{student.fullName}"
+			android:textAlignment="center"
+			android:textColor="@color/textColor"
+			android:textSize="@dimen/text_normal"
+			app:layout_constraintLeft_toLeftOf="parent"
+			app:layout_constraintRight_toRightOf="parent"
+			app:layout_constraintTop_toBottomOf="@+id/photoImageView"
+			tools:text="John Doe" />
+
+	</android.support.constraint.ConstraintLayout>
+</layout>

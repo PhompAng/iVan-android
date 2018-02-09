@@ -1,11 +1,8 @@
 package com.firebaseapp.ivan.ivan.ui.main
 
-import android.arch.lifecycle.ViewModelProvider
-import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.os.PersistableBundle
 import android.support.design.widget.NavigationView
 import android.support.v4.app.Fragment
 import android.support.v4.view.GravityCompat
@@ -17,6 +14,8 @@ import com.firebaseapp.ivan.ivan.EXTRA_UID
 import com.firebaseapp.ivan.ivan.R
 import com.firebaseapp.ivan.ivan.ui.map.CarMapFragment
 import com.firebaseapp.ivan.ivan.ui.select.SelectCarFragment
+import com.firebaseapp.ivan.ivan.ui.students.StudentsFragment
+import com.firebaseapp.ivan.ivan.utils.obtainViewModel
 import com.firebaseapp.ivan.util.IVan
 import com.firebaseapp.ivan.util.observe
 import com.firebaseapp.ivan.util.replaceFragmentSafely
@@ -29,8 +28,8 @@ import timber.log.Timber
 import javax.inject.Inject
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener, HasSupportFragmentInjector, SelectCarFragment.SelectCarCallback {
-	@Inject lateinit var viewModelFactory: ViewModelProvider.Factory
-	@Inject lateinit var androidInjector: DispatchingAndroidInjector<Fragment>
+	@Inject
+	lateinit var androidInjector: DispatchingAndroidInjector<Fragment>
 	private lateinit var uid: String
 	private lateinit var viewModel: MainViewModel
 
@@ -46,7 +45,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 		super.onCreate(savedInstanceState)
 		setContentView(R.layout.activity_main)
 		setSupportActionBar(toolbar)
-		viewModel = ViewModelProviders.of(this, viewModelFactory).get(MainViewModel::class.java)
+		viewModel = obtainViewModel(MainViewModel::class.java)
 
 		when (savedInstanceState) {
 			null -> extractExtras(intent.extras)
@@ -72,8 +71,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 		uid = bundle.getString(EXTRA_UID)
 	}
 
-	override fun onSaveInstanceState(outState: Bundle?, outPersistentState: PersistableBundle?) {
-		super.onSaveInstanceState(outState, outPersistentState)
+	override fun onSaveInstanceState(outState: Bundle?) {
+		super.onSaveInstanceState(outState)
 		outState?.putString(EXTRA_UID, uid)
 	}
 
@@ -116,6 +115,10 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 			R.id.nav_car_tracking -> {
 				fragment = CarMapFragment.newInstance()
 				tag = CarMapFragment.TAG
+			}
+			R.id.nav_student_list -> {
+				fragment = StudentsFragment.newInstance()
+				tag = StudentsFragment.TAG
 			}
 			else -> {
 				return

@@ -67,8 +67,8 @@
 
 		<activity
 			android:name=".ui.main.MainActivity"
-			android:label="@string/title_activity_main"
-			android:theme="@style/AppTheme.NoActionBar"/>
+			android:label="@string/title_activity_main" />
+		<activity android:name=".ui.student.StudentActivity" />
 	</application>
 
 </manifest>
