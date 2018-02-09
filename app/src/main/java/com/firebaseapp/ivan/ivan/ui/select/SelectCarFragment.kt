@@ -1,8 +1,6 @@
 package com.firebaseapp.ivan.ivan.ui.select
 
 
-import android.arch.lifecycle.ViewModelProvider
-import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
 import android.os.Bundle
 import android.support.v4.app.Fragment
@@ -18,19 +16,17 @@ import com.firebaseapp.ivan.ivan.model.Car
 import com.firebaseapp.ivan.ivan.ui.select.viewholder.SelectCarViewHolderFactory
 import com.firebaseapp.ivan.util.IVan
 import com.firebaseapp.ivan.util.observe
+import com.firebaseapp.ivan.ivan.utils.obtainViewModel
 import com.firebaseapp.ivan.util.view.ViewFlipperProgressBarOwn
 import com.google.firebase.messaging.FirebaseMessaging
 import com.wongnai.android.MultipleViewAdapter
 import com.wongnai.android.TYPE_0
 import com.wongnai.android.TypeItemEventListener
-import kotlinx.android.synthetic.main.fragment_select_car.*
+import kotlinx.android.synthetic.main.fragment_recyclerview.*
 import timber.log.Timber
-import javax.inject.Inject
 
 
 class SelectCarFragment : Fragment(), Injectable {
-	@Inject
-	lateinit var viewModelFactory: ViewModelProvider.Factory
 	private lateinit var viewModel: SelectCarViewModel
 
 	private lateinit var selectCarCallBack: SelectCarCallback
@@ -51,12 +47,13 @@ class SelectCarFragment : Fragment(), Injectable {
 	}
 
 	override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-		return inflater.inflate(R.layout.fragment_select_car, container, false)
+		return inflater.inflate(R.layout.fragment_recyclerview, container, false)
 	}
 
 	override fun onActivityCreated(savedInstanceState: Bundle?) {
 		super.onActivityCreated(savedInstanceState)
-		viewModel = ViewModelProviders.of(this, viewModelFactory).get(SelectCarViewModel::class.java)
+		viewFlipperProgressBarOwn.showProgressBar()
+		viewModel = activity!!.obtainViewModel(SelectCarViewModel::class.java)
 
 		when (savedInstanceState) {
 			null -> extractExtra(arguments)

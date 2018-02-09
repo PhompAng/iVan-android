@@ -13,6 +13,8 @@ data class Student(@get:PropertyName("address") @set:PropertyName("address") var
 				   @get:PropertyName("no") @set:PropertyName("no") var no: String = "",
 				   @get:PropertyName("text") @set:PropertyName("text") var text: String = "",
 				   @get:PropertyName("parent") @set:PropertyName("parent") var parent: String = "",
-				   @get:PropertyName("school") @set:PropertyName("school") var school: String = "") : FirebaseModel()
+				   @get:PropertyName("school") @set:PropertyName("school") var school: String = "") : FirebaseModel() {
+	fun getFullName(): String = this.fullName()
+}
 
 fun Student.fullName(): String = "${this.name.thFirst} ${this.name.thLast}"

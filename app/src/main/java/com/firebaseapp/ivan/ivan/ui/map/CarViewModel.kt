@@ -13,7 +13,7 @@ import javax.inject.Inject
 /**
  * @author phompang on 22/1/2018 AD.
  */
-class CarMapViewModel @Inject constructor() : ViewModel() {
+class CarViewModel : ViewModel() {
 	private val carRef = FirebaseDatabase.getInstance().reference.child("cars")
 	private val schoolRef = FirebaseDatabase.getInstance().reference.child("schools")
 

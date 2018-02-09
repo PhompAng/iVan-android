@@ -1,6 +1,8 @@
 package com.firebaseapp.ivan.util
 
 import android.databinding.BindingAdapter
+import android.graphics.drawable.Drawable
+import android.support.annotation.DrawableRes
 import android.widget.ImageView
 import android.widget.LinearLayout
 import com.bumptech.glide.request.RequestOptions
@@ -23,11 +25,15 @@ object DataBindingUtils {
 	}
 
 	@JvmStatic
-	@BindingAdapter("storage")
-	fun loadFromFirebaseStorage(view: ImageView, data: FirebaseModel) {
+	@BindingAdapter(value = ["storage", "placeholder", "circle"], requireAll = false)
+	fun loadFromFirebaseStorage(view: ImageView, data: FirebaseModel, placeholder: Drawable?, isCircle: Boolean?) {
 		val ref = FirebaseStorage.getInstance().reference
 		val glide = GlideApp.with(view.context)
-		val glideSetting = RequestOptions().placeholder(R.drawable.ic_error_outline_black_24dp).centerCrop()
+		var glideSetting: RequestOptions = if (placeholder == null) RequestOptions().placeholder(R.drawable.ic_photo_grey500_24dp) else RequestOptions().placeholder(placeholder)
+		glideSetting = glideSetting.centerCrop()
+		if (isCircle != null && isCircle) {
+			glideSetting = glideSetting.circleCrop()
+		}
 		var refChild: StorageReference? = null
 		when (data) {
 			is Car -> refChild = ref.child("cars").child(data.getKeyOrId())

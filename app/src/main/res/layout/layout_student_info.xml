@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:layout_width="match_parent"
+	android:layout_height="wrap_content"
+	android:background="@android:color/white"
+	android:elevation="@dimen/elevation_normal"
+	android:padding="@dimen/space_large">
+
+	<ImageView
+		android:id="@+id/userThumbnailImageView"
+		android:layout_width="64dp"
+		android:layout_height="64dp"
+		app:layout_constraintBottom_toBottomOf="parent"
+		app:layout_constraintLeft_toLeftOf="parent"
+		app:layout_constraintTop_toTopOf="parent"
+		tools:src="@color/colorAccent" />
+
+	<TextView
+		android:id="@+id/nameTextView"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_marginStart="@dimen/space_large"
+		android:fontFamily="@font/kanit_regular"
+		android:textColor="@color/textColor"
+		android:textSize="@dimen/text_large_4"
+		app:layout_constraintBottom_toTopOf="@+id/schoolNameTextView"
+		app:layout_constraintLeft_toRightOf="@+id/userThumbnailImageView"
+		app:layout_constraintTop_toTopOf="parent"
+		tools:text="John Doe" />
+
+	<TextView
+		android:id="@+id/userIdTextView"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_marginStart="@dimen/space_normal"
+		android:fontFamily="@font/kanit_regular"
+		android:textColor="@color/textColorPrimary"
+		android:textSize="@dimen/text_large_2"
+		app:layout_constraintBaseline_toBaselineOf="@+id/nameTextView"
+		app:layout_constraintLeft_toRightOf="@+id/nameTextView"
+		tools:text="(ID: 46243)" />
+
+	<TextView
+		android:id="@+id/schoolNameTextView"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:fontFamily="@font/kanit_regular"
+		android:textColor="@color/textColor"
+		android:textSize="@dimen/text_normal"
+		app:layout_constraintBottom_toBottomOf="parent"
+		app:layout_constraintLeft_toLeftOf="@+id/nameTextView"
+		app:layout_constraintTop_toBottomOf="@+id/nameTextView"
+		tools:text="โรงเรียนบดินทรเดชา (สิงห์ สิงหเสนี)" />
+
+
+</android.support.constraint.ConstraintLayout>

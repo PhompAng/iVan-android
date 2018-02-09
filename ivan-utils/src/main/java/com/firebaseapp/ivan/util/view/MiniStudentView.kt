@@ -16,7 +16,7 @@ class MiniStudentView @JvmOverloads constructor(
 ) : AbstractCustomView<Student>(context, attrs, defStyleAttr) {
 
 	override fun fillDataNonNull(d: Student) {
-		DataBindingUtils.loadFromFirebaseStorage(userThumbnailImageView, d)
+		DataBindingUtils.loadFromFirebaseStorage(userThumbnailImageView, d, context.getDrawable(R.drawable.portrait_placeholder), true)
 		nameImageView.text = d.fullName()
 	}
 

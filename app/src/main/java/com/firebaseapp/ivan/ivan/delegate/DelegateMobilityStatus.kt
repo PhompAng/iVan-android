@@ -3,7 +3,6 @@ package com.firebaseapp.ivan.ivan.delegate
 import android.content.Context
 import com.firebaseapp.ivan.ivan.R
 import com.firebaseapp.ivan.ivan.model.MobilityStatus
-import java.util.*
 
 /**
  * @author phompang on 3/2/2018 AD.

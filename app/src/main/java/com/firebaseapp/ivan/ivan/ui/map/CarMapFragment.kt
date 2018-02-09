@@ -1,7 +1,5 @@
 package com.firebaseapp.ivan.ivan.ui.map
 
-import android.arch.lifecycle.ViewModelProvider
-import android.arch.lifecycle.ViewModelProviders
 import android.databinding.DataBindingUtil
 import android.os.Bundle
 import android.support.design.widget.CoordinatorLayout
@@ -22,6 +20,7 @@ import com.firebaseapp.ivan.ivan.ui.map.viewholder.MobilityStatusViewHolderFacto
 import com.firebaseapp.ivan.util.IVan
 import com.firebaseapp.ivan.util.convertToPx
 import com.firebaseapp.ivan.util.observe
+import com.firebaseapp.ivan.ivan.utils.obtainViewModel
 import com.firebaseapp.ivan.util.view.ViewFlipperProgressBarOwn
 import com.github.reline.GoogleMapsBottomSheetBehavior
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -34,15 +33,13 @@ import com.thekhaeng.recyclerviewmargin.LayoutMarginDecoration
 import com.wongnai.android.MultipleViewAdapter
 import com.wongnai.android.TYPE_0
 import com.wongnai.android.TYPE_1
-import javax.inject.Inject
+import timber.log.Timber
 
 /**
  * @author phompang on 21/1/2018 AD.
  */
 class CarMapFragment : Fragment(), Injectable, OnMapReadyCallback {
-	@Inject
-	lateinit var viewModelFactory: ViewModelProvider.Factory
-	private lateinit var viewModel: CarMapViewModel
+	private lateinit var viewModel: CarViewModel
 	private lateinit var binding: FragmentCarMapBinding
 	private lateinit var mapView: MapView
 	private lateinit var mMap: GoogleMap
@@ -63,6 +60,12 @@ class CarMapFragment : Fragment(), Injectable, OnMapReadyCallback {
 		fun newInstance(): CarMapFragment = CarMapFragment()
 	}
 
+	override fun onCreate(savedInstanceState: Bundle?) {
+		Timber.d("onCreate")
+		super.onCreate(savedInstanceState)
+		retainInstance = true
+	}
+
 	override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 		return DataBindingUtil.inflate<FragmentCarMapBinding>(inflater, R.layout.fragment_car_map, container, false).also {
 			binding = it
@@ -70,10 +73,11 @@ class CarMapFragment : Fragment(), Injectable, OnMapReadyCallback {
 	}
 
 	override fun onActivityCreated(savedInstanceState: Bundle?) {
+		Timber.d("onActivityCreated")
 		super.onActivityCreated(savedInstanceState)
+		viewFlipperProgressBarOwn.showProgressBar()
 		setUpMap(savedInstanceState)
 		setUpBottomSheet()
-		setUpViewModel()
 		setUpAdapter()
 
 		binding.setVariable(BR.car, car)
@@ -91,7 +95,7 @@ class CarMapFragment : Fragment(), Injectable, OnMapReadyCallback {
 	}
 
 	private fun setUpViewModel() {
-		viewModel = ViewModelProviders.of(this, viewModelFactory).get(CarMapViewModel::class.java)
+		viewModel = activity!!.obtainViewModel(CarViewModel::class.java)
 		viewModel.setCar(car)
 		viewModel.getMobilityStatus().observe(this) {
 			it ?: return@observe
@@ -153,25 +157,31 @@ class CarMapFragment : Fragment(), Injectable, OnMapReadyCallback {
 
 			mMap.moveCamera(CameraUpdateFactory.newLatLng(LatLng(13.7308051, 100.7806353)))
 			mMap.animateCamera(CameraUpdateFactory.zoomTo(15f))
+
+			setUpViewModel()
 		}
 	}
 
 	override fun onDestroy() {
+		Timber.d("onDestroy")
 		super.onDestroy()
 		mapView.onDestroy()
 	}
 
 	override fun onResume() {
+		Timber.d("onResume")
 		super.onResume()
 		mapView.onResume()
 	}
 
 	override fun onPause() {
+		Timber.d("onPause")
 		super.onPause()
 		mapView.onPause()
 	}
 
 	override fun onLowMemory() {
+		Timber.d("onLowMemory")
 		super.onLowMemory()
 		mapView.onLowMemory()
 	}

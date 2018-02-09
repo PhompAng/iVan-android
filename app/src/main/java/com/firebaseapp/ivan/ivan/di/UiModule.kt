@@ -1,9 +1,9 @@
 package com.firebaseapp.ivan.ivan.di
 
-import android.arch.lifecycle.ViewModelProvider
 import com.firebaseapp.ivan.ivan.ui.main.MainActivity
 import com.firebaseapp.ivan.ivan.ui.main.MainModule
-import dagger.Binds
+import com.firebaseapp.ivan.ivan.ui.student.StudentActivity
+import com.firebaseapp.ivan.ivan.ui.student.StudentModule
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 
@@ -12,9 +12,9 @@ import dagger.android.ContributesAndroidInjector
  */
 @Module
 internal abstract class UiModule {
-	@Binds
-	abstract fun bindViewModelFactory(factory: ViewModelFactory): ViewModelProvider.Factory
-
 	@ContributesAndroidInjector(modules = [MainModule::class])
 	internal abstract fun contributeMainActivity(): MainActivity
+
+	@ContributesAndroidInjector(modules = [StudentModule::class])
+	internal abstract fun contributeStudentActivity(): StudentActivity
 }

@@ -18,10 +18,14 @@
 	<string name="email">Email</string>
 	<string name="password">Password</string>
 	<string name="car_tracking">Car Tracking</string>
+	<string name="student_list">Student List</string>
+	<string name="home_location">Home Location</string>
 
 	<string name="condition">Condition</string>
 	<string name="avg_speed">Average Speed</string>
 	<string name="avg_speed_value">%1$.2f Km/hr</string>
 	<string name="oil_level">Oil Level</string>
 	<string name="percent_value">%1$.2f %%</string>
+
+	<string name="student_id">(ID: %1$s)</string>
 </resources>
