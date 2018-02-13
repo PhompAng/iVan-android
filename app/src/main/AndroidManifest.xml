@@ -68,7 +68,12 @@
 		<activity
 			android:name=".ui.main.MainActivity"
 			android:label="@string/title_activity_main" />
-		<activity android:name=".ui.student.StudentActivity" />
+		<activity
+			android:name=".ui.student.StudentActivity"
+			android:label="@string/title_student_information" />
+		<activity
+			android:name=".ui.driver.DriverActivity"
+			android:label="@string/title_driver_information" />
 	</application>
 
 </manifest>

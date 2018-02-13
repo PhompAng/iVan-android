@@ -6,12 +6,14 @@ import android.os.Bundle
 import android.support.design.widget.NavigationView
 import android.support.v4.app.Fragment
 import android.support.v4.view.GravityCompat
+import android.support.v4.widget.DrawerLayout
 import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
 import com.firebaseapp.ivan.ivan.EXTRA_UID
 import com.firebaseapp.ivan.ivan.R
+import com.firebaseapp.ivan.ivan.ui.driver.DriverActivity
 import com.firebaseapp.ivan.ivan.ui.map.CarMapFragment
 import com.firebaseapp.ivan.ivan.ui.select.SelectCarFragment
 import com.firebaseapp.ivan.ivan.ui.students.StudentsFragment
@@ -24,6 +26,7 @@ import dagger.android.DispatchingAndroidInjector
 import dagger.android.support.HasSupportFragmentInjector
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
+import org.jetbrains.anko.startActivity
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -65,6 +68,10 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 			IVan.setUser(applicationContext, it)
 		}
 		replaceFragment(R.id.nav_select_car)
+
+		if (IVan.getCarNullable(applicationContext) == null) {
+			drawer_layout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
+		}
 	}
 
 	private fun extractExtras(bundle: Bundle) {
@@ -120,6 +127,10 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 				fragment = StudentsFragment.newInstance()
 				tag = StudentsFragment.TAG
 			}
+			R.id.nav_driver -> {
+				startActivity<DriverActivity>(DriverActivity.EXTRA_DRIVER_ID to IVan.getCar(applicationContext).drivers[0].getKeyOrId())
+				return
+			}
 			else -> {
 				return
 			}
@@ -128,6 +139,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 	}
 
 	override fun onCarSelect() {
+		drawer_layout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED)
 		replaceFragment(R.id.nav_car_tracking)
 	}
 }

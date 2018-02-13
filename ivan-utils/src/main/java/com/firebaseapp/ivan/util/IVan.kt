@@ -28,4 +28,9 @@ object IVan {
 		val krefson = Krefson(context)
 		return krefson[Krefson.KEY_CAR, Car()]
 	}
+
+	fun getCarNullable(context: Context): Car? {
+		val krefson = Krefson(context)
+		return krefson[Krefson.KEY_CAR]
+	}
 }

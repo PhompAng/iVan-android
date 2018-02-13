@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:layout_width="match_parent"
+	android:layout_height="wrap_content"
+	android:background="@android:color/white">
+
+	<ImageView
+		android:id="@+id/phoneImageView"
+		android:layout_width="24dp"
+		android:layout_height="24dp"
+		android:layout_marginStart="@dimen/space_larger"
+		android:src="@drawable/ic_phone_black_24dp"
+		app:layout_constraintBottom_toBottomOf="@+id/phoneDivider"
+		app:layout_constraintLeft_toLeftOf="parent"
+		app:layout_constraintTop_toTopOf="parent" />
+
+	<TextView
+		android:id="@+id/phoneTextView"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_marginStart="@dimen/space_larger"
+		android:layout_marginTop="@dimen/space_larger"
+		android:textColor="@color/textColor"
+		app:layout_constraintBottom_toTopOf="@+id/phoneHintTextView"
+		app:layout_constraintLeft_toRightOf="@+id/phoneImageView"
+		app:layout_constraintTop_toTopOf="parent"
+		tools:text="0812345678" />
+
+	<TextView
+		android:id="@+id/phoneHintTextView"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_marginTop="@dimen/space_smaller"
+		android:text="@string/phone"
+		app:layout_constraintLeft_toLeftOf="@+id/phoneTextView"
+		app:layout_constraintTop_toBottomOf="@+id/phoneTextView" />
+
+	<View
+		android:id="@+id/phoneDivider"
+		android:layout_width="0dp"
+		android:layout_height="1dp"
+		android:layout_marginTop="@dimen/space_larger"
+		android:background="@color/dividerColor"
+		app:layout_constraintLeft_toLeftOf="@+id/phoneHintTextView"
+		app:layout_constraintRight_toRightOf="parent"
+		app:layout_constraintTop_toBottomOf="@+id/phoneHintTextView" />
+
+	<ImageView
+		android:id="@+id/emailImageView"
+		android:layout_width="24dp"
+		android:layout_height="24dp"
+		android:layout_marginStart="@dimen/space_larger"
+		android:src="@drawable/ic_email_black_24dp"
+		app:layout_constraintBottom_toBottomOf="parent"
+		app:layout_constraintLeft_toLeftOf="parent"
+		app:layout_constraintTop_toTopOf="@+id/phoneDivider" />
+
+	<TextView
+		android:id="@+id/emailTextView"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_marginStart="@dimen/space_larger"
+		android:layout_marginTop="@dimen/space_larger"
+		android:textColor="@color/textColor"
+		app:layout_constraintBottom_toTopOf="@+id/emailHintTextView"
+		app:layout_constraintLeft_toRightOf="@+id/emailImageView"
+		app:layout_constraintTop_toTopOf="@+id/phoneDivider"
+		tools:text="0812345678" />
+
+	<TextView
+		android:id="@+id/emailHintTextView"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_marginBottom="@dimen/space_larger"
+		android:layout_marginTop="@dimen/space_smaller"
+		android:text="@string/email"
+		app:layout_constraintBottom_toBottomOf="parent"
+		app:layout_constraintLeft_toLeftOf="@+id/emailTextView"
+		app:layout_constraintTop_toBottomOf="@+id/emailTextView" />
+
+</android.support.constraint.ConstraintLayout>

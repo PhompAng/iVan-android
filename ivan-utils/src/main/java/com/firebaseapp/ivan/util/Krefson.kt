@@ -21,7 +21,11 @@ open class Krefson(context: Context,
 	val sharedPreferences: SharedPreferences = context.getSharedPreferences(name, Context.MODE_PRIVATE)
 
 	inline operator fun <reified T> get(key: String): T? {
-		return moshi.adapter<T>(T::class.java).fromJson(sharedPreferences.getString(key, null))
+		val value = sharedPreferences.getString(key, null)
+		if (value == null) {
+			return value
+		}
+		return moshi.adapter<T>(T::class.java).fromJson(value)
 	}
 
 	inline operator fun <reified T> get(key: String, default: T): T {

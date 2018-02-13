@@ -1,5 +1,7 @@
 package com.firebaseapp.ivan.ivan.di
 
+import com.firebaseapp.ivan.ivan.ui.driver.DriverActivity
+import com.firebaseapp.ivan.ivan.ui.driver.DriverModule
 import com.firebaseapp.ivan.ivan.ui.main.MainActivity
 import com.firebaseapp.ivan.ivan.ui.main.MainModule
 import com.firebaseapp.ivan.ivan.ui.student.StudentActivity
@@ -17,4 +19,7 @@ internal abstract class UiModule {
 
 	@ContributesAndroidInjector(modules = [StudentModule::class])
 	internal abstract fun contributeStudentActivity(): StudentActivity
+
+	@ContributesAndroidInjector(modules = [DriverModule::class])
+	internal abstract fun contributeDriverActivity(): DriverActivity
 }
