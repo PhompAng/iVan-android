@@ -7,6 +7,7 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import com.bumptech.glide.request.RequestOptions
 import com.firebaseapp.ivan.ivan.model.Car
+import com.firebaseapp.ivan.ivan.model.Driver
 import com.firebaseapp.ivan.ivan.model.FirebaseModel
 import com.firebaseapp.ivan.ivan.model.Student
 import com.firebaseapp.ivan.util.view.MiniStudentView
@@ -38,6 +39,7 @@ object DataBindingUtils {
 		when (data) {
 			is Car -> refChild = ref.child("cars").child(data.getKeyOrId())
 			is Student -> refChild = ref.child("students").child(data.getKeyOrId())
+			is Driver -> refChild = ref.child("drivers").child(data.getKeyOrId())
 		}
 
 		refChild?.let {

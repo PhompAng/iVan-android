@@ -1,54 +1,56 @@
-package com.firebaseapp.ivan.ivan.ui.student
+package com.firebaseapp.ivan.ivan.ui.driver
 
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.app.AppCompatActivity
 import android.view.MenuItem
 import com.firebaseapp.ivan.ivan.R
+import com.firebaseapp.ivan.ivan.model.fullName
+import com.firebaseapp.ivan.util.DataBindingUtils
+import com.firebaseapp.ivan.util.IVan
 import com.firebaseapp.ivan.util.replaceFragmentSafely
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.support.HasSupportFragmentInjector
-import kotlinx.android.synthetic.main.app_bar_main.*
+import kotlinx.android.synthetic.main.collapsing_toolbar_main.*
 import javax.inject.Inject
 
 /**
- * @author phompang on 4/2/2018 AD.
+ * @author phompang on 13/2/2018 AD.
  */
-class StudentActivity : AppCompatActivity(), HasSupportFragmentInjector {
+class DriverActivity : AppCompatActivity(), HasSupportFragmentInjector {
 	@Inject
 	lateinit var androidInjector: DispatchingAndroidInjector<Fragment>
-	private var studentUid = ""
+	private val driver by lazy {
+		IVan.getCar(applicationContext).drivers[0]
+	}
 
 	companion object {
-		const val EXTRA_STUDENT_UID = "extra-student-uid"
+		const val EXTRA_DRIVER_ID = "extra-driver-id"
 	}
 
 	override fun supportFragmentInjector(): AndroidInjector<Fragment> = androidInjector
 
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
-		setContentView(R.layout.app_bar_main)
+		setContentView(R.layout.collapsing_toolbar_main)
 		setSupportActionBar(toolbar)
 		supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
 		when (savedInstanceState) {
 			null -> {
-				extractExtras(intent.extras)
 				replaceFragmentSafely(
-						StudentFragment.newInstance(studentUid),
-						StudentFragment.TAG,
+						DriverFragment(),
+						DriverFragment.TAG,
 						true,
 						R.id.flContent
 				)
 			}
-			else -> extractExtras(savedInstanceState)
 		}
+		collapsingToolbarLayout.title = driver.fullName()
+		DataBindingUtils.loadFromFirebaseStorage(headerImageView, driver, getDrawable(R.color.colorPrimary), false)
 	}
 
-	private fun extractExtras(bundle: Bundle) {
-		studentUid = bundle.getString(EXTRA_STUDENT_UID, "")
-	}
 
 	override fun onOptionsItemSelected(item: MenuItem?): Boolean {
 		when (item?.itemId) {
@@ -60,8 +62,4 @@ class StudentActivity : AppCompatActivity(), HasSupportFragmentInjector {
 		return super.onOptionsItemSelected(item)
 	}
 
-	override fun onSaveInstanceState(outState: Bundle?) {
-		super.onSaveInstanceState(outState)
-		outState?.putString(EXTRA_STUDENT_UID, studentUid)
-	}
 }

@@ -14,3 +14,5 @@ data class Driver(@get:PropertyName("address") @set:PropertyName("address") var 
 				  @get:PropertyName("school") @set:PropertyName("school") var school: String = "",
 				  @get:PropertyName("telephone") @set:PropertyName("telephone") var telephone: String = "",
 				  @get:PropertyName("text") @set:PropertyName("text") var text: String = "") : FirebaseModel()
+
+fun Driver.fullName(): String = "${this.name.thFirst} ${this.name.thLast}"
