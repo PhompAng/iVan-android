@@ -6,10 +6,7 @@ import android.support.annotation.DrawableRes
 import android.widget.ImageView
 import android.widget.LinearLayout
 import com.bumptech.glide.request.RequestOptions
-import com.firebaseapp.ivan.ivan.model.Car
-import com.firebaseapp.ivan.ivan.model.Driver
-import com.firebaseapp.ivan.ivan.model.FirebaseModel
-import com.firebaseapp.ivan.ivan.model.Student
+import com.firebaseapp.ivan.ivan.model.*
 import com.firebaseapp.ivan.util.view.MiniStudentView
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
@@ -37,13 +34,14 @@ object DataBindingUtils {
 		}
 		var refChild: StorageReference? = null
 		when (data) {
-			is Car -> refChild = ref.child("cars").child(data.getKeyOrId())
-			is Student -> refChild = ref.child("students").child(data.getKeyOrId())
-			is Driver -> refChild = ref.child("drivers").child(data.getKeyOrId())
+			is Car -> refChild = ref.child("cars")
+			is Student -> refChild = ref.child("students")
+			is Driver -> refChild = ref.child("drivers")
+			is Parent -> refChild = ref.child("parents")
 		}
 
 		refChild?.let {
-			glide.load(it).apply(glideSetting).into(view)
+			glide.load(it.child(data.getKeyOrId())).apply(glideSetting).into(view)
 		}
 	}
 
