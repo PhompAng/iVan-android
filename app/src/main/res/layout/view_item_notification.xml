@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:layout_width="match_parent"
+	android:layout_height="wrap_content"
+	android:background="@android:color/white">
+
+	<android.support.constraint.Guideline
+		android:id="@+id/guide80"
+		android:layout_width="0dp"
+		android:layout_height="0dp"
+		android:orientation="vertical"
+		app:layout_constraintGuide_percent="0.8" />
+
+	<ImageView
+		android:id="@+id/iconImageView"
+		android:layout_width="36dp"
+		android:layout_height="36dp"
+		android:layout_marginStart="@dimen/space_larger"
+		android:layout_marginTop="@dimen/space_larger"
+		android:src="@drawable/ic_error_outline_black_24dp"
+		android:tint="@color/red500"
+		app:layout_constraintLeft_toLeftOf="parent"
+		app:layout_constraintTop_toTopOf="parent" />
+
+	<TextView
+		android:id="@+id/titleTextView"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_marginStart="@dimen/space_larger"
+		android:fontFamily="@font/kanit_regular"
+		android:maxLines="1"
+		android:textColor="@color/textColor"
+		android:textSize="@dimen/text_large_1"
+		app:layout_constraintLeft_toRightOf="@+id/iconImageView"
+		app:layout_constraintTop_toTopOf="@+id/iconImageView"
+		tools:text="ALERT!!" />
+
+	<TextView
+		android:id="@+id/descriptionTextView"
+		android:layout_width="0dp"
+		android:layout_height="wrap_content"
+		android:layout_marginBottom="@dimen/space_larger"
+		android:layout_marginTop="@dimen/space_small"
+		android:ellipsize="end"
+		android:fontFamily="@font/kanit_regular"
+		android:maxLines="2"
+		android:textColor="@color/textColorPrimary"
+		android:textSize="@dimen/text_normal"
+		app:layout_constraintBottom_toBottomOf="parent"
+		app:layout_constraintLeft_toLeftOf="@+id/titleTextView"
+		app:layout_constraintRight_toRightOf="@+id/guide80"
+		app:layout_constraintTop_toBottomOf="@+id/titleTextView"
+		tools:text="We detected that something left overed
+inside van." />
+
+	<TextView
+		android:id="@+id/timestampTextView"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_marginEnd="@dimen/space_larger"
+		android:layout_marginTop="@dimen/space_larger"
+		android:textColor="@color/textColorPrimary"
+		android:textSize="@dimen/text_normal"
+		app:layout_constraintRight_toRightOf="parent"
+		app:layout_constraintTop_toTopOf="parent"
+		tools:text="Jul 20, 14:40 PM" />
+</android.support.constraint.ConstraintLayout>

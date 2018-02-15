@@ -4,6 +4,7 @@ import android.arch.lifecycle.ViewModel
 import android.arch.lifecycle.ViewModelProvider
 import com.firebaseapp.ivan.ivan.ui.main.MainViewModel
 import com.firebaseapp.ivan.ivan.ui.map.CarViewModel
+import com.firebaseapp.ivan.ivan.ui.notification.NotificationViewModel
 import com.firebaseapp.ivan.ivan.ui.select.SelectCarViewModel
 import com.firebaseapp.ivan.ivan.ui.student.StudentViewModel
 import com.firebaseapp.ivan.ivan.ui.students.StudentsViewModel
@@ -22,6 +23,7 @@ class ViewModelFactory : ViewModelProvider.Factory {
 					isAssignableFrom(SelectCarViewModel::class.java) -> SelectCarViewModel()
 					isAssignableFrom(StudentsViewModel::class.java) -> StudentsViewModel()
 					isAssignableFrom(StudentViewModel::class.java) -> StudentViewModel()
+					isAssignableFrom(NotificationViewModel::class.java) -> NotificationViewModel()
 					else -> throw IllegalArgumentException("Unknown ViewModel class: ${modelClass.name}")
 				} as T
 			}

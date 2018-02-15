@@ -13,11 +13,14 @@ import android.view.Menu
 import android.view.MenuItem
 import com.firebaseapp.ivan.ivan.EXTRA_UID
 import com.firebaseapp.ivan.ivan.R
+import com.firebaseapp.ivan.ivan.model.fullName
 import com.firebaseapp.ivan.ivan.ui.driver.DriverActivity
 import com.firebaseapp.ivan.ivan.ui.map.CarMapFragment
+import com.firebaseapp.ivan.ivan.ui.notification.NotificationFragment
 import com.firebaseapp.ivan.ivan.ui.select.SelectCarFragment
 import com.firebaseapp.ivan.ivan.ui.students.StudentsFragment
 import com.firebaseapp.ivan.ivan.utils.obtainViewModel
+import com.firebaseapp.ivan.util.DataBindingUtils
 import com.firebaseapp.ivan.util.IVan
 import com.firebaseapp.ivan.util.observe
 import com.firebaseapp.ivan.util.replaceFragmentSafely
@@ -26,6 +29,7 @@ import dagger.android.DispatchingAndroidInjector
 import dagger.android.support.HasSupportFragmentInjector
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
+import kotlinx.android.synthetic.main.nav_header_main.*
 import org.jetbrains.anko.startActivity
 import timber.log.Timber
 import javax.inject.Inject
@@ -55,17 +59,15 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 			else -> extractExtras(savedInstanceState)
 		}
 
-		val toggle = ActionBarDrawerToggle(
-				this, drawer_layout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close)
-		drawer_layout.addDrawerListener(toggle)
-		toggle.syncState()
-
-		nav_view.setNavigationItemSelectedListener(this)
+		setUpDrawer()
 
 		viewModel.setUid(this.uid)
 		viewModel.getParent().observe(this) {
 			it ?: return@observe
 			IVan.setUser(applicationContext, it)
+			DataBindingUtils.loadFromFirebaseStorage(userThumbnailImageView, it, getDrawable(R.mipmap.ic_launcher_round), true)
+			userNameTextView.text = it.fullName()
+			emailTextView.text = it.email
 		}
 		replaceFragment(R.id.nav_select_car)
 
@@ -76,6 +78,15 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
 	private fun extractExtras(bundle: Bundle) {
 		uid = bundle.getString(EXTRA_UID)
+	}
+
+	private fun setUpDrawer() {
+		val toggle = ActionBarDrawerToggle(
+				this, drawer_layout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close)
+		drawer_layout.addDrawerListener(toggle)
+		toggle.syncState()
+
+		nav_view.setNavigationItemSelectedListener(this)
 	}
 
 	override fun onSaveInstanceState(outState: Bundle?) {
@@ -130,6 +141,10 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 			R.id.nav_driver -> {
 				startActivity<DriverActivity>(DriverActivity.EXTRA_DRIVER_ID to IVan.getCar(applicationContext).drivers[0].getKeyOrId())
 				return
+			}
+			R.id.nav_notification -> {
+				fragment = NotificationFragment.newInstance(IVan.getUser(applicationContext).school)
+				tag = NotificationFragment.TAG
 			}
 			else -> {
 				return

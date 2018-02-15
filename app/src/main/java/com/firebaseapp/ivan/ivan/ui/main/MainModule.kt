@@ -1,6 +1,7 @@
 package com.firebaseapp.ivan.ivan.ui.main
 
 import com.firebaseapp.ivan.ivan.ui.map.CarMapFragment
+import com.firebaseapp.ivan.ivan.ui.notification.NotificationFragment
 import com.firebaseapp.ivan.ivan.ui.select.SelectCarFragment
 import com.firebaseapp.ivan.ivan.ui.students.StudentsFragment
 import dagger.Module
@@ -23,4 +24,8 @@ internal abstract class MainModule {
 
 	@ContributesAndroidInjector
 	abstract fun contributeStudentsFragment(): StudentsFragment
+
+	@ContributesAndroidInjector
+	abstract fun contributeNotificationFragment(): NotificationFragment
+
 }
