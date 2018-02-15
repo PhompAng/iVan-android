@@ -21,13 +21,6 @@
 		android:roundIcon="@mipmap/ic_launcher_round"
 		android:supportsRtl="true"
 		android:theme="@style/AppTheme">
-		<activity android:name="com.firebaseapp.ivan.ivan.ui.login.LoginActivity">
-			<intent-filter>
-				<action android:name="android.intent.action.MAIN" />
-
-				<category android:name="android.intent.category.LAUNCHER" />
-			</intent-filter>
-		</activity>
 
 		<meta-data
 			android:name="com.google.android.gms.version"
@@ -65,6 +58,14 @@
 			android:name="com.google.firebase.messaging.default_notification_channel_id"
 			android:value="@string/default_notification_channel_id" />
 
+		<activity android:name=".ui.SplashScreenActivity">
+			<intent-filter>
+				<action android:name="android.intent.action.MAIN" />
+
+				<category android:name="android.intent.category.LAUNCHER" />
+			</intent-filter>
+		</activity>
+		<activity android:name="com.firebaseapp.ivan.ivan.ui.login.LoginActivity" />
 		<activity
 			android:name=".ui.main.MainActivity"
 			android:label="@string/title_activity_main" />
