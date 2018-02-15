@@ -12,6 +12,7 @@
 	<dimen name="space_large_40dp">40dp</dimen>
 	<dimen name="space_xlarge">48dp</dimen>
 
+	<dimen name="text_title">36sp</dimen>
 	<dimen name="text_large_4">24sp</dimen>
 	<dimen name="text_large_3">20sp</dimen>
 	<dimen name="text_large_2">18sp</dimen>
