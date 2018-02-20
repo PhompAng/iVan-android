@@ -3,7 +3,7 @@ package com.firebaseapp.ivan.ivan.di
 import android.arch.lifecycle.ViewModel
 import android.arch.lifecycle.ViewModelProvider
 import com.firebaseapp.ivan.ivan.ui.main.MainViewModel
-import com.firebaseapp.ivan.ivan.ui.map.CarViewModel
+import com.firebaseapp.ivan.ivan.ui.carmap.CarViewModel
 import com.firebaseapp.ivan.ivan.ui.notification.NotificationViewModel
 import com.firebaseapp.ivan.ivan.ui.select.SelectCarViewModel
 import com.firebaseapp.ivan.ivan.ui.student.StudentViewModel

@@ -22,6 +22,8 @@
 	<string name="student_list">Student List</string>
 	<string name="home_location">Home Location</string>
 	<string name="driver">Driver</string>
+	<string name="phone">Phone</string>
+	<string name="notification">Notification</string>
 
 	<string name="condition">Condition</string>
 	<string name="avg_speed">Average Speed</string>
@@ -30,6 +32,8 @@
 	<string name="percent_value">%1$.2f %%</string>
 
 	<string name="student_id">(ID: %1$s)</string>
-	<string name="phone">Phone</string>
-	<string name="notification">Notification</string>
+
+	<string name="msg_no_sms">Your device does not have the ability to send SMS.</string>
+	<string name="msg_no_phone">Your device does not have the ability to make a phone call.</string>
+	<string name="msg_no_email">Your device does not have the ability to send email.</string>
 </resources>

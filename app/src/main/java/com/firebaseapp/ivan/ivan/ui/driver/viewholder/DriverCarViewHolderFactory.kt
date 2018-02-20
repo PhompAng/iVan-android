@@ -20,8 +20,8 @@ class DriverCarViewHolderFactory : ViewHolderFactory<Car> {
 
 	inner class DriverCarViewHolder(container: View) : NormalViewHolder<Car>(container) {
 		override fun fillData(data: Car, position: Int) {
-			itemView.carPlateNumberTextView.text = data.plateNumber
-			itemView.carProvinceTextView.text = data.province
+			itemView.carContactView.hint = data.province
+			itemView.carContactView.fillData(data.plateNumber)
 		}
 	}
 }
