@@ -2,6 +2,7 @@ package com.firebaseapp.ivan.util.view
 
 import android.content.Context
 import android.support.annotation.LayoutRes
+import android.support.annotation.StyleRes
 import android.util.AttributeSet
 import android.view.View
 import android.widget.FrameLayout
@@ -10,28 +11,29 @@ import android.widget.FrameLayout
  * @author phompang on 21/1/2018 AD.
  */
 abstract class AbstractCustomView<T> @JvmOverloads constructor(
-		context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
-) : FrameLayout(context, attrs, defStyleAttr) {
+		context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0, @StyleRes defStyleRes: Int = 0
+) : FrameLayout(context, attrs, defStyleAttr, defStyleRes) {
+
 	protected var data: T? = null
 	protected var isHideOnNull = true
-	var listener: OnTypeClickListener<T>? = null
+	private var listener: OnTypeClickListener<T>? = null
 
 	init {
-		extractAttribute(attrs, defStyleAttr)
+		this.extractAttribute(attrs, defStyleAttr, defStyleRes)
 		init()
 	}
 
-	open fun extractAttribute(attrs: AttributeSet?, defStyleAttr: Int) {}
+	open fun extractAttribute(attrs: AttributeSet?, defStyleAttr: Int, defStyleRes: Int) {}
 
-	protected fun init() {
-		View.inflate(context, getContentLayout(), this)
+	private fun init() {
+		inflate(context, getContentLayout(), this)
 
 		if (isInEditMode) {
 			fillDataInEditMode()
 			return
 		}
 		setOnClickListener {
-			listener?.onClick(it, this.data)
+			listener?.onClick(it, data)
 		}
 	}
 
@@ -62,7 +64,20 @@ abstract class AbstractCustomView<T> @JvmOverloads constructor(
 		}
 	}
 
+	fun setOnClickListener(listener: OnTypeClickListener<T>) {
+		this.listener = listener
+	}
+
 	public interface OnTypeClickListener<in T> {
 		fun onClick(view: View, data: T?)
+	}
+
+}
+
+fun <T> OnTypeClickListener(l: (View, T?) -> Unit): AbstractCustomView.OnTypeClickListener<T> {
+	return object : AbstractCustomView.OnTypeClickListener<T> {
+		override fun onClick(view: View, data: T?) {
+			l(view, data)
+		}
 	}
 }

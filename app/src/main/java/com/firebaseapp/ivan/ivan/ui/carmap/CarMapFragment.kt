@@ -1,8 +1,7 @@
-package com.firebaseapp.ivan.ivan.ui.map
+package com.firebaseapp.ivan.ivan.ui.carmap
 
 import android.databinding.DataBindingUtil
 import android.os.Bundle
-import android.support.design.widget.CoordinatorLayout
 import android.support.v4.app.Fragment
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.StaggeredGridLayoutManager
@@ -16,7 +15,7 @@ import com.firebaseapp.ivan.ivan.R
 import com.firebaseapp.ivan.ivan.databinding.FragmentCarMapBinding
 import com.firebaseapp.ivan.ivan.delegate.DelegateMobilityStatus
 import com.firebaseapp.ivan.ivan.di.Injectable
-import com.firebaseapp.ivan.ivan.ui.map.viewholder.MobilityStatusViewHolderFactory
+import com.firebaseapp.ivan.ivan.ui.carmap.viewholder.MobilityStatusViewHolderFactory
 import com.firebaseapp.ivan.util.IVan
 import com.firebaseapp.ivan.util.convertToPx
 import com.firebaseapp.ivan.util.observe
@@ -27,13 +26,14 @@ import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.MapView
 import com.google.android.gms.maps.OnMapReadyCallback
+import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.thekhaeng.recyclerviewmargin.LayoutMarginDecoration
 import com.wongnai.android.MultipleViewAdapter
 import com.wongnai.android.TYPE_0
 import com.wongnai.android.TYPE_1
-import timber.log.Timber
+import me.zhanghai.android.materialratingbar.MaterialRatingBar
 
 /**
  * @author phompang on 21/1/2018 AD.
@@ -61,7 +61,6 @@ class CarMapFragment : Fragment(), Injectable, OnMapReadyCallback {
 	}
 
 	override fun onCreate(savedInstanceState: Bundle?) {
-		Timber.d("onCreate")
 		super.onCreate(savedInstanceState)
 		retainInstance = true
 	}
@@ -73,7 +72,6 @@ class CarMapFragment : Fragment(), Injectable, OnMapReadyCallback {
 	}
 
 	override fun onActivityCreated(savedInstanceState: Bundle?) {
-		Timber.d("onActivityCreated")
 		super.onActivityCreated(savedInstanceState)
 		viewFlipperProgressBarOwn.showProgressBar()
 		setUpMap(savedInstanceState)
@@ -101,7 +99,7 @@ class CarMapFragment : Fragment(), Injectable, OnMapReadyCallback {
 			it ?: return@observe
 			val latLng = LatLng(it.lat, it.lng)
 			mMap.clear()
-			mMap.addMarker(MarkerOptions().position(latLng))
+			mMap.addMarker(MarkerOptions().position(latLng).icon(BitmapDescriptorFactory.fromResource(R.drawable.ic36_van_top)))
 			mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng))
 			mMap.animateCamera(CameraUpdateFactory.zoomTo(15f))
 
@@ -117,6 +115,7 @@ class CarMapFragment : Fragment(), Injectable, OnMapReadyCallback {
 
 	private fun setUpBottomSheet() {
 		bottomSheet = GoogleMapsBottomSheetBehavior.from(binding.carBottomSheet)
+		bottomSheet.isHideable = false
 		bottomSheet.state = GoogleMapsBottomSheetBehavior.STATE_COLLAPSED
 		bottomSheet.parallax = binding.carImageView
 		bottomSheet.setBottomSheetCallback(object : GoogleMapsBottomSheetBehavior.BottomSheetCallback() {
@@ -132,8 +131,8 @@ class CarMapFragment : Fragment(), Injectable, OnMapReadyCallback {
 		})
 		binding.carBottomSheet.viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
 			override fun onGlobalLayout() {
-				val layoutParam = CoordinatorLayout.LayoutParams(binding.carImageView.measuredWidth, bottomSheet.anchorOffset)
-				binding.carImageView.layoutParams = layoutParam
+//				val layoutParam = CoordinatorLayout.LayoutParams(binding.carImageView.measuredWidth, bottomSheet.anchorOffset)
+//				binding.carImageView.layoutParams = layoutParam
 				binding.carBottomSheet.viewTreeObserver.removeOnGlobalLayoutListener(this)
 			}
 		})
@@ -143,6 +142,7 @@ class CarMapFragment : Fragment(), Injectable, OnMapReadyCallback {
 			it.findViewById<TextView>(R.id.provinceTextView).text = car.province
 		}
 		bottomSheet.contentLayout?.let {
+			it.findViewById<MaterialRatingBar>(R.id.carCondition).rating = 5F
 			recyclerView = it.findViewById(R.id.statusRecyclerView)
 			recyclerView.layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
 			recyclerView.addItemDecoration(LayoutMarginDecoration(2, convertToPx(context!!, 2)))
@@ -163,25 +163,21 @@ class CarMapFragment : Fragment(), Injectable, OnMapReadyCallback {
 	}
 
 	override fun onDestroy() {
-		Timber.d("onDestroy")
 		super.onDestroy()
 		mapView.onDestroy()
 	}
 
 	override fun onResume() {
-		Timber.d("onResume")
 		super.onResume()
 		mapView.onResume()
 	}
 
 	override fun onPause() {
-		Timber.d("onPause")
 		super.onPause()
 		mapView.onPause()
 	}
 
 	override fun onLowMemory() {
-		Timber.d("onLowMemory")
 		super.onLowMemory()
 		mapView.onLowMemory()
 	}

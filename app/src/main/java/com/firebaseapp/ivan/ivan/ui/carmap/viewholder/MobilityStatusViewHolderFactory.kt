@@ -1,4 +1,4 @@
-package com.firebaseapp.ivan.ivan.ui.map.viewholder
+package com.firebaseapp.ivan.ivan.ui.carmap.viewholder
 
 import android.animation.ArgbEvaluator
 import android.support.annotation.ColorRes

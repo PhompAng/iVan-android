@@ -17,7 +17,7 @@ class NotificationViewModel : ViewModel() {
 
 	private var schoolId = MutableLiveData<String>()
 	private var notifications = schoolId.switchMap {
-		FirebaseLiveData(notificationRef.child(it), listDeserializer<Notification>()).getLiveData()
+		FirebaseLiveData(notificationRef.child(it).limitToLast(20), listDeserializer<Notification>()).getLiveData()
 	}
 
 	fun setSchoolId(schoolId: String) {

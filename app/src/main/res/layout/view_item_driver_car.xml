@@ -7,38 +7,14 @@
 	android:layout_marginTop="@dimen/space_normal"
 	android:background="@android:color/white">
 
-	<ImageView
-		android:id="@+id/carImageView"
-		android:layout_width="24dp"
-		android:layout_height="24dp"
-		android:layout_marginStart="@dimen/space_larger"
-		android:src="@drawable/ic_directions_bus_black_24dp"
-		app:layout_constraintBottom_toBottomOf="parent"
+	<com.firebaseapp.ivan.util.view.ContactView
+		android:id="@+id/carContactView"
+		android:layout_width="0dp"
+		android:layout_height="wrap_content"
+		app:cv_divider="false"
+		app:cv_icon="@drawable/ic_directions_bus_black_24dp"
 		app:layout_constraintLeft_toLeftOf="parent"
+		app:layout_constraintRight_toRightOf="parent"
 		app:layout_constraintTop_toTopOf="parent" />
-
-	<TextView
-		android:id="@+id/carPlateNumberTextView"
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:layout_marginStart="@dimen/space_larger"
-		android:layout_marginTop="@dimen/space_larger"
-		android:textColor="@color/textColor"
-		app:layout_constraintBottom_toTopOf="@+id/carProvinceTextView"
-		app:layout_constraintLeft_toRightOf="@+id/carImageView"
-		app:layout_constraintTop_toTopOf="parent"
-		tools:text="ฮพ 3867" />
-
-	<TextView
-		android:id="@+id/carProvinceTextView"
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:layout_marginTop="@dimen/space_smaller"
-		android:layout_marginBottom="@dimen/space_larger"
-		app:layout_constraintLeft_toLeftOf="@+id/carPlateNumberTextView"
-		app:layout_constraintTop_toBottomOf="@+id/carPlateNumberTextView"
-		app:layout_constraintBottom_toBottomOf="parent"
-		tools:text="กรุงเทพมหานคร" />
-
 
 </android.support.constraint.ConstraintLayout>

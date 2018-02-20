@@ -1,7 +1,9 @@
 package com.firebaseapp.ivan.ivan.ui.main
 
+import android.Manifest
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.os.Bundle
 import android.support.design.widget.NavigationView
 import android.support.v4.app.Fragment
@@ -15,15 +17,12 @@ import com.firebaseapp.ivan.ivan.EXTRA_UID
 import com.firebaseapp.ivan.ivan.R
 import com.firebaseapp.ivan.ivan.model.fullName
 import com.firebaseapp.ivan.ivan.ui.driver.DriverActivity
-import com.firebaseapp.ivan.ivan.ui.map.CarMapFragment
+import com.firebaseapp.ivan.ivan.ui.carmap.CarMapFragment
 import com.firebaseapp.ivan.ivan.ui.notification.NotificationFragment
 import com.firebaseapp.ivan.ivan.ui.select.SelectCarFragment
 import com.firebaseapp.ivan.ivan.ui.students.StudentsFragment
 import com.firebaseapp.ivan.ivan.utils.obtainViewModel
-import com.firebaseapp.ivan.util.DataBindingUtils
-import com.firebaseapp.ivan.util.IVan
-import com.firebaseapp.ivan.util.observe
-import com.firebaseapp.ivan.util.replaceFragmentSafely
+import com.firebaseapp.ivan.util.*
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.support.HasSupportFragmentInjector
@@ -41,6 +40,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 	private lateinit var viewModel: MainViewModel
 
 	companion object {
+		const val REQUEST_CODE_ASK_MULTIPLE_PERMISSIONS = 124
+
 		fun createIntent(ctx: Context, uid: String): Intent = Intent(ctx, MainActivity::class.java).apply {
 			putExtra(EXTRA_UID, uid)
 		}
@@ -55,10 +56,14 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 		viewModel = obtainViewModel(MainViewModel::class.java)
 
 		when (savedInstanceState) {
-			null -> extractExtras(intent.extras)
+			null -> {
+				extractExtras(intent.extras)
+				replaceFragment(R.id.nav_select_car)
+			}
 			else -> extractExtras(savedInstanceState)
 		}
 
+		requestPermissions()
 		setUpDrawer()
 
 		viewModel.setUid(this.uid)
@@ -69,7 +74,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 			userNameTextView.text = it.fullName()
 			emailTextView.text = it.email
 		}
-		replaceFragment(R.id.nav_select_car)
 
 		if (IVan.getCarNullable(applicationContext) == null) {
 			drawer_layout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
@@ -78,6 +82,23 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
 	private fun extractExtras(bundle: Bundle) {
 		uid = bundle.getString(EXTRA_UID)
+	}
+
+	private fun requestPermissions() {
+		val permissionsNeeded = mutableListOf<String>()
+		if (!applicationContext.gotPermission(Manifest.permission.CALL_PHONE)) {
+			permissionsNeeded += Manifest.permission.CALL_PHONE
+		}
+		if (!applicationContext.gotPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+			permissionsNeeded += Manifest.permission.WRITE_EXTERNAL_STORAGE
+		}
+		if (!applicationContext.gotPermission(Manifest.permission.ACCESS_FINE_LOCATION)) {
+			permissionsNeeded += Manifest.permission.ACCESS_FINE_LOCATION
+		}
+
+		if (permissionsNeeded.size > 0) {
+			requestPermissions(permissionsNeeded.toTypedArray(), REQUEST_CODE_ASK_MULTIPLE_PERMISSIONS)
+		}
 	}
 
 	private fun setUpDrawer() {
@@ -94,11 +115,37 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 		outState?.putString(EXTRA_UID, uid)
 	}
 
+	override fun onRestoreInstanceState(savedInstanceState: Bundle?) {
+		super.onRestoreInstanceState(savedInstanceState)
+		savedInstanceState?.let {
+			extractExtras(it)
+		}
+	}
+
 	override fun onBackPressed() {
 		if (drawer_layout.isDrawerOpen(GravityCompat.START)) {
 			drawer_layout.closeDrawer(GravityCompat.START)
 		} else {
 			super.onBackPressed()
+		}
+	}
+
+	override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+		super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+		when (requestCode) {
+			REQUEST_CODE_ASK_MULTIPLE_PERMISSIONS -> {
+				val perms = mutableMapOf<String, Int>()
+				for (i in permissions.indices) {
+					perms[permissions[i]] = grantResults[i]
+				}
+
+				for ((key, value) in perms) {
+					if (value != PackageManager.PERMISSION_GRANTED) {
+						toast("$key is not granted.")
+						finish()
+					}
+				}
+			}
 		}
 	}
 

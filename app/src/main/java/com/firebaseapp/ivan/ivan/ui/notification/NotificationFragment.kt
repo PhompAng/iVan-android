@@ -71,8 +71,12 @@ class NotificationFragment : Fragment(), Injectable {
 		adapter.registerViewHolderFactory(TYPE_0, NotificationViewHolderFactory())
 
 		recyclerView.adapter = adapter
-		recyclerView.layoutManager = LinearLayoutManager(context)
+		recyclerView.layoutManager = LinearLayoutManager(context).apply {
+			reverseLayout = true
+			stackFromEnd = true
+		}
 		recyclerView.addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
+		recyclerView.setHasFixedSize(true)
 	}
 
 	private fun setUpViewModel() {

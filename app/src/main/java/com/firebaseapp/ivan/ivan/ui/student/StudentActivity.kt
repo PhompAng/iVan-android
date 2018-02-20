@@ -64,4 +64,11 @@ class StudentActivity : AppCompatActivity(), HasSupportFragmentInjector {
 		super.onSaveInstanceState(outState)
 		outState?.putString(EXTRA_STUDENT_UID, studentUid)
 	}
+
+	override fun onRestoreInstanceState(savedInstanceState: Bundle?) {
+		super.onRestoreInstanceState(savedInstanceState)
+		savedInstanceState?.let {
+			extractExtras(it)
+		}
+	}
 }

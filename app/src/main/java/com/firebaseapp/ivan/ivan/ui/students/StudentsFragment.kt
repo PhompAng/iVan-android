@@ -9,7 +9,7 @@ import android.view.ViewGroup
 import com.firebaseapp.ivan.ivan.R
 import com.firebaseapp.ivan.ivan.di.Injectable
 import com.firebaseapp.ivan.ivan.model.Student
-import com.firebaseapp.ivan.ivan.ui.map.CarViewModel
+import com.firebaseapp.ivan.ivan.ui.carmap.CarViewModel
 import com.firebaseapp.ivan.ivan.ui.students.viewholder.StudentThumbnailViewHolderFactory
 import com.firebaseapp.ivan.ivan.utils.obtainViewModel
 import com.firebaseapp.ivan.util.*
