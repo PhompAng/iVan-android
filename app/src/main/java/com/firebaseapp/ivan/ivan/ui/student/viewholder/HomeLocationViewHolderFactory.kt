@@ -3,7 +3,8 @@ package com.firebaseapp.ivan.ivan.ui.student.viewholder
 import android.view.View
 import android.view.ViewGroup
 import com.firebaseapp.ivan.ivan.R
-import com.firebaseapp.ivan.ivan.model.Student
+import com.firebaseapp.ivan.ivan.delegate.DelegateStudent
+import com.firebaseapp.ivan.ivan.model.simpleAddress
 import com.firebaseapp.ivan.ivan.ui.map.MapActivity
 import com.firebaseapp.ivan.util.DataBindingUtils
 import com.firebaseapp.ivan.util.convertToPx
@@ -18,12 +19,12 @@ import org.jetbrains.anko.startActivity
 /**
  * @author phompang on 9/2/2018 AD.
  */
-class HomeLocationViewHolderFactory : ViewHolderFactory<Student> {
-	override fun create(parent: ViewGroup?): ItemViewHolder<Student> {
+class HomeLocationViewHolderFactory : ViewHolderFactory<DelegateStudent> {
+	override fun create(parent: ViewGroup?): ItemViewHolder<DelegateStudent> {
 		return HomeLocationViewHolder(parent!!.inflate(R.layout.view_item_home_location))
 	}
 
-	inner class HomeLocationViewHolder(container: View) : NormalViewHolder<Student>(container) {
+	inner class HomeLocationViewHolder(container: View) : NormalViewHolder<DelegateStudent>(container) {
 		private val width by lazy {
 			convertToPx(getContext(), 360)
 		}
@@ -31,13 +32,15 @@ class HomeLocationViewHolderFactory : ViewHolderFactory<Student> {
 			convertToPx(getContext(), 200)
 		}
 
-		override fun fillData(data: Student, position: Int) {
+		override fun fillData(data: DelegateStudent, position: Int) {
+			val student = data.student
 			itemView.staticMapView.setOnClickListener {
-				getContext().startActivity<MapActivity>(MapActivity.EXTRA_LOCATION to data.location)
+				getContext().startActivity<MapActivity>(MapActivity.EXTRA_LOCATION to student.location)
 			}
 			DataBindingUtils.setImageUrl(
 					itemView.staticMapView,
-					data.location.createStaticMapUrl(width, height, 17, 2))
+					student.location.createStaticMapUrl(width, height, 17, 2))
+			itemView.addressTextView.text = student.address.simpleAddress()
 		}
 	}
 }

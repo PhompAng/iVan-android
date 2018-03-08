@@ -8,6 +8,8 @@
 	<string name="title_activity_main">iVan</string>
 	<string name="title_student_information">Student Information</string>
 	<string name="title_driver_information">Driver Information</string>
+	<string name="title_parent_information">Parent Information</string>
+	<string name="title_map">Map</string>
 
 	<string name="navigation_drawer_open">Open navigation drawer</string>
 	<string name="navigation_drawer_close">Close navigation drawer</string>
@@ -23,6 +25,8 @@
 	<string name="home_location">Home Location</string>
 	<string name="driver">Driver</string>
 	<string name="phone">Phone</string>
+	<string name="parent">Parent</string>
+	<string name="profile">Profile</string>
 	<string name="notification">Notification</string>
 
 	<string name="condition">Condition</string>

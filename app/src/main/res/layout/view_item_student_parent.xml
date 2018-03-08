@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:layout_width="match_parent"
+	android:layout_height="wrap_content"
+	android:layout_marginTop="@dimen/space_normal"
+	android:background="@android:color/white">
+
+	<TextView
+		android:id="@+id/titleTextView"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_marginStart="@dimen/space_large"
+		android:layout_marginTop="@dimen/space_large"
+		android:text="@string/parent"
+		android:textColor="@color/textColor"
+		android:textSize="@dimen/text_large_1"
+		android:textStyle="bold"
+		app:layout_constraintLeft_toLeftOf="parent"
+		app:layout_constraintTop_toTopOf="parent" />
+
+	<ImageView
+		android:id="@+id/userThumbnailImageView"
+		android:layout_width="36dp"
+		android:layout_height="36dp"
+		android:layout_marginBottom="@dimen/space_large"
+		android:layout_marginStart="@dimen/space_large"
+		android:layout_marginTop="@dimen/space_large"
+		app:layout_constraintBottom_toBottomOf="parent"
+		app:layout_constraintLeft_toLeftOf="parent"
+		app:layout_constraintTop_toBottomOf="@+id/titleTextView"
+		tools:src="@color/colorAccent" />
+
+	<TextView
+		android:id="@+id/userNameTextView"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_marginStart="@dimen/space_large"
+		android:fontFamily="@font/kanit_regular"
+		android:textColor="@color/textColor"
+		android:textSize="@dimen/text_large_1"
+		app:layout_constraintBottom_toBottomOf="@+id/userThumbnailImageView"
+		app:layout_constraintLeft_toRightOf="@+id/userThumbnailImageView"
+		app:layout_constraintTop_toTopOf="@+id/userThumbnailImageView"
+		tools:text="John Doe" />
+</android.support.constraint.ConstraintLayout>

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge
+	xmlns:android="http://schemas.android.com/apk/res/android">
+
+	<ViewStub
+		android:id="@+id/image1ViewStub"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:inflatedId="@+id/image1View"
+		android:layout="@layout/view_photo_1"/>
+
+	<ViewStub
+		android:id="@+id/image2ViewStub"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:inflatedId="@+id/image2View"
+		android:layout="@layout/view_photo_2"/>
+
+	<ViewStub
+		android:id="@+id/image3ViewStub"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:inflatedId="@+id/image3View"
+		android:layout="@layout/view_photo_3"/>
+
+	<ViewStub
+		android:id="@+id/image4ViewStub"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:inflatedId="@+id/image4View"
+		android:layout="@layout/view_photo_4"/>
+
+	<ViewStub
+		android:id="@+id/image5ViewStub"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:inflatedId="@+id/image5View"
+		android:layout="@layout/view_photo_5"/>
+</merge>

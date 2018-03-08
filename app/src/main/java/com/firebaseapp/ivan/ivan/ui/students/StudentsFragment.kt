@@ -31,6 +31,9 @@ class StudentsFragment : Fragment(), Injectable {
 	private val car by lazy {
 		IVan.getCar(context!!)
 	}
+	private val parent by lazy {
+		IVan.getUser(context!!)
+	}
 	private var adapter = MultipleViewAdapter<Student>(1)
 
 	companion object {
@@ -71,7 +74,9 @@ class StudentsFragment : Fragment(), Injectable {
 	}
 
 	private fun setUpData() {
+		val isDriver = false
 		car.students.forEach {
+			if (isDriver || it.parent == parent.getKeyOrId())
 			adapter.add(it, TYPE_0)
 		}
 		carPlateNumberTextView.text = car.plateNumber

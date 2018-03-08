@@ -61,7 +61,7 @@ dependencies {
 	implementation "org.jetbrains.anko:anko-appcompat-v7-coroutines:$anko_version"
 	implementation "org.jetbrains.anko:anko-coroutines:$anko_version"
 	implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
-	implementation 'com.android.support.constraint:constraint-layout:1.1.0-beta4'
+	implementation 'com.android.support.constraint:constraint-layout:1.1.0-beta5'
 	implementation 'com.squareup.retrofit2:retrofit:2.3.0'
 	implementation 'com.squareup.retrofit2:converter-moshi:2.3.0'
 	implementation 'com.squareup.moshi:moshi:1.5.0'
@@ -69,6 +69,7 @@ dependencies {
 	implementation 'com.jakewharton.timber:timber:4.6.0'
 	implementation 'me.zhanghai.android.materialratingbar:library:1.2.0'
 	implementation 'com.akexorcist:RoundCornerProgressBar:2.0.3'
+	implementation 'com.tolstykh.textviewrichdrawable:textview-rich-drawable:0.3.2'
 	testImplementation 'junit:junit:4.12'
 	androidTestImplementation 'com.android.support.test:runner:1.0.1'
 	androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'

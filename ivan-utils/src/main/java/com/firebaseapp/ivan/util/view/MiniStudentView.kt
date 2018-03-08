@@ -6,6 +6,7 @@ import android.util.AttributeSet
 import com.firebaseapp.ivan.ivan.model.Student
 import com.firebaseapp.ivan.ivan.model.fullName
 import com.firebaseapp.ivan.util.DataBindingUtils
+import com.firebaseapp.ivan.util.glide.GlideTransformClass
 import com.firebaseapp.ivan.util.R
 import kotlinx.android.synthetic.main.view_item_mini_student.view.*
 
@@ -17,7 +18,7 @@ class MiniStudentView @JvmOverloads constructor(
 ) : AbstractCustomView<Student>(context, attrs, defStyleAttr, defStyleRes) {
 
 	override fun fillDataNonNull(d: Student) {
-		DataBindingUtils.loadFromFirebaseStorage(userThumbnailImageView, d, context.getDrawable(R.drawable.portrait_placeholder), true)
+		DataBindingUtils.loadFromFirebaseStorage(userThumbnailImageView, d, context.getDrawable(R.drawable.portrait_placeholder), GlideTransformClass.CIRCLE)
 		nameImageView.text = d.fullName()
 	}
 

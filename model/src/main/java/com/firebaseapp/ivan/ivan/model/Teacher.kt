@@ -5,8 +5,7 @@ import com.google.firebase.database.PropertyName
 /**
  * @author phompang on 18/1/2018 AD.
  */
-data class Teacher(@get:PropertyName("alarm_status") @set:PropertyName("alarm_status") var alarmStatus: Map<String ,AlarmStatus> = mutableMapOf(),
-				   @get:PropertyName("car") @set:PropertyName("car") var car: String = "",
+data class Teacher(@get:PropertyName("car") @set:PropertyName("car") var car: String = "",
 				   @get:PropertyName("email") @set:PropertyName("email") var email: String = "",
 				   @get:PropertyName("name") @set:PropertyName("name") var name: Name = Name(),
 				   @get:PropertyName("school") @set:PropertyName("school") var school: String = "",

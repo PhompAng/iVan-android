@@ -1,6 +1,7 @@
 package com.firebaseapp.ivan.util
 
 import android.arch.lifecycle.*
+import timber.log.Timber
 
 /**
  * @author phompang on 9/1/2018 AD.
@@ -39,8 +40,8 @@ fun <A, B> LiveData<A>.switchMap(function: (A) -> LiveData<B>): LiveData<B> = Tr
 
 fun <T> LiveData<List<T>>.filter(condition: (T) -> Boolean): LiveData<List<T>> {
 	val result = MediatorLiveData<List<T>>()
-	val resultList = mutableListOf<T>()
 	result.addSource(this) { t: List<T>? ->
+		val resultList = mutableListOf<T>()
 		t?.let { list ->
 			list.forEach {
 				if (condition(it)) {

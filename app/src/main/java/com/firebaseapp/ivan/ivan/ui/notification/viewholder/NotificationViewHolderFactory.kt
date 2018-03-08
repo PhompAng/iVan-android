@@ -4,7 +4,7 @@ import android.text.format.DateUtils
 import android.view.View
 import android.view.ViewGroup
 import com.firebaseapp.ivan.ivan.R
-import com.firebaseapp.ivan.ivan.model.api.Notification
+import com.firebaseapp.ivan.ivan.model.Notification
 import com.firebaseapp.ivan.util.inflate
 import com.wongnai.android.ItemViewHolder
 import com.wongnai.android.NormalViewHolder

@@ -7,11 +7,11 @@ import com.firebaseapp.ivan.ivan.model.MobilityStatus
 /**
  * @author phompang on 3/2/2018 AD.
  */
-data class DelegateMobilityStatus(val title: String = "",
-								  val valueText: String = "",
-								  val value: Float = 0.0F,
-								  val maxProgress: Float = 100.0F,
-								  val timestamp: Long = 0) {
+data class DelegateMobilityStatus(var title: String = "",
+								  var valueText: String = "",
+								  var value: Float = 0.0F,
+								  var maxProgress: Float = 100.0F,
+								  var timestamp: Long = 0) {
 	companion object {
 		fun getAvgSpeed(context: Context, mobilityStatus: MobilityStatus): DelegateMobilityStatus {
 			return DelegateMobilityStatus(

@@ -5,6 +5,8 @@
 
 	<data>
 
+		<import type="com.firebaseapp.ivan.util.glide.GlideTransformClass" />
+
 		<variable
 			name="student"
 			type="com.firebaseapp.ivan.ivan.model.Student" />
@@ -23,9 +25,9 @@
 			app:layout_constraintLeft_toLeftOf="parent"
 			app:layout_constraintRight_toRightOf="parent"
 			app:layout_constraintTop_toTopOf="parent"
-			app:circle="@{true}"
 			app:placeholder="@{@drawable/portrait_placeholder}"
-			app:storage="@{student}" />
+			app:storage="@{student}"
+			app:transform="@{GlideTransformClass.CIRCLE}" />
 
 		<TextView
 			android:id="@+id/nameTextView"

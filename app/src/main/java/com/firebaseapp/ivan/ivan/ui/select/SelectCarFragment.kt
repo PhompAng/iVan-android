@@ -69,6 +69,7 @@ class SelectCarFragment : Fragment(), Injectable {
 			list ?: return@observe
 			viewFlipperProgressBarOwn.hideProgressBar()
 			adapter.clear()
+			Timber.d("${list.size}")
 			list.forEach {
 				Timber.d(it.toString())
 				FirebaseMessaging.getInstance().subscribeToTopic(it.key)

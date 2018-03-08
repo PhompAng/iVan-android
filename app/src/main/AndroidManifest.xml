@@ -76,7 +76,12 @@
 		<activity
 			android:name=".ui.driver.DriverActivity"
 			android:label="@string/title_driver_information" />
-		<activity android:name=".ui.map.MapActivity" />
+		<activity
+			android:name=".ui.map.MapActivity"
+			android:label="@string/title_parent_information" />
+		<activity
+			android:name=".ui.parent.ParentActivity"
+			android:label="@string/title_map" />
 	</application>
 
 </manifest>

@@ -22,4 +22,12 @@
 	<color name="grey900">#212121</color>
 
 	<color name="red500">#F44336</color>
+
+	<!--rate number-->
+	<color name="rate_number_0">@color/grey500</color>
+	<color name="rate_number_1">#A69B85</color>
+	<color name="rate_number_2">#E0BC75</color>
+	<color name="rate_number_3">#F7A707</color>
+	<color name="rate_number_4">#F95700</color>
+	<color name="rate_number_5">#CD1201</color>
 </resources>

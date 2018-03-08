@@ -19,9 +19,9 @@ android {
 }
 
 dependencies {
-	compile fileTree(dir: 'libs', include: ['*.jar'])
+	implementation fileTree(dir: 'libs', include: ['*.jar'])
 	implementation appcompatV7
 	implementation design
 	implementation "com.google.android.gms:play-services-maps:$googleServicesLibVersion"
-	testCompile 'junit:junit:4.12'
+	testImplementation 'junit:junit:4.12'
 }

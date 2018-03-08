@@ -19,10 +19,12 @@ import com.firebaseapp.ivan.ivan.model.fullName
 import com.firebaseapp.ivan.ivan.ui.driver.DriverActivity
 import com.firebaseapp.ivan.ivan.ui.carmap.CarMapFragment
 import com.firebaseapp.ivan.ivan.ui.notification.NotificationFragment
+import com.firebaseapp.ivan.ivan.ui.parent.ParentActivity
 import com.firebaseapp.ivan.ivan.ui.select.SelectCarFragment
 import com.firebaseapp.ivan.ivan.ui.students.StudentsFragment
 import com.firebaseapp.ivan.ivan.utils.obtainViewModel
 import com.firebaseapp.ivan.util.*
+import com.firebaseapp.ivan.util.glide.GlideTransformClass.Companion.CIRCLE
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.support.HasSupportFragmentInjector
@@ -70,7 +72,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 		viewModel.getParent().observe(this) {
 			it ?: return@observe
 			IVan.setUser(applicationContext, it)
-			DataBindingUtils.loadFromFirebaseStorage(userThumbnailImageView, it, getDrawable(R.mipmap.ic_launcher_round), true)
+			DataBindingUtils.loadFromFirebaseStorage(userThumbnailImageView, it, getDrawable(R.mipmap.ic_launcher_round), CIRCLE)
 			userNameTextView.text = it.fullName()
 			emailTextView.text = it.email
 		}
@@ -189,8 +191,12 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 				startActivity<DriverActivity>(DriverActivity.EXTRA_DRIVER_ID to IVan.getCar(applicationContext).drivers[0].getKeyOrId())
 				return
 			}
+			R.id.nav_profile -> {
+				startActivity<ParentActivity>(ParentActivity.EXTRA_PARENT_ID to IVan.getUser(applicationContext).getKeyOrId())
+				return
+			}
 			R.id.nav_notification -> {
-				fragment = NotificationFragment.newInstance(IVan.getUser(applicationContext).school)
+				fragment = NotificationFragment.newInstance()
 				tag = NotificationFragment.TAG
 			}
 			else -> {

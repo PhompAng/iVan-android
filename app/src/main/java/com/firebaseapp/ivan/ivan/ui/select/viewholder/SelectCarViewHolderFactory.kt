@@ -11,6 +11,7 @@ import com.firebaseapp.ivan.ivan.model.deserializer
 import com.firebaseapp.ivan.util.addValueEventListener
 import com.google.firebase.database.FirebaseDatabase
 import com.wongnai.android.*
+import kotlinx.android.synthetic.main.view_item_select_car.view.*
 
 /**
  * @author phompang on 21/1/2018 AD.

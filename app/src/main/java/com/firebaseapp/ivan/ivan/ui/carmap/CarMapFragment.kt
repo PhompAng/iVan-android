@@ -2,6 +2,7 @@ package com.firebaseapp.ivan.ivan.ui.carmap
 
 import android.databinding.DataBindingUtil
 import android.os.Bundle
+import android.support.design.widget.CoordinatorLayout
 import android.support.v4.app.Fragment
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.StaggeredGridLayoutManager
@@ -131,7 +132,7 @@ class CarMapFragment : Fragment(), Injectable, OnMapReadyCallback {
 		})
 		binding.carBottomSheet.viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
 			override fun onGlobalLayout() {
-//				val layoutParam = CoordinatorLayout.LayoutParams(binding.carImageView.measuredWidth, bottomSheet.anchorOffset)
+//				val layoutParam = CoordinatorLayout.LayoutParams(binding.carImageView.measuredWidth, bottomSheet.anchorOffset / 2)
 //				binding.carImageView.layoutParams = layoutParam
 				binding.carBottomSheet.viewTreeObserver.removeOnGlobalLayoutListener(this)
 			}

@@ -28,6 +28,8 @@ abstract class AbstractCustomView<T> @JvmOverloads constructor(
 	private fun init() {
 		inflate(context, getContentLayout(), this)
 
+		bindView()
+
 		if (isInEditMode) {
 			fillDataInEditMode()
 			return
@@ -39,6 +41,8 @@ abstract class AbstractCustomView<T> @JvmOverloads constructor(
 
 	@LayoutRes
 	internal abstract fun getContentLayout(): Int
+
+	open fun bindView() {}
 
 	open fun fillDataInEditMode() {}
 
