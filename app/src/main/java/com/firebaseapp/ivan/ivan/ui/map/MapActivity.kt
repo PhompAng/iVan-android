@@ -2,6 +2,7 @@ package com.firebaseapp.ivan.ivan.ui.map
 
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import android.view.MenuItem
 import com.firebaseapp.ivan.ivan.R
 import com.firebaseapp.ivan.ivan.model.Location
 import com.firebaseapp.ivan.util.replaceFragmentSafely
@@ -39,6 +40,16 @@ class MapActivity : AppCompatActivity() {
 
 	private fun extractExtras(bundle: Bundle) {
 		location = bundle.getParcelable(EXTRA_LOCATION)
+	}
+
+	override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+		when (item?.itemId) {
+			android.R.id.home -> {
+				finish()
+				return true
+			}
+		}
+		return super.onOptionsItemSelected(item)
 	}
 
 	override fun onSaveInstanceState(outState: Bundle?) {

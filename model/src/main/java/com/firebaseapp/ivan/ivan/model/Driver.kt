@@ -6,7 +6,6 @@ import com.google.firebase.database.PropertyName
  * @author phompang on 18/1/2018 AD.
  */
 data class Driver(@get:PropertyName("address") @set:PropertyName("address") var address: Address = Address(),
-				  @get:PropertyName("alarm_status") @set:PropertyName("alarm_status") var alarmStatus: Map<String, AlarmStatus> = mutableMapOf(),
 				  @get:PropertyName("car") @set:PropertyName("car") var car: String = "",
 				  @get:PropertyName("email") @set:PropertyName("email") var email: String = "",
 				  @get:PropertyName("location") @set:PropertyName("location") var location: Location = Location(),

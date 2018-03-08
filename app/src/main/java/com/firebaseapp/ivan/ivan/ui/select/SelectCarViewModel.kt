@@ -23,16 +23,16 @@ class SelectCarViewModel : ViewModel() {
 		FirebaseLiveData(studentRef.orderByChild("parent").equalTo(it), listDeserializer<Student>()).getLiveData()
 	}
 	private var cars = students
-			.switchMap {
-				val data = FirebaseLiveData(carsRef, listDeserializer<Car>()).getLiveData()
-				data.filter {
-					students.value?.forEach { student: Student ->
-						if (student.car == it.id) {
-							return@filter true
+			.switchMap { studentList ->
+				FirebaseLiveData(carsRef, listDeserializer<Car>()).getLiveData()
+						.filter {
+							studentList.forEach { student: Student ->
+								if (student.car == it.id) {
+									return@filter true
+								}
+							}
+							return@filter false
 						}
-					}
-					return@filter false
-				}
 			}
 
 	fun setUid(uid: String) {

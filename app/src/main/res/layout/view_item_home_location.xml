@@ -30,4 +30,24 @@
 		app:layout_constraintRight_toRightOf="parent"
 		app:layout_constraintTop_toBottomOf="@+id/titleTextView"
 		tools:src="@color/colorAccent" />
+
+	<TextView
+		android:id="@+id/addressTextView"
+		android:layout_width="0dp"
+		android:layout_height="wrap_content"
+		android:layout_marginBottom="@dimen/space_large"
+		android:layout_marginHorizontal="@dimen/space_large"
+		android:layout_marginTop="@dimen/space_normal"
+		android:drawableEnd="@drawable/ic_keyboard_arrow_right_black_24dp"
+		android:drawablePadding="@dimen/space_normal"
+		android:drawableStart="@drawable/ic_place_black_24dp"
+		android:drawableTint="@color/textColorPrimary"
+		android:fontFamily="@font/kanit_regular"
+		android:textColor="@color/textColor"
+		android:textSize="@dimen/text_normal"
+		app:layout_constraintBottom_toBottomOf="parent"
+		app:layout_constraintLeft_toLeftOf="parent"
+		app:layout_constraintRight_toRightOf="parent"
+		app:layout_constraintTop_toBottomOf="@+id/staticMapView"
+		tools:text="lorem ipsum" />
 </android.support.constraint.ConstraintLayout>

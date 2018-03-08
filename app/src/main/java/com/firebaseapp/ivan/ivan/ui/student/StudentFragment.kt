@@ -7,16 +7,20 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.firebaseapp.ivan.ivan.R
+import com.firebaseapp.ivan.ivan.delegate.DelegateStudent
 import com.firebaseapp.ivan.ivan.di.Injectable
 import com.firebaseapp.ivan.ivan.model.Student
 import com.firebaseapp.ivan.ivan.ui.student.viewholder.HomeLocationViewHolderFactory
+import com.firebaseapp.ivan.ivan.ui.student.viewholder.StudentParentViewHolderFactory
 import com.firebaseapp.ivan.ivan.utils.obtainViewModel
 import com.firebaseapp.ivan.util.DataBindingUtils
+import com.firebaseapp.ivan.util.glide.GlideTransformClass
 import com.firebaseapp.ivan.util.inflate
 import com.firebaseapp.ivan.util.observe
 import com.firebaseapp.ivan.util.view.ViewFlipperProgressBarOwn
 import com.wongnai.android.MultipleViewAdapter
 import com.wongnai.android.TYPE_0
+import com.wongnai.android.TYPE_1
 import kotlinx.android.synthetic.main.fragment_student.*
 import kotlinx.android.synthetic.main.layout_student_info.*
 
@@ -26,8 +30,9 @@ import kotlinx.android.synthetic.main.layout_student_info.*
 class StudentFragment : Fragment(), Injectable {
 
 	private lateinit var viewModel: StudentViewModel
-	private val adapter = MultipleViewAdapter<Student>(1)
+	private val adapter = MultipleViewAdapter<DelegateStudent>(1)
 	private var studentUid = ""
+	private var delegateStudent = DelegateStudent()
 
 	private val viewFlipperProgressBarOwn by lazy {
 		ViewFlipperProgressBarOwn(viewFlipper)
@@ -62,10 +67,14 @@ class StudentFragment : Fragment(), Injectable {
 	}
 
 	private fun setUpRecyclerView() {
-		adapter.registerViewHolderFactory(TYPE_0, HomeLocationViewHolderFactory())
+		adapter.registerViewHolderFactory(TYPE_0, StudentParentViewHolderFactory())
+		adapter.registerViewHolderFactory(TYPE_1, HomeLocationViewHolderFactory())
 
 		recyclerView.adapter = adapter
 		recyclerView.layoutManager = LinearLayoutManager(context)
+
+		adapter.add(delegateStudent, TYPE_0)
+		adapter.add(delegateStudent, TYPE_1)
 	}
 
 	private fun setUpViewModel() {
@@ -75,7 +84,12 @@ class StudentFragment : Fragment(), Injectable {
 			viewFlipperProgressBarOwn.hideProgressBar()
 			it ?: return@observe
 			setUpData(it)
-			adapter.add(it, TYPE_0)
+			delegateStudent.student = it
+			adapter.notifyDataSetChanged()
+		}
+		viewModel.getParent().observe(this) {
+			it ?: return@observe
+			delegateStudent.parent = it
 			adapter.notifyDataSetChanged()
 		}
 		viewModel.getSchool().observe(this) {
@@ -89,7 +103,7 @@ class StudentFragment : Fragment(), Injectable {
 				userThumbnailImageView,
 				student,
 				context?.getDrawable(R.drawable.portrait_placeholder),
-				true
+				GlideTransformClass.CIRCLE
 		)
 		nameTextView.text = student.getFullName()
 		userIdTextView.text = context!!.getString(R.string.student_id, student.no)

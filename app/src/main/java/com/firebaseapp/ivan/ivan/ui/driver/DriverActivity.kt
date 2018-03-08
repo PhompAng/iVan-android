@@ -7,6 +7,7 @@ import android.view.MenuItem
 import com.firebaseapp.ivan.ivan.R
 import com.firebaseapp.ivan.ivan.model.fullName
 import com.firebaseapp.ivan.util.DataBindingUtils
+import com.firebaseapp.ivan.util.glide.GlideTransformClass.Companion.NONE
 import com.firebaseapp.ivan.util.IVan
 import com.firebaseapp.ivan.util.replaceFragmentSafely
 import dagger.android.AndroidInjector
@@ -48,9 +49,8 @@ class DriverActivity : AppCompatActivity(), HasSupportFragmentInjector {
 			}
 		}
 		collapsingToolbarLayout.title = driver.fullName()
-		DataBindingUtils.loadFromFirebaseStorage(headerImageView, driver, getDrawable(R.color.colorPrimary), false)
+		DataBindingUtils.loadFromFirebaseStorage(headerImageView, driver, getDrawable(R.color.colorPrimary), NONE)
 	}
-
 
 	override fun onOptionsItemSelected(item: MenuItem?): Boolean {
 		when (item?.itemId) {
@@ -61,5 +61,4 @@ class DriverActivity : AppCompatActivity(), HasSupportFragmentInjector {
 		}
 		return super.onOptionsItemSelected(item)
 	}
-
 }

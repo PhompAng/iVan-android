@@ -11,7 +11,7 @@ class MultipleViewAdapter<T>(factorySize: Int) : RecyclerView.Adapter<ItemViewHo
 	private val viewHolderFactories: SparseArray<ViewHolderFactory<T>> = SparseArray(factorySize)
 	private val list = mutableListOf<ObjectHolder>()
 
-	override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): ItemViewHolder<T> {
+	override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder<T> {
 		return viewHolderFactories[viewType].create(parent)
 	}
 
@@ -21,11 +21,11 @@ class MultipleViewAdapter<T>(factorySize: Int) : RecyclerView.Adapter<ItemViewHo
 		return list[position].type
 	}
 
-	override fun onBindViewHolder(holder: ItemViewHolder<T>?, position: Int) {
+	override fun onBindViewHolder(holder: ItemViewHolder<T>, position: Int) {
 		if (position < list.size) {
 			val obj = list[position].obj
 			if (obj != null) {
-				holder?.fillData(obj, position)
+				holder.fillData(obj, position)
 			}
 		}
 	}
