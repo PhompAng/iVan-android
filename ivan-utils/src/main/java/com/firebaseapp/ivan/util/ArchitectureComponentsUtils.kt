@@ -1,7 +1,6 @@
 package com.firebaseapp.ivan.util
 
 import android.arch.lifecycle.*
-import timber.log.Timber
 
 /**
  * @author phompang on 9/1/2018 AD.

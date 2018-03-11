@@ -11,6 +11,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.firebaseapp.ivan.ivan.EXTRA_UID
 import com.firebaseapp.ivan.ivan.R
+import com.firebaseapp.ivan.ivan.delegate.DelegateCar
 import com.firebaseapp.ivan.ivan.di.Injectable
 import com.firebaseapp.ivan.ivan.model.Car
 import com.firebaseapp.ivan.ivan.ui.select.viewholder.SelectCarViewHolderFactory
@@ -31,10 +32,13 @@ class SelectCarFragment : Fragment(), Injectable {
 
 	private lateinit var selectCarCallBack: SelectCarCallback
 	private lateinit var uid: String
+	private val parent by lazy {
+		IVan.getUser(context!!)
+	}
 	private val viewFlipperProgressBarOwn by lazy {
 		ViewFlipperProgressBarOwn(viewFlipper)
 	}
-	private var adapter = MultipleViewAdapter<Car>(1)
+	private var adapter = MultipleViewAdapter<DelegateCar>(1)
 
 	companion object {
 		val TAG: String = SelectCarFragment::class.java.simpleName
@@ -69,11 +73,10 @@ class SelectCarFragment : Fragment(), Injectable {
 			list ?: return@observe
 			viewFlipperProgressBarOwn.hideProgressBar()
 			adapter.clear()
-			Timber.d("${list.size}")
 			list.forEach {
 				Timber.d(it.toString())
 				FirebaseMessaging.getInstance().subscribeToTopic(it.key)
-				adapter.add(it, TYPE_0)
+				adapter.add(DelegateCar(it, parent), TYPE_0)
 			}
 		}
 	}
@@ -97,9 +100,9 @@ class SelectCarFragment : Fragment(), Injectable {
 		}
 	}
 
-	inner class OnCarClickListener : TypeItemEventListener<Car> {
-		override fun onItemClick(view: View, item: Car, position: Int) {
-			IVan.setCar(context!!, item)
+	inner class OnCarClickListener : TypeItemEventListener<DelegateCar> {
+		override fun onItemClick(view: View, item: DelegateCar, position: Int) {
+			IVan.setCar(context!!, item.car)
 			selectCarCallBack.onCarSelect()
 		}
 	}
