@@ -13,6 +13,14 @@
 		<variable
 			name="school"
 			type="com.firebaseapp.ivan.ivan.model.School" />
+
+		<variable
+			name="parent"
+			type="com.firebaseapp.ivan.ivan.model.Parent" />
+
+		<variable
+			name="mobilityStatus"
+			type="com.firebaseapp.ivan.ivan.model.MobilityStatus" />
 	</data>
 
 	<android.support.constraint.ConstraintLayout
@@ -88,7 +96,8 @@
 			android:layout_marginStart="@dimen/space_normal"
 			android:drawablePadding="@dimen/space_small"
 			android:fontFamily="@font/kanit_regular"
-			android:text="5 min"
+			app:estimate_time="@{mobilityStatus}"
+			app:parent_location="@{parent.location}"
 			android:textColor="@color/textColorPrimary"
 			android:textSize="@dimen/text_small_1"
 			app:compoundDrawableHeight="16dp"
@@ -105,7 +114,9 @@
 			android:layout_marginStart="@dimen/space_normal"
 			android:drawablePadding="@dimen/space_small"
 			android:fontFamily="@font/kanit_regular"
-			android:text="10.5 km."
+			app:distance_from="@{mobilityStatus}"
+			app:parent_location="@{parent.location}"
+			tools:text="10.5 km."
 			android:textColor="@color/textColorPrimary"
 			android:textSize="@dimen/text_small_1"
 			app:compoundDrawableHeight="16dp"

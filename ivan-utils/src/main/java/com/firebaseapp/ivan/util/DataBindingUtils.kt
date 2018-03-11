@@ -4,6 +4,8 @@ import android.databinding.BindingAdapter
 import android.graphics.drawable.Drawable
 import android.widget.ImageView
 import android.widget.LinearLayout
+import com.akexorcist.googledirection.model.Direction
+import com.akexorcist.googledirection.model.Leg
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.CircleCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
@@ -17,6 +19,8 @@ import com.firebaseapp.ivan.util.view.MiniStudentView
 import com.firebaseapp.ivan.util.view.PhotoGridView
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
+import com.tolstykh.textviewrichdrawable.TextViewRichDrawable
+import timber.log.Timber
 
 
 /**
@@ -76,5 +80,36 @@ object DataBindingUtils {
 	@BindingAdapter("fill_data")
 	fun fillData(view: PhotoGridView, data: List<Student>) {
 		view.fillData(data)
+	}
+
+	@JvmStatic
+	@BindingAdapter(value = ["distance_from", "parent_location"], requireAll = true)
+	fun fillDistance(view: TextViewRichDrawable, data: MobilityStatus?, parentLocation: Location?) {
+		if (data == null) {
+			view.text = formatDistance(view.context, null)
+		} else {
+			val distance = distanceBetween(Location(data.lat, data.lng), parentLocation)
+			view.text = formatDistance(view.context, distance)
+		}
+	}
+
+	@JvmStatic
+	@BindingAdapter(value = ["estimate_time", "parent_location"], requireAll = true)
+	fun fillEstimateTime(view: TextViewRichDrawable, data: MobilityStatus?, parentLocation: Location?) {
+		if (data == null) {
+			view.text = formatTime(view.context, null)
+		} else {
+			estimateTime(view.context, Location(data.lat, data.lng), parentLocation, { direction: Direction?, _ ->
+				direction?.let {
+					val time = it.routeList[0].legList.fold(0) { acc: Int, leg: Leg? ->
+						when (leg) {
+							null -> acc
+							else -> acc + leg.duration.value.toInt()
+						}
+					}
+					view.text = formatTime(view.context, time)
+				}
+			})
+		}
 	}
 }
