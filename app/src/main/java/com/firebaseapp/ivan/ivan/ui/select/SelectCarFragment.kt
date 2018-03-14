@@ -33,7 +33,7 @@ class SelectCarFragment : Fragment(), Injectable {
 	private lateinit var selectCarCallBack: SelectCarCallback
 	private lateinit var uid: String
 	private val parent by lazy {
-		IVan.getUser(context!!)
+		IVan.getParent(context!!)
 	}
 	private val viewFlipperProgressBarOwn by lazy {
 		ViewFlipperProgressBarOwn(viewFlipper)
@@ -76,7 +76,9 @@ class SelectCarFragment : Fragment(), Injectable {
 			list.forEach {
 				Timber.d(it.toString())
 				FirebaseMessaging.getInstance().subscribeToTopic(it.key)
-				adapter.add(DelegateCar(it, parent), TYPE_0)
+				parent?.let { p ->
+					adapter.add(DelegateCar(it, p), TYPE_0)
+				}
 			}
 		}
 	}

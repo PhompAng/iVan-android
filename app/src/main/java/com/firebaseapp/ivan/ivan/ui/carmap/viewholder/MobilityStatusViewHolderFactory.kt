@@ -36,18 +36,13 @@ class MobilityStatusViewHolderFactory(
 		override fun fillData(data: DelegateMobilityStatus, position: Int) {
 			itemView.titleTextView.text = data.title
 			itemView.valueTextView.text = data.valueText
-			itemView.progressBar.max = data.maxProgress
-			itemView.progressBar.progress = data.value
 
 			val percent = 100 * data.value / data.maxProgress
-			itemView.percentTextView.text = getContext().getString(R.string.percent_value, percent)
 
 			itemView.lastUpdateTextView.text = data.timestamp.getRelativeTime(getContext())
 
 			val color: Int = argbEvaluator.evaluate(percent / 100, minColor, maxColor) as Int
-			itemView.progressBar.progressColor = color
 			itemView.valueTextView.setTextColor(color)
-			itemView.percentTextView.setTextColor(color)
 		}
 	}
 }

@@ -8,7 +8,9 @@ import android.view.View
 import android.view.ViewGroup
 import com.firebaseapp.ivan.ivan.R
 import com.firebaseapp.ivan.ivan.di.Injectable
+import com.firebaseapp.ivan.ivan.model.Parent
 import com.firebaseapp.ivan.ivan.model.Student
+import com.firebaseapp.ivan.ivan.model.monad.fold
 import com.firebaseapp.ivan.ivan.ui.carmap.CarViewModel
 import com.firebaseapp.ivan.ivan.ui.students.viewholder.StudentThumbnailViewHolderFactory
 import com.firebaseapp.ivan.ivan.utils.obtainViewModel
@@ -31,7 +33,7 @@ class StudentsFragment : Fragment(), Injectable {
 	private val car by lazy {
 		IVan.getCar(context!!)
 	}
-	private val parent by lazy {
+	private val user by lazy {
 		IVan.getUser(context!!)
 	}
 	private var adapter = MultipleViewAdapter<Student>(1)
@@ -74,9 +76,17 @@ class StudentsFragment : Fragment(), Injectable {
 	}
 
 	private fun setUpData() {
-		val isDriver = false
+		var isDriver = false
+		var parent: Parent? = null
+		user.fold {
+			onLeft {
+				isDriver = false
+				parent = it
+			}
+			onRight { isDriver = true }
+		}
 		car.students.forEach {
-			if (isDriver || it.parent == parent.getKeyOrId())
+			if (isDriver || it.parent == parent?.getKeyOrId())
 			adapter.add(it, TYPE_0)
 		}
 		carPlateNumberTextView.text = car.plateNumber

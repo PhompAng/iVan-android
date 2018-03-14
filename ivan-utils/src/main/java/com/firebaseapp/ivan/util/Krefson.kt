@@ -16,6 +16,7 @@ open class Krefson(context: Context,
 		const val DEFAULT_NAME = "default"
 
 		const val KEY_PARENT = "key-parent"
+		const val KEY_DRIVER = "key-driver"
 		const val KEY_CAR = "key-car"
 	}
 	val sharedPreferences: SharedPreferences = context.getSharedPreferences(name, Context.MODE_PRIVATE)
@@ -42,5 +43,9 @@ open class Krefson(context: Context,
 
 	fun remove(key: String) {
 		sharedPreferences.edit().remove(key).apply()
+	}
+
+	fun clear() {
+		sharedPreferences.edit().clear().apply()
 	}
 }

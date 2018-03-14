@@ -6,14 +6,16 @@ buildscript {
 	repositories {
 		google()
 		jcenter()
+		maven {
+			url 'https://maven.fabric.io/public'
+		}
 	}
 	dependencies {
 		classpath "com.android.tools.build:gradle:$androidPluginVersion"
 		classpath 'com.google.gms:google-services:3.1.1'
+		classpath 'io.fabric.tools:gradle:1.25.1'
 		classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-
-		// NOTE: Do not place your application dependencies here; they belong
-		// in the individual module build.gradle files
+		classpath 'com.google.firebase:firebase-plugins:1.1.5'
 	}
 }
 
@@ -21,6 +23,9 @@ allprojects {
 	repositories {
 		google()
 		jcenter()
+		maven {
+			url 'https://maven.google.com/'
+		}
 	}
 }
 
@@ -53,10 +58,10 @@ ext {
 			"com.google.firebase:firebase-core:$googleServicesLibVersion",
 			"com.google.firebase:firebase-database:$googleServicesLibVersion",
 			"com.google.firebase:firebase-storage:$googleServicesLibVersion",
-			"com.google.firebase:firebase-crash:$googleServicesLibVersion",
 			"com.google.firebase:firebase-auth:$googleServicesLibVersion",
 			"com.google.firebase:firebase-messaging:$googleServicesLibVersion",
-			"com.google.firebase:firebase-appindexing:$googleServicesLibVersion"
+			"com.google.firebase:firebase-appindexing:$googleServicesLibVersion",
+			"com.google.firebase:firebase-perf:$googleServicesLibVersion"
 	]
 
 	architectureComponents = [

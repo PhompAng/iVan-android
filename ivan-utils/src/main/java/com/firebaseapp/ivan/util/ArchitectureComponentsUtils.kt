@@ -1,6 +1,10 @@
 package com.firebaseapp.ivan.util
 
 import android.arch.lifecycle.*
+import com.firebaseapp.ivan.ivan.model.monad.Either
+import com.firebaseapp.ivan.ivan.model.monad.fold
+import com.firebaseapp.ivan.ivan.model.monad.left
+import com.firebaseapp.ivan.ivan.model.monad.right
 
 /**
  * @author phompang on 9/1/2018 AD.
@@ -51,4 +55,36 @@ fun <T> LiveData<List<T>>.filter(condition: (T) -> Boolean): LiveData<List<T>> {
 		result.value = resultList
 	}
 	return result
+}
+
+fun <A, B, C> LiveData<C>.either(condition: (C) -> Either<LiveData<A>, LiveData<B>>): LiveData<Either<A, B>> {
+	return MediatorLiveData<Either<A, B>>().apply {
+		var e: Either<LiveData<A>, LiveData<B>>? = null
+
+		fun update() {
+			e.fold {
+				onLeft {
+					addSource(it) { a ->
+						a?.let {
+							this@apply.value = left(it)
+						}
+					}
+				}
+				onRight {
+					addSource(it) { b ->
+						b?.let {
+							this@apply.value = right(it)
+						}
+					}
+				}
+			}
+		}
+
+		addSource(this@either) { c: C? ->
+			c?.let {
+				e = condition(it)
+				update()
+			}
+		}
+	}
 }

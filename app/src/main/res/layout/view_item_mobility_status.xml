@@ -32,31 +32,6 @@
 		tools:text="90 Km/hr" />
 
 	<TextView
-		android:id="@+id/percentTextView"
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:layout_marginTop="@dimen/space_normal"
-		android:fontFamily="@font/kanit_light"
-		android:textColor="@color/colorPrimary"
-		android:textSize="@dimen/text_small_1"
-		app:layout_constraintRight_toRightOf="@+id/progressBar"
-		app:layout_constraintTop_toBottomOf="@+id/valueTextView"
-		tools:text="40%" />
-
-	<com.akexorcist.roundcornerprogressbar.RoundCornerProgressBar
-		android:id="@+id/progressBar"
-		android:layout_width="0dp"
-		android:layout_height="13dp"
-		android:layout_marginHorizontal="@dimen/space_large"
-		app:layout_constraintLeft_toLeftOf="parent"
-		app:layout_constraintRight_toRightOf="parent"
-		app:layout_constraintTop_toBottomOf="@+id/percentTextView"
-		app:rcMax="100.0"
-		app:rcProgress="90.0"
-		app:rcProgressColor="@color/colorPrimary"
-		app:rcRadius="4dp" />
-
-	<TextView
 		android:id="@+id/lastUpdateTextView"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
@@ -64,7 +39,7 @@
 		android:textSize="@dimen/text_small_1"
 		tools:text="Just now"
 		android:layout_marginTop="@dimen/space_larger"
-		app:layout_constraintTop_toBottomOf="@+id/progressBar"
+		app:layout_constraintTop_toBottomOf="@+id/valueTextView"
 		app:layout_constraintLeft_toLeftOf="parent"
 		android:textColor="@color/textColorPrimary"/>
 </android.support.constraint.ConstraintLayout>

@@ -15,9 +15,13 @@ import android.view.Menu
 import android.view.MenuItem
 import com.firebaseapp.ivan.ivan.EXTRA_UID
 import com.firebaseapp.ivan.ivan.R
+import com.firebaseapp.ivan.ivan.model.Car
 import com.firebaseapp.ivan.ivan.model.fullName
+import com.firebaseapp.ivan.ivan.model.listDeserializer
+import com.firebaseapp.ivan.ivan.model.monad.fold
 import com.firebaseapp.ivan.ivan.ui.driver.DriverActivity
 import com.firebaseapp.ivan.ivan.ui.carmap.CarMapFragment
+import com.firebaseapp.ivan.ivan.ui.login.LoginActivity
 import com.firebaseapp.ivan.ivan.ui.notification.NotificationFragment
 import com.firebaseapp.ivan.ivan.ui.parent.ParentActivity
 import com.firebaseapp.ivan.ivan.ui.select.SelectCarFragment
@@ -25,6 +29,8 @@ import com.firebaseapp.ivan.ivan.ui.students.StudentsFragment
 import com.firebaseapp.ivan.ivan.utils.obtainViewModel
 import com.firebaseapp.ivan.util.*
 import com.firebaseapp.ivan.util.glide.GlideTransformClass.Companion.CIRCLE
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.FirebaseDatabase
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.support.HasSupportFragmentInjector
@@ -69,16 +75,51 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 		setUpDrawer()
 
 		viewModel.setUid(this.uid)
-		viewModel.getParent().observe(this) {
+		viewModel.getUser().observe(this) {
 			it ?: return@observe
 			IVan.setUser(applicationContext, it)
-			DataBindingUtils.loadFromFirebaseStorage(userThumbnailImageView, it, getDrawable(R.mipmap.ic_launcher_round), CIRCLE)
-			userNameTextView.text = it.fullName()
-			emailTextView.text = it.email
+			it.fold {
+				onLeft {
+					nav_view.menu.setGroupVisible(R.id.parentMenu, true)
+					nav_view.menu.setGroupVisible(R.id.driverMenu, false)
+					DataBindingUtils.loadFromFirebaseStorage(userThumbnailImageView, it, getDrawable(R.mipmap.ic_launcher_round), CIRCLE)
+					userNameTextView.text = it.fullName()
+					emailTextView.text = it.email
+				}
+				onRight {
+					nav_view.menu.setGroupVisible(R.id.parentMenu, false)
+					nav_view.menu.setGroupVisible(R.id.driverMenu, true)
+					DataBindingUtils.loadFromFirebaseStorage(userThumbnailImageView, it, getDrawable(R.mipmap.ic_launcher_round), CIRCLE)
+					userNameTextView.text = it.fullName()
+					emailTextView.text = it.email
+					setCar(it.getKeyOrId())
+				}
+			}
 		}
 
 		if (IVan.getCarNullable(applicationContext) == null) {
 			drawer_layout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
+		}
+	}
+
+	private fun setCar(uid: String) {
+		FirebaseDatabase.getInstance().reference.child("cars").addListenerForSingleValueEvent {
+			onDataChange {
+				val cars = listDeserializer<Car>().apply(it)
+				cars.filter {
+					it.drivers.forEach { driver ->
+						if (driver.getKeyOrId() == uid) {
+							return@filter true
+						}
+					}
+					return@filter false
+				}.also {
+					if (it.isNotEmpty()) {
+						IVan.setCar(applicationContext, it[0])
+						onCarSelect()
+					}
+				}
+			}
 		}
 	}
 
@@ -179,11 +220,11 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 				fragment = SelectCarFragment.newInstance(uid)
 				tag = SelectCarFragment.TAG
 			}
-			R.id.nav_car_tracking -> {
+			R.id.nav_car_tracking, R.id.nav_car_tracking_driver -> {
 				fragment = CarMapFragment.newInstance()
 				tag = CarMapFragment.TAG
 			}
-			R.id.nav_student_list -> {
+			R.id.nav_student_list, R.id.nav_student_list_driver -> {
 				fragment = StudentsFragment.newInstance()
 				tag = StudentsFragment.TAG
 			}
@@ -191,13 +232,27 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 				startActivity<DriverActivity>(DriverActivity.EXTRA_DRIVER_ID to IVan.getCar(applicationContext).drivers[0].getKeyOrId())
 				return
 			}
-			R.id.nav_profile -> {
-				startActivity<ParentActivity>(ParentActivity.EXTRA_PARENT_ID to IVan.getUser(applicationContext).getKeyOrId())
+			R.id.nav_profile, R.id.nav_profile_driver -> {
+				IVan.getUser(applicationContext).fold {
+					onLeft {
+						startActivity<ParentActivity>(ParentActivity.EXTRA_PARENT_ID to it.getKeyOrId())
+					}
+					onRight {
+						startActivity<DriverActivity>(DriverActivity.EXTRA_DRIVER_ID to it.getKeyOrId())
+					}
+				}
 				return
 			}
-			R.id.nav_notification -> {
+			R.id.nav_notification, R.id.nav_notification_driver -> {
 				fragment = NotificationFragment.newInstance()
 				tag = NotificationFragment.TAG
+			}
+			R.id.nav_logout -> {
+				FirebaseAuth.getInstance().signOut()
+				IVan.clear(applicationContext)
+				startActivity<LoginActivity>()
+				finish()
+				return
 			}
 			else -> {
 				return
