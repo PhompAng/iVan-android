@@ -8,7 +8,6 @@ import com.akexorcist.googledirection.model.Direction
 import com.akexorcist.googledirection.model.Leg
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.CircleCrop
-import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.request.RequestOptions
 import com.firebaseapp.ivan.ivan.model.*
 import com.firebaseapp.ivan.util.glide.GlideTransformClass
@@ -20,7 +19,6 @@ import com.firebaseapp.ivan.util.view.PhotoGridView
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import com.tolstykh.textviewrichdrawable.TextViewRichDrawable
-import timber.log.Timber
 
 
 /**
@@ -59,19 +57,6 @@ object DataBindingUtils {
 		} else {
 			refChild?.let {
 				glide.load(it.child(data.getKeyOrId())).apply(glideSetting).into(view)
-			}
-		}
-	}
-
-	@JvmStatic
-	@BindingAdapter("studentList")
-	fun fillMiniStudentList(view: LinearLayout, data: List<Student>) {
-		view.removeAllViews()
-		data.forEach {
-			if (it.parent == IVan.getUser(view.context).key) {
-				val studentView = MiniStudentView(view.context)
-				studentView.fillData(it)
-				view.addView(studentView)
 			}
 		}
 	}

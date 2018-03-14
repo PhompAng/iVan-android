@@ -3,7 +3,9 @@
 	xmlns:tools="http://schemas.android.com/tools"
 	tools:showIn="navigation_view">
 
-	<group android:checkableBehavior="single">
+	<group
+		android:id="@+id/parentMenu"
+		android:checkableBehavior="single">
 		<item
 			android:id="@+id/nav_select_car"
 			android:icon="@drawable/ic_format_list_bulleted_black_24dp"
@@ -30,4 +32,30 @@
 			android:title="@string/notification" />
 	</group>
 
+	<group
+		android:id="@+id/driverMenu"
+		android:checkableBehavior="single"
+		android:visible="false"
+		tools:visible="true">
+		<item
+			android:id="@+id/nav_car_tracking_driver"
+			android:icon="@drawable/ic_car_tracking"
+			android:title="@string/car_tracking" />
+		<item
+			android:id="@+id/nav_student_list_driver"
+			android:icon="@drawable/ic24_students"
+			android:title="@string/student_list" />
+		<item
+			android:id="@+id/nav_profile_driver"
+			android:icon="@drawable/ic_account_box_black_24dp"
+			android:title="@string/profile" />
+		<item
+			android:id="@+id/nav_notification_driver"
+			android:icon="@drawable/ic_notifications_black_24dp"
+			android:title="@string/notification" />
+	</group>
+
+	<item
+		android:id="@+id/nav_logout"
+		android:title="@string/logout" />
 </menu>

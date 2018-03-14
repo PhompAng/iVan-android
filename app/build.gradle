@@ -1,4 +1,6 @@
 apply plugin: 'com.android.application'
+apply plugin: 'io.fabric'
+apply plugin: 'com.google.firebase.firebase-perf'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
@@ -41,6 +43,9 @@ dependencies {
 	implementation project(':google-maps-bottomsheet')
 	implementation ('com.github.thekhaeng:recycler-margin:1.2.1') {
 		exclude group: 'com.android.support', module: 'recyclerview-v7'
+	}
+	implementation ('com.crashlytics.sdk.android:crashlytics:2.9.1@aar') {
+		transitive = true
 	}
 	implementation supportV4
 	implementation appcompatV7

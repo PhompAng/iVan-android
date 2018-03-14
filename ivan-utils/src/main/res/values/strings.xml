@@ -44,4 +44,5 @@
 	<string name="msg_no_email">Your device does not have the ability to send email.</string>
 
 	<string name="server_key">AIzaSyA6kKThlimCYp3zUDeb99R0-inhVwxTmLE</string>
+	<string name="logout">Logout</string>
 </resources>

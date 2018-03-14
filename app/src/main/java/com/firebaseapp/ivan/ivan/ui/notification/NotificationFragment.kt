@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import com.firebaseapp.ivan.ivan.R
 import com.firebaseapp.ivan.ivan.di.Injectable
 import com.firebaseapp.ivan.ivan.model.Notification
+import com.firebaseapp.ivan.ivan.model.monad.fold
 import com.firebaseapp.ivan.ivan.ui.notification.viewholder.NotificationViewHolderFactory
 import com.firebaseapp.ivan.ivan.utils.obtainViewModel
 import com.firebaseapp.ivan.util.IVan
@@ -76,7 +77,10 @@ class NotificationFragment : Fragment(), Injectable {
 
 	private fun setUpViewModel() {
 		viewModel = activity!!.obtainViewModel(NotificationViewModel::class.java)
-		viewModel.setUserId(user.getKeyOrId())
+		user.fold {
+			onLeft { viewModel.setUserId(it.getKeyOrId()) }
+			onRight { viewModel.setUserId(it.getKeyOrId()) }
+		}
 		viewModel.getNotifications().observe(this) {
 			viewFlipperProgressBarOwn.hideProgressBar()
 			it ?: return@observe
