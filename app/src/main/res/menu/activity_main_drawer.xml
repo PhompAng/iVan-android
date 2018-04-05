@@ -17,7 +17,7 @@
 		<item
 			android:id="@+id/nav_student_list"
 			android:icon="@drawable/ic24_students"
-			android:title="@string/student_list" />
+			android:title="@string/my_children" />
 		<item
 			android:id="@+id/nav_driver"
 			android:icon="@drawable/ic24_driver"

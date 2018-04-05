@@ -1,8 +1,8 @@
 package com.firebaseapp.ivan.ivan.ui.carmap
 
 import android.databinding.DataBindingUtil
+import android.graphics.Color
 import android.os.Bundle
-import android.support.design.widget.CoordinatorLayout
 import android.support.v4.app.Fragment
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.StaggeredGridLayoutManager
@@ -11,16 +11,22 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.ViewTreeObserver
 import android.widget.TextView
+import com.akexorcist.googledirection.model.Direction
+import com.akexorcist.googledirection.util.DirectionConverter
 import com.firebaseapp.ivan.ivan.BR
 import com.firebaseapp.ivan.ivan.R
 import com.firebaseapp.ivan.ivan.databinding.FragmentCarMapBinding
 import com.firebaseapp.ivan.ivan.delegate.DelegateMobilityStatus
 import com.firebaseapp.ivan.ivan.di.Injectable
+import com.firebaseapp.ivan.ivan.model.Route
+import com.firebaseapp.ivan.ivan.model.Student
+import com.firebaseapp.ivan.ivan.model.containNow
+import com.firebaseapp.ivan.ivan.model.monad.fold
 import com.firebaseapp.ivan.ivan.ui.carmap.viewholder.MobilityStatusViewHolderFactory
+import com.firebaseapp.ivan.ivan.utils.obtainViewModel
 import com.firebaseapp.ivan.util.IVan
 import com.firebaseapp.ivan.util.convertToPx
 import com.firebaseapp.ivan.util.observe
-import com.firebaseapp.ivan.ivan.utils.obtainViewModel
 import com.firebaseapp.ivan.util.view.ViewFlipperProgressBarOwn
 import com.github.reline.GoogleMapsBottomSheetBehavior
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -30,6 +36,7 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
+import com.google.gson.Gson
 import com.thekhaeng.recyclerviewmargin.LayoutMarginDecoration
 import com.wongnai.android.MultipleViewAdapter
 import com.wongnai.android.TYPE_0
@@ -50,6 +57,12 @@ class CarMapFragment : Fragment(), Injectable, OnMapReadyCallback {
 
 	private val car by lazy {
 		IVan.getCar(context!!)
+	}
+	private val user by lazy {
+		IVan.getUser(context!!)
+	}
+	private val gson by lazy {
+		Gson()
 	}
 	private val viewFlipperProgressBarOwn by lazy {
 		ViewFlipperProgressBarOwn(binding.viewFlipper)
@@ -104,6 +117,11 @@ class CarMapFragment : Fragment(), Injectable, OnMapReadyCallback {
 			mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng))
 			mMap.animateCamera(CameraUpdateFactory.zoomTo(15f))
 
+			user.fold {
+				onDriver {
+					setUpRoute()
+				}
+			}
 			adapter.clear()
 			adapter.add(DelegateMobilityStatus.getAvgSpeed(context!!, it), TYPE_0)
 			adapter.add(DelegateMobilityStatus.getOilLevel(context!!, it), TYPE_1)
@@ -111,6 +129,33 @@ class CarMapFragment : Fragment(), Injectable, OnMapReadyCallback {
 		viewModel.getSchool().observe(this) {
 			it ?: return@observe
 			binding.destinationTextView.text = it.name.th
+			//TODO school pin
+		}
+	}
+
+	private fun setUpRoute() {
+		if (car.time.morning.containNow()) {
+			renderRoute(car.route.morning.waypoints, car.route.morning)
+		} else if (car.time.evening.containNow()) {
+			renderRoute(car.route.evening.waypoints, car.route.evening)
+		}
+	}
+
+	private fun renderRoute(waypoints: List<Student>, route: Route) {
+		for (i in waypoints) {
+			mMap.addMarker(MarkerOptions().position(LatLng(i.location.lat, i.location.lng)).icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_waypoint)))
+		}
+		if (route.routes.isNotBlank()) {
+			val direction = gson.fromJson(route.routes, Direction::class.java)
+			direction?.let {
+				val legList = it.routeList[0].legList
+				for (leg in legList) {
+					val polylineOptionList = DirectionConverter.createTransitPolyline(context, leg.stepList, 4, Color.DKGRAY, 5, Color.LTGRAY)
+					for (polylineOption in polylineOptionList) {
+						mMap.addPolyline(polylineOption)
+					}
+				}
+			}
 		}
 	}
 

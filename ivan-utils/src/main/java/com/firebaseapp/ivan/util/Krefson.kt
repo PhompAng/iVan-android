@@ -2,16 +2,14 @@ package com.firebaseapp.ivan.util
 
 import android.content.Context
 import android.content.SharedPreferences
-import com.squareup.moshi.KotlinJsonAdapterFactory
-import com.squareup.moshi.Moshi
+import com.google.gson.Gson
 
 /**
  * @author phompang on 21/1/2018 AD.
  */
 open class Krefson(context: Context,
 				   val name: String = DEFAULT_NAME,
-				   val moshi: Moshi = Moshi.Builder()
-						   .add(KotlinJsonAdapterFactory()).build()) {
+				   val gson: Gson = Gson()){
 	companion object {
 		const val DEFAULT_NAME = "default"
 
@@ -26,15 +24,15 @@ open class Krefson(context: Context,
 		if (value == null) {
 			return value
 		}
-		return moshi.adapter<T>(T::class.java).fromJson(value)
+		return gson.fromJson(value, T::class.java)
 	}
 
 	inline operator fun <reified T> get(key: String, default: T): T {
-		return moshi.adapter(T::class.java).fromJson(sharedPreferences.getString(key, null)) ?: default
+		return gson.fromJson(sharedPreferences.getString(key, null), T::class.java) ?: default
 	}
 
 	inline operator fun <reified T> set(key: String, value: T) {
-		sharedPreferences.edit().putString(key, moshi.adapter(T::class.java).toJson(value)).apply()
+		sharedPreferences.edit().putString(key, gson.toJson(value)).apply()
 	}
 
 	operator fun contains(key: String): Boolean {

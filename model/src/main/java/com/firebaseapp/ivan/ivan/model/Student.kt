@@ -18,3 +18,5 @@ data class Student(@get:PropertyName("address") @set:PropertyName("address") var
 }
 
 fun Student.fullName(): String = "${this.name.thFirst} ${this.name.thLast}"
+
+//TODO car_history

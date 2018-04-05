@@ -34,7 +34,7 @@ class HomeLocationViewHolderFactory : ViewHolderFactory<DelegateStudent> {
 
 		override fun fillData(data: DelegateStudent, position: Int) {
 			val student = data.student
-			itemView.staticMapView.setOnClickListener {
+			itemView.locationView.setOnClickListener {
 				getContext().startActivity<MapActivity>(MapActivity.EXTRA_LOCATION to student.location)
 			}
 			DataBindingUtils.setImageUrl(
