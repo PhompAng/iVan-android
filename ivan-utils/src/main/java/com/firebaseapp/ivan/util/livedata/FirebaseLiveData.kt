@@ -18,11 +18,13 @@ class FirebaseLiveData<T> : LiveData<DataSnapshot> {
 	constructor(query: Query, deserializer: Function<DataSnapshot, T>) {
 		this.query = query
 		this.deserializer = deserializer
+		Timber.d(query.ref.toString())
 	}
 
 	constructor(ref: DatabaseReference, deserializer: Function<DataSnapshot, T>) {
 		this.query = ref
 		this.deserializer = deserializer
+		Timber.d(query.ref.toString())
 	}
 
 	override fun onActive() {

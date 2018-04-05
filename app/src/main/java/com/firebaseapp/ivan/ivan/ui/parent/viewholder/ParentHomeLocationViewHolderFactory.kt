@@ -33,7 +33,7 @@ class ParentHomeLocationViewHolderFactory: ViewHolderFactory<Parent> {
 		}
 
 		override fun fillData(data: Parent, position: Int) {
-			itemView.staticMapView.setOnClickListener {
+			itemView.locationView.setOnClickListener {
 				getContext().startActivity<MapActivity>(MapActivity.EXTRA_LOCATION to data.location)
 			}
 			DataBindingUtils.setImageUrl(

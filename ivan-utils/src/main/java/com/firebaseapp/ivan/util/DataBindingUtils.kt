@@ -3,22 +3,22 @@ package com.firebaseapp.ivan.util
 import android.databinding.BindingAdapter
 import android.graphics.drawable.Drawable
 import android.widget.ImageView
-import android.widget.LinearLayout
 import com.akexorcist.googledirection.model.Direction
 import com.akexorcist.googledirection.model.Leg
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.CircleCrop
 import com.bumptech.glide.request.RequestOptions
 import com.firebaseapp.ivan.ivan.model.*
+import com.firebaseapp.ivan.ivan.model.monad.fold
 import com.firebaseapp.ivan.util.glide.GlideTransformClass
 import com.firebaseapp.ivan.util.glide.GlideTransformClass.Companion.CIRCLE
 import com.firebaseapp.ivan.util.glide.GlideTransformClass.Companion.ROUND_CORNER
 import com.firebaseapp.ivan.util.glide.RoundedCornersTransformation
-import com.firebaseapp.ivan.util.view.MiniStudentView
 import com.firebaseapp.ivan.util.view.PhotoGridView
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import com.tolstykh.textviewrichdrawable.TextViewRichDrawable
+import timber.log.Timber
 
 
 /**
@@ -64,7 +64,23 @@ object DataBindingUtils {
 	@JvmStatic
 	@BindingAdapter("fill_data")
 	fun fillData(view: PhotoGridView, data: List<Student>) {
-		view.fillData(data)
+		val user = IVan.getUser(view.context)
+		var isDriver = false
+		var parent: Parent? = null
+		user.fold {
+			onParent {
+				isDriver = false
+				parent = it
+			}
+			onDriver { isDriver = true }
+		}
+		val result = mutableListOf<Student>()
+		data.forEach {
+			if (isDriver || it.parent == parent?.getKeyOrId()) {
+				result.add(it)
+			}
+		}
+		view.fillData(result)
 	}
 
 	@JvmStatic
@@ -84,8 +100,9 @@ object DataBindingUtils {
 		if (data == null) {
 			view.text = formatTime(view.context, null)
 		} else {
-			estimateTime(view.context, Location(data.lat, data.lng), parentLocation, { direction: Direction?, _ ->
+			estimateTime(view.context, Location(data.lat, data.lng), parentLocation, { direction: Direction?, rawBody ->
 				direction?.let {
+					Timber.d(rawBody)
 					val time = it.routeList[0].legList.fold(0) { acc: Int, leg: Leg? ->
 						when (leg) {
 							null -> acc

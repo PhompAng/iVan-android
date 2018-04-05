@@ -79,15 +79,16 @@ class StudentsFragment : Fragment(), Injectable {
 		var isDriver = false
 		var parent: Parent? = null
 		user.fold {
-			onLeft {
+			onParent {
 				isDriver = false
 				parent = it
 			}
-			onRight { isDriver = true }
+			onDriver { isDriver = true }
 		}
 		car.students.forEach {
-			if (isDriver || it.parent == parent?.getKeyOrId())
-			adapter.add(it, TYPE_0)
+			if (isDriver || it.parent == parent?.getKeyOrId()) {
+				adapter.add(it, TYPE_0)
+			}
 		}
 		carPlateNumberTextView.text = car.plateNumber
 		provinceTextView.text = car.province

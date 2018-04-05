@@ -78,8 +78,8 @@ class NotificationFragment : Fragment(), Injectable {
 	private fun setUpViewModel() {
 		viewModel = activity!!.obtainViewModel(NotificationViewModel::class.java)
 		user.fold {
-			onLeft { viewModel.setUserId(it.getKeyOrId()) }
-			onRight { viewModel.setUserId(it.getKeyOrId()) }
+			onParent { viewModel.setUserId(it.getKeyOrId()) }
+			onDriver { viewModel.setUserId(it.getKeyOrId()) }
 		}
 		viewModel.getNotifications().observe(this) {
 			viewFlipperProgressBarOwn.hideProgressBar()

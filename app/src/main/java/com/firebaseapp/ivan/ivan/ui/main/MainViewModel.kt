@@ -4,7 +4,7 @@ import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
 import com.firebaseapp.ivan.ivan.model.*
-import com.firebaseapp.ivan.ivan.model.monad.Either
+import com.firebaseapp.ivan.ivan.model.monad.Users
 import com.firebaseapp.ivan.ivan.model.monad.left
 import com.firebaseapp.ivan.ivan.model.monad.right
 import com.firebaseapp.ivan.util.either
@@ -28,7 +28,7 @@ class MainViewModel : ViewModel() {
 		this.userUid.value = uid
 	}
 
-	fun getUser(): LiveData<Either<Parent, Driver>> {
+	fun getUser(): LiveData<Users<Parent, Driver>> {
 		return user.either {
 			when (it.role) {
 				Role.PARENT -> {

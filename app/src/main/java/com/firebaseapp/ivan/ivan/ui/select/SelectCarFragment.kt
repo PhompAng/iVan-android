@@ -9,7 +9,7 @@ import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.firebaseapp.ivan.ivan.EXTRA_UID
+import com.firebaseapp.ivan.util.EXTRA_UID
 import com.firebaseapp.ivan.ivan.R
 import com.firebaseapp.ivan.ivan.delegate.DelegateCar
 import com.firebaseapp.ivan.ivan.di.Injectable
@@ -74,7 +74,6 @@ class SelectCarFragment : Fragment(), Injectable {
 			viewFlipperProgressBarOwn.hideProgressBar()
 			adapter.clear()
 			list.forEach {
-				Timber.d(it.toString())
 				FirebaseMessaging.getInstance().subscribeToTopic(it.key)
 				parent?.let { p ->
 					adapter.add(DelegateCar(it, p), TYPE_0)

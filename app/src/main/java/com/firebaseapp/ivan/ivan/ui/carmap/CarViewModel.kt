@@ -13,13 +13,13 @@ import com.google.firebase.database.FirebaseDatabase
  * @author phompang on 22/1/2018 AD.
  */
 class CarViewModel : ViewModel() {
-	private val carRef = FirebaseDatabase.getInstance().reference.child("cars")
 	private val schoolRef = FirebaseDatabase.getInstance().reference.child("schools")
+	private val mobilityStatusRef = FirebaseDatabase.getInstance().reference.child("mobility_status")
 
 	private var car = MutableLiveData<Car>()
 	private var status = car
 			.switchMap {
-				FirebaseLiveData(carRef.child(it.getKeyOrId()).child("mobility_status").limitToLast(1), listDeserializer<MobilityStatus>()).getLiveData()
+				FirebaseLiveData(mobilityStatusRef.child(it.school).child(it.getKeyOrId()).limitToLast(1), listDeserializer<MobilityStatus>()).getLiveData()
 			}
 			.map {
 				if (it.isEmpty()) {

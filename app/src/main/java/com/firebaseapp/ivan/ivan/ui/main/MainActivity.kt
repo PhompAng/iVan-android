@@ -13,7 +13,7 @@ import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
-import com.firebaseapp.ivan.ivan.EXTRA_UID
+import com.firebaseapp.ivan.util.EXTRA_UID
 import com.firebaseapp.ivan.ivan.R
 import com.firebaseapp.ivan.ivan.model.Car
 import com.firebaseapp.ivan.ivan.model.fullName
@@ -79,14 +79,14 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 			it ?: return@observe
 			IVan.setUser(applicationContext, it)
 			it.fold {
-				onLeft {
+				onParent {
 					nav_view.menu.setGroupVisible(R.id.parentMenu, true)
 					nav_view.menu.setGroupVisible(R.id.driverMenu, false)
 					DataBindingUtils.loadFromFirebaseStorage(userThumbnailImageView, it, getDrawable(R.mipmap.ic_launcher_round), CIRCLE)
 					userNameTextView.text = it.fullName()
 					emailTextView.text = it.email
 				}
-				onRight {
+				onDriver {
 					nav_view.menu.setGroupVisible(R.id.parentMenu, false)
 					nav_view.menu.setGroupVisible(R.id.driverMenu, true)
 					DataBindingUtils.loadFromFirebaseStorage(userThumbnailImageView, it, getDrawable(R.mipmap.ic_launcher_round), CIRCLE)
@@ -234,10 +234,10 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 			}
 			R.id.nav_profile, R.id.nav_profile_driver -> {
 				IVan.getUser(applicationContext).fold {
-					onLeft {
+					onParent {
 						startActivity<ParentActivity>(ParentActivity.EXTRA_PARENT_ID to it.getKeyOrId())
 					}
-					onRight {
+					onDriver {
 						startActivity<DriverActivity>(DriverActivity.EXTRA_DRIVER_ID to it.getKeyOrId())
 					}
 				}

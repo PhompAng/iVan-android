@@ -5,7 +5,7 @@ import com.firebaseapp.ivan.livedataadapter.LiveDataCallAdapterFactory
 import dagger.Module
 import dagger.Provides
 import retrofit2.Retrofit
-import retrofit2.converter.moshi.MoshiConverterFactory
+import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
 
 /**
@@ -23,7 +23,7 @@ internal class AppModule {
 	fun provideRetrofit(): Retrofit {
 		return Retrofit.Builder()
 				.baseUrl("http://35.201.251.192:3000")
-				.addConverterFactory(MoshiConverterFactory.create())
+				.addConverterFactory(GsonConverterFactory.create())
 				.addCallAdapterFactory(LiveDataCallAdapterFactory())
 				.build()
 	}

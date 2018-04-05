@@ -1,25 +1,41 @@
 package com.firebaseapp.ivan.ivan.service
 
-import android.util.Log
+import android.os.Bundle
+import com.firebaseapp.ivan.ivan.helper.NotificationHelper
+import com.firebaseapp.ivan.util.*
+import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
-import com.firebaseapp.ivan.ivan.helper.NotificationHelper
+import timber.log.Timber
 
 
 /**
- * Created by phompang on 12/13/2017 AD.
- */
+* @author phompang on 12/13/2017 AD.
+*/
 class MyFirebaseMessagingService: FirebaseMessagingService() {
-
-	companion object {
-		private val TAG = MyFirebaseMessagingService::class.java.simpleName
-	}
 
 	override fun onMessageReceived(remoteMessage: RemoteMessage?) {
 		remoteMessage?.notification?.let {
-			Log.d(TAG, "onMessageReceived" + it.body)
+			Timber.d( "${it.title}: ${it.body}")
 			sendNotification(it.title, it.body)
 		}
+		remoteMessage?.data?.let {
+			if (it.isNotEmpty()) {
+				Timber.d(it.toString())
+				when (it[PAYLOAD_TYPE]) {
+					NOTIFICATION_TYPE_ALERT -> logAnalytic(it)
+				}
+			}
+		}
+	}
+
+	private fun logAnalytic(data: Map<String, String>) {
+		val analytic = FirebaseAnalytics.getInstance(this)
+		val bundle = Bundle().apply {
+			putString(PARAM_CAR_ID, data[PAYLOAD_CAR_ID])
+			putString(PARAM_SCHOOL_ID, data[PAYLOAD_SCHOOL_ID])
+		}
+		analytic.logEvent(EVENT_ALERT, bundle)
 	}
 
 	private fun sendNotification(title: String?, body: String?) {

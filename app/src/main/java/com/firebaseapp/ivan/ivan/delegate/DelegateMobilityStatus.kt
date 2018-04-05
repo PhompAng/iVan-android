@@ -25,7 +25,7 @@ data class DelegateMobilityStatus(var title: String = "",
 
 		fun getOilLevel(context: Context, mobilityStatus: MobilityStatus): DelegateMobilityStatus {
 			return DelegateMobilityStatus(
-					context.getString(R.string.oil_level),
+					context.getString(R.string.fuel_level),
 					context.getString(R.string.percent_value, mobilityStatus.oilLevel.toFloat()),
 					mobilityStatus.oilLevel.toFloat(),
 					100F,

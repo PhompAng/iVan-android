@@ -20,7 +20,7 @@ import com.wongnai.android.*
 
 class SelectCarViewHolderFactory(val onCarClickListener: TypeItemEventListener<DelegateCar>) : ViewHolderFactory<DelegateCar> {
 	private val schoolRef = FirebaseDatabase.getInstance().reference.child("schools")
-	private val mobilityStatusRef = FirebaseDatabase.getInstance().reference.child("cars")
+	private val mobilityStatusRef = FirebaseDatabase.getInstance().reference.child("mobility_status")
 
 	override fun create(parent: ViewGroup?): ItemViewHolder<DelegateCar> {
 		return SelectCarViewHolder(
@@ -42,7 +42,7 @@ class SelectCarViewHolderFactory(val onCarClickListener: TypeItemEventListener<D
 				}
 			}
 
-			mobilityStatusRef.child(data.car.getKeyOrId()).child("mobility_status").limitToLast(1).addListenerForSingleValueEvent {
+			mobilityStatusRef.child(data.car.school).child(data.car.getKeyOrId()).limitToLast(1).addListenerForSingleValueEvent {
 				onDataChange {
 					val mobilityStatus = listDeserializer<MobilityStatus>().apply(it)
 					if (mobilityStatus.isNotEmpty()) {
