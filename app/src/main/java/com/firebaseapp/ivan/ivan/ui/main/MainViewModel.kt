@@ -5,8 +5,9 @@ import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
 import com.firebaseapp.ivan.ivan.model.*
 import com.firebaseapp.ivan.ivan.model.monad.Users
-import com.firebaseapp.ivan.ivan.model.monad.left
-import com.firebaseapp.ivan.ivan.model.monad.right
+import com.firebaseapp.ivan.ivan.model.monad.parent
+import com.firebaseapp.ivan.ivan.model.monad.driver
+import com.firebaseapp.ivan.ivan.model.monad.teacher
 import com.firebaseapp.ivan.util.either
 import com.firebaseapp.ivan.util.livedata.FirebaseLiveData
 import com.firebaseapp.ivan.util.switchMap
@@ -19,6 +20,7 @@ class MainViewModel : ViewModel() {
 	private val userRef = FirebaseDatabase.getInstance().reference.child("users")
 	private val parentRef = FirebaseDatabase.getInstance().reference.child("parents")
 	private val driverRef = FirebaseDatabase.getInstance().reference.child("drivers")
+	private val teacherRef = FirebaseDatabase.getInstance().reference.child("teachers")
 	private var userUid = MutableLiveData<String>()
 	private var user = userUid.switchMap {
 		FirebaseLiveData(userRef.child(it), deserializer<User>()).getLiveData()
@@ -28,11 +30,11 @@ class MainViewModel : ViewModel() {
 		this.userUid.value = uid
 	}
 
-	fun getUser(): LiveData<Users<Parent, Driver>> {
+	fun getUser(): LiveData<Users<Parent, Driver, Teacher>> {
 		return user.either {
 			when (it.role) {
 				Role.PARENT -> {
-					left(
+					parent(
 							FirebaseLiveData(
 									parentRef.child(it.getKeyOrId()),
 									deserializer<Parent>()
@@ -40,12 +42,20 @@ class MainViewModel : ViewModel() {
 					)
 				}
 				Role.DRIVER -> {
-						right(
+						driver(
 								FirebaseLiveData(
 										driverRef.child(it.getKeyOrId()),
 										deserializer<Driver>()
 								).getLiveData()
 						)
+				}
+				Role.TEACHER -> {
+					teacher(
+							FirebaseLiveData(
+									teacherRef.child(it.getKeyOrId()),
+									deserializer<Teacher>()
+							).getLiveData()
+					)
 				}
 				else -> throw IllegalArgumentException("aaa")
 			}

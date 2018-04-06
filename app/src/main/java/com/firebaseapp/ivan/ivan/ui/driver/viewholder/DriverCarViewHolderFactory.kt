@@ -18,7 +18,7 @@ class DriverCarViewHolderFactory : ViewHolderFactory<Car> {
 		return DriverCarViewHolder(parent!!.inflate(R.layout.view_item_driver_car))
 	}
 
-	inner class DriverCarViewHolder(container: View) : NormalViewHolder<Car>(container) {
+	private inner class DriverCarViewHolder(container: View) : NormalViewHolder<Car>(container) {
 		override fun fillData(data: Car, position: Int) {
 			itemView.carContactView.hint = data.province
 			itemView.carContactView.fillData(data.plateNumber)

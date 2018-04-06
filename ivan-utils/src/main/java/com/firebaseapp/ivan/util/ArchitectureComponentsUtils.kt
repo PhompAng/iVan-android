@@ -1,10 +1,7 @@
 package com.firebaseapp.ivan.util
 
 import android.arch.lifecycle.*
-import com.firebaseapp.ivan.ivan.model.monad.Users
-import com.firebaseapp.ivan.ivan.model.monad.fold
-import com.firebaseapp.ivan.ivan.model.monad.left
-import com.firebaseapp.ivan.ivan.model.monad.right
+import com.firebaseapp.ivan.ivan.model.monad.*
 
 /**
  * @author phompang on 9/1/2018 AD.
@@ -57,31 +54,38 @@ fun <T> LiveData<List<T>>.filter(condition: (T) -> Boolean): LiveData<List<T>> {
 	return result
 }
 
-fun <A, B, C> LiveData<C>.either(condition: (C) -> Users<LiveData<A>, LiveData<B>>): LiveData<Users<A, B>> {
-	return MediatorLiveData<Users<A, B>>().apply {
-		var e: Users<LiveData<A>, LiveData<B>>? = null
+fun <A, B, C, D> LiveData<D>.either(condition: (D) -> Users<LiveData<A>, LiveData<B>, LiveData<C>>): LiveData<Users<A, B, C>> {
+	return MediatorLiveData<Users<A, B, C>>().apply {
+		var e: Users<LiveData<A>, LiveData<B>, LiveData<C>>? = null
 
 		fun update() {
 			e.fold {
 				onParent {
 					addSource(it) { a ->
 						a?.let {
-							this@apply.value = left(it)
+							this@apply.value = parent(it)
 						}
 					}
 				}
 				onDriver {
 					addSource(it) { b ->
 						b?.let {
-							this@apply.value = right(it)
+							this@apply.value = driver(it)
+						}
+					}
+				}
+				onTeacher {
+					addSource(it) { c ->
+						c?.let {
+							this@apply.value = teacher(it)
 						}
 					}
 				}
 			}
 		}
 
-		addSource(this@either) { c: C? ->
-			c?.let {
+		addSource(this@either) { d: D? ->
+			d?.let {
 				e = condition(it)
 				update()
 			}

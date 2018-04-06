@@ -16,6 +16,7 @@ import android.view.MenuItem
 import com.firebaseapp.ivan.util.EXTRA_UID
 import com.firebaseapp.ivan.ivan.R
 import com.firebaseapp.ivan.ivan.model.Car
+import com.firebaseapp.ivan.ivan.model.Role
 import com.firebaseapp.ivan.ivan.model.fullName
 import com.firebaseapp.ivan.ivan.model.listDeserializer
 import com.firebaseapp.ivan.ivan.model.monad.fold
@@ -26,6 +27,7 @@ import com.firebaseapp.ivan.ivan.ui.notification.NotificationFragment
 import com.firebaseapp.ivan.ivan.ui.parent.ParentActivity
 import com.firebaseapp.ivan.ivan.ui.select.SelectCarFragment
 import com.firebaseapp.ivan.ivan.ui.students.StudentsFragment
+import com.firebaseapp.ivan.ivan.ui.teacher.TeacherActivity
 import com.firebaseapp.ivan.ivan.utils.obtainViewModel
 import com.firebaseapp.ivan.util.*
 import com.firebaseapp.ivan.util.glide.GlideTransformClass.Companion.CIRCLE
@@ -82,6 +84,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 				onParent {
 					nav_view.menu.setGroupVisible(R.id.parentMenu, true)
 					nav_view.menu.setGroupVisible(R.id.driverMenu, false)
+					nav_view.menu.setGroupVisible(R.id.teacherMenu, false)
 					DataBindingUtils.loadFromFirebaseStorage(userThumbnailImageView, it, getDrawable(R.mipmap.ic_launcher_round), CIRCLE)
 					userNameTextView.text = it.fullName()
 					emailTextView.text = it.email
@@ -89,10 +92,20 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 				onDriver {
 					nav_view.menu.setGroupVisible(R.id.parentMenu, false)
 					nav_view.menu.setGroupVisible(R.id.driverMenu, true)
+					nav_view.menu.setGroupVisible(R.id.teacherMenu, false)
 					DataBindingUtils.loadFromFirebaseStorage(userThumbnailImageView, it, getDrawable(R.mipmap.ic_launcher_round), CIRCLE)
 					userNameTextView.text = it.fullName()
 					emailTextView.text = it.email
-					setCar(it.getKeyOrId())
+					setCar(it.getKeyOrId(), Role.DRIVER)
+				}
+				onTeacher {
+					nav_view.menu.setGroupVisible(R.id.parentMenu, false)
+					nav_view.menu.setGroupVisible(R.id.driverMenu, false)
+					nav_view.menu.setGroupVisible(R.id.teacherMenu, true)
+					DataBindingUtils.loadFromFirebaseStorage(userThumbnailImageView, it, getDrawable(R.mipmap.ic_launcher_round), CIRCLE)
+					userNameTextView.text = it.fullName()
+					emailTextView.text = it.email
+					setCar(it.getKeyOrId(), Role.TEACHER)
 				}
 			}
 		}
@@ -102,14 +115,22 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 		}
 	}
 
-	private fun setCar(uid: String) {
+	private fun setCar(uid: String, role: Int) {
 		FirebaseDatabase.getInstance().reference.child("cars").addListenerForSingleValueEvent {
 			onDataChange {
 				val cars = listDeserializer<Car>().apply(it)
 				cars.filter {
-					it.drivers.forEach { driver ->
-						if (driver.getKeyOrId() == uid) {
-							return@filter true
+					if (role == Role.DRIVER) {
+						it.drivers.forEach { driver ->
+							if (driver.getKeyOrId() == uid) {
+								return@filter true
+							}
+						}
+					} else if (role == Role.TEACHER) {
+						it.teachers.forEach { teacher ->
+							if (teacher.getKeyOrId() == uid) {
+								return@filter true
+							}
 						}
 					}
 					return@filter false
@@ -220,19 +241,19 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 				fragment = SelectCarFragment.newInstance(uid)
 				tag = SelectCarFragment.TAG
 			}
-			R.id.nav_car_tracking, R.id.nav_car_tracking_driver -> {
+			R.id.nav_car_tracking, R.id.nav_car_tracking_driver, R.id.nav_car_tracking_teacher -> {
 				fragment = CarMapFragment.newInstance()
 				tag = CarMapFragment.TAG
 			}
-			R.id.nav_student_list, R.id.nav_student_list_driver -> {
+			R.id.nav_student_list, R.id.nav_student_list_driver, R.id.nav_student_list_teacher -> {
 				fragment = StudentsFragment.newInstance()
 				tag = StudentsFragment.TAG
 			}
-			R.id.nav_driver -> {
+			R.id.nav_driver, R.id.nav_driver_teacher -> {
 				startActivity<DriverActivity>(DriverActivity.EXTRA_DRIVER_ID to IVan.getCar(applicationContext).drivers[0].getKeyOrId())
 				return
 			}
-			R.id.nav_profile, R.id.nav_profile_driver -> {
+			R.id.nav_profile, R.id.nav_profile_driver, R.id.nav_profile_teacher -> {
 				IVan.getUser(applicationContext).fold {
 					onParent {
 						startActivity<ParentActivity>(ParentActivity.EXTRA_PARENT_ID to it.getKeyOrId())
@@ -240,10 +261,13 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 					onDriver {
 						startActivity<DriverActivity>(DriverActivity.EXTRA_DRIVER_ID to it.getKeyOrId())
 					}
+					onTeacher {
+						startActivity<TeacherActivity>(TeacherActivity.EXTRA_TEACHER_ID to it.getKeyOrId())
+					}
 				}
 				return
 			}
-			R.id.nav_notification, R.id.nav_notification_driver -> {
+			R.id.nav_notification, R.id.nav_notification_driver, R.id.nav_notification_teacher -> {
 				fragment = NotificationFragment.newInstance()
 				tag = NotificationFragment.TAG
 			}

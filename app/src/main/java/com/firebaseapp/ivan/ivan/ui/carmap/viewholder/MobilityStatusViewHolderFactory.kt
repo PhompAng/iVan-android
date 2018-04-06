@@ -8,7 +8,6 @@ import android.view.View
 import android.view.ViewGroup
 import com.firebaseapp.ivan.ivan.R
 import com.firebaseapp.ivan.ivan.delegate.DelegateMobilityStatus
-import com.firebaseapp.ivan.util.getRelativeTime
 import com.wongnai.android.ItemViewHolder
 import com.wongnai.android.NormalViewHolder
 import com.wongnai.android.ViewHolderFactory
@@ -38,9 +37,6 @@ class MobilityStatusViewHolderFactory(
 			itemView.valueTextView.text = data.valueText
 
 			val percent = 100 * data.value / data.maxProgress
-
-			itemView.lastUpdateTextView.text = data.timestamp.getRelativeTime(getContext())
-
 			val color: Int = argbEvaluator.evaluate(percent / 100, minColor, maxColor) as Int
 			itemView.valueTextView.setTextColor(color)
 		}

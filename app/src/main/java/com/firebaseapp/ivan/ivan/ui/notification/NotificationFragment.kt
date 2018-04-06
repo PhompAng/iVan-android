@@ -27,7 +27,7 @@ import kotlinx.android.synthetic.main.fragment_recyclerview.*
 class NotificationFragment : Fragment(), Injectable {
 
 	private lateinit var viewModel: NotificationViewModel
-	private val adapter = MultipleViewAdapter<Notification>(1)
+	private val adapter = MultipleViewAdapter(1)
 	private val user by lazy {
 		IVan.getUser(context!!)
 	}
@@ -80,6 +80,7 @@ class NotificationFragment : Fragment(), Injectable {
 		user.fold {
 			onParent { viewModel.setUserId(it.getKeyOrId()) }
 			onDriver { viewModel.setUserId(it.getKeyOrId()) }
+			onTeacher { viewModel.setUserId(it.getKeyOrId()) }
 		}
 		viewModel.getNotifications().observe(this) {
 			viewFlipperProgressBarOwn.hideProgressBar()

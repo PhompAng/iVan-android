@@ -11,3 +11,5 @@ data class Teacher(@get:PropertyName("car") @set:PropertyName("car") var car: St
 				   @get:PropertyName("school") @set:PropertyName("school") var school: String = "",
 				   @get:PropertyName("text") @set:PropertyName("text") var text: String = "",
 				   @get:PropertyName("telephone") @set:PropertyName("telephone") var telephone: String = "") : FirebaseModel()
+
+fun Teacher.fullName(): String = "${this.name.thFirst} ${this.name.thLast}"

@@ -26,6 +26,7 @@ import com.firebaseapp.ivan.ivan.ui.carmap.viewholder.MobilityStatusViewHolderFa
 import com.firebaseapp.ivan.ivan.utils.obtainViewModel
 import com.firebaseapp.ivan.util.IVan
 import com.firebaseapp.ivan.util.convertToPx
+import com.firebaseapp.ivan.util.getRelativeTime
 import com.firebaseapp.ivan.util.observe
 import com.firebaseapp.ivan.util.view.ViewFlipperProgressBarOwn
 import com.github.reline.GoogleMapsBottomSheetBehavior
@@ -41,7 +42,6 @@ import com.thekhaeng.recyclerviewmargin.LayoutMarginDecoration
 import com.wongnai.android.MultipleViewAdapter
 import com.wongnai.android.TYPE_0
 import com.wongnai.android.TYPE_1
-import me.zhanghai.android.materialratingbar.MaterialRatingBar
 
 /**
  * @author phompang on 21/1/2018 AD.
@@ -52,8 +52,10 @@ class CarMapFragment : Fragment(), Injectable, OnMapReadyCallback {
 	private lateinit var mapView: MapView
 	private lateinit var mMap: GoogleMap
 	private lateinit var bottomSheet: GoogleMapsBottomSheetBehavior<View>
+	private lateinit var carConditionTextView: TextView
+	private lateinit var lastUpdateTextView: TextView
 	private lateinit var recyclerView: RecyclerView
-	private val adapter = MultipleViewAdapter<DelegateMobilityStatus>(1)
+	private val adapter = MultipleViewAdapter(1)
 
 	private val car by lazy {
 		IVan.getCar(context!!)
@@ -121,10 +123,16 @@ class CarMapFragment : Fragment(), Injectable, OnMapReadyCallback {
 				onDriver {
 					setUpRoute()
 				}
+				onTeacher {
+					setUpRoute()
+				}
 			}
 			adapter.clear()
 			adapter.add(DelegateMobilityStatus.getAvgSpeed(context!!, it), TYPE_0)
 			adapter.add(DelegateMobilityStatus.getOilLevel(context!!, it), TYPE_1)
+
+			carConditionTextView.text = "4.66"
+			lastUpdateTextView.text = it.timestamp.getRelativeTime(context!!)
 		}
 		viewModel.getSchool().observe(this) {
 			it ?: return@observe
@@ -188,7 +196,8 @@ class CarMapFragment : Fragment(), Injectable, OnMapReadyCallback {
 			it.findViewById<TextView>(R.id.provinceTextView).text = car.province
 		}
 		bottomSheet.contentLayout?.let {
-			it.findViewById<MaterialRatingBar>(R.id.carCondition).rating = 5F
+			carConditionTextView = it.findViewById(R.id.carConditionTextView)
+			lastUpdateTextView = it.findViewById(R.id.lastUpdateTextView)
 			recyclerView = it.findViewById(R.id.statusRecyclerView)
 			recyclerView.layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
 			recyclerView.addItemDecoration(LayoutMarginDecoration(2, convertToPx(context!!, 2)))

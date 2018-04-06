@@ -24,4 +24,8 @@ dependencies {
 	implementation design
 	implementation "com.google.android.gms:play-services-maps:$googleServicesLibVersion"
 	testImplementation 'junit:junit:4.12'
+	compile "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+}
+repositories {
+	mavenCentral()
 }

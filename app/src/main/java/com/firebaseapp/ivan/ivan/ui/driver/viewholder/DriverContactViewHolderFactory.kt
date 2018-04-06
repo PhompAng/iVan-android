@@ -23,7 +23,7 @@ class DriverContactViewHolderFactory : ViewHolderFactory<Car> {
 		return DriverContactViewHolder(parent!!.inflate(R.layout.view_item_contact))
 	}
 
-	inner class DriverContactViewHolder(container: View) : NormalViewHolder<Car>(container) {
+	private inner class DriverContactViewHolder(container: View) : NormalViewHolder<Car>(container) {
 		override fun fillData(data: Car, position: Int) {
 			itemView.phoneContactView.setOnClickListener(OnTypeClickListener { _, t ->
 				t?.let {

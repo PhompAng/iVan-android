@@ -23,7 +23,7 @@ import timber.log.Timber
  * @author phompang on 20/2/2018 AD.
  */
 class ParentFragment : Fragment(), INotifyDataSetChanged {
-	private val adapter = MultipleViewAdapter<Parent>(2)
+	private val adapter = MultipleViewAdapter(2)
 	private var parent: Parent? = null
 
 	private val viewFlipperProgressBarOwn by lazy {

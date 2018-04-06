@@ -30,6 +30,7 @@
 	<string name="notification">Notification</string>
 
 	<string name="condition">Condition</string>
+	<string name="last_update">Last Update</string>
 	<string name="avg_speed">Average Speed</string>
 	<string name="avg_speed_value">%1$.2f Km/hr</string>
 	<string name="fuel_level">Fuel Level</string>

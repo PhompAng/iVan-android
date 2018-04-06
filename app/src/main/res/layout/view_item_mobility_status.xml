@@ -5,41 +5,30 @@
 	android:layout_width="match_parent"
 	android:layout_height="wrap_content"
 	android:background="@android:color/white"
-	android:padding="@dimen/space_normal">
+	android:padding="@dimen/space_large">
+
+	<TextView
+		android:id="@+id/valueTextView"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:fontFamily="@font/kanit_light"
+		android:textColor="@color/colorPrimary"
+		android:textSize="@dimen/text_large_3"
+		app:layout_constraintLeft_toLeftOf="parent"
+		app:layout_constraintTop_toTopOf="parent"
+		app:layout_constraintRight_toRightOf="parent"
+		tools:text="90 Km/hr" />
 
 	<TextView
 		android:id="@+id/titleTextView"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
 		android:fontFamily="@font/kanit_light"
-		android:textColor="@color/textColor"
+		android:textColor="@color/grey600"
 		android:textSize="@dimen/text_normal"
-		app:layout_constraintLeft_toLeftOf="parent"
-		app:layout_constraintTop_toTopOf="parent"
+		app:layout_constraintTop_toBottomOf="@+id/valueTextView"
+		app:layout_constraintLeft_toLeftOf="@+id/valueTextView"
+		app:layout_constraintRight_toRightOf="@+id/valueTextView"
 		tools:text="Average Speed" />
 
-	<TextView
-		android:id="@+id/valueTextView"
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:layout_marginTop="@dimen/space_large_24dp"
-		android:fontFamily="@font/kanit_medium"
-		android:textColor="@color/colorPrimary"
-		android:textSize="@dimen/text_large_3"
-		app:layout_constraintLeft_toLeftOf="parent"
-		app:layout_constraintRight_toRightOf="parent"
-		app:layout_constraintTop_toBottomOf="@+id/titleTextView"
-		tools:text="90 Km/hr" />
-
-	<TextView
-		android:id="@+id/lastUpdateTextView"
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:fontFamily="@font/kanit_light"
-		android:textSize="@dimen/text_small_1"
-		tools:text="Just now"
-		android:layout_marginTop="@dimen/space_larger"
-		app:layout_constraintTop_toBottomOf="@+id/valueTextView"
-		app:layout_constraintLeft_toLeftOf="parent"
-		android:textColor="@color/textColorPrimary"/>
 </android.support.constraint.ConstraintLayout>

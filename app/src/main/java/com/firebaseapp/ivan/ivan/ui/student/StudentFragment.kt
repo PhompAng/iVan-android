@@ -30,7 +30,7 @@ import kotlinx.android.synthetic.main.layout_student_info.*
 class StudentFragment : Fragment(), Injectable {
 
 	private lateinit var viewModel: StudentViewModel
-	private val adapter = MultipleViewAdapter<DelegateStudent>(1)
+	private val adapter = MultipleViewAdapter(1)
 	private var studentUid = ""
 	private var delegateStudent = DelegateStudent()
 

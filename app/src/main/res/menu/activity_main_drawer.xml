@@ -55,6 +55,34 @@
 			android:title="@string/notification" />
 	</group>
 
+	<group
+		android:id="@+id/teacherMenu"
+		android:checkableBehavior="single"
+		android:visible="false"
+		tools:visible="true">
+		<item
+			android:id="@+id/nav_car_tracking_teacher"
+			android:icon="@drawable/ic_car_tracking"
+			android:title="@string/car_tracking" />
+		<item
+			android:id="@+id/nav_student_list_teacher"
+			android:icon="@drawable/ic24_students"
+			android:title="@string/student_list" />
+		<item
+			android:id="@+id/nav_driver_teacher"
+			android:icon="@drawable/ic24_driver"
+			android:title="@string/driver" />
+		<item
+			android:id="@+id/nav_profile_teacher"
+			android:icon="@drawable/ic_account_box_black_24dp"
+			android:title="@string/profile" />
+		<item
+			android:id="@+id/nav_notification_teacher"
+			android:icon="@drawable/ic_notifications_black_24dp"
+			android:title="@string/notification" />
+	</group>
+
+
 	<item
 		android:id="@+id/nav_logout"
 		android:title="@string/logout" />

@@ -8,6 +8,7 @@ import com.akexorcist.googledirection.model.Leg
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.CircleCrop
 import com.bumptech.glide.request.RequestOptions
+import com.firebaseapp.ivan.glide.GlideApp
 import com.firebaseapp.ivan.ivan.model.*
 import com.firebaseapp.ivan.ivan.model.monad.fold
 import com.firebaseapp.ivan.util.glide.GlideTransformClass
@@ -65,18 +66,19 @@ object DataBindingUtils {
 	@BindingAdapter("fill_data")
 	fun fillData(view: PhotoGridView, data: List<Student>) {
 		val user = IVan.getUser(view.context)
-		var isDriver = false
+		var isDriverOrTeacher = false
 		var parent: Parent? = null
 		user.fold {
 			onParent {
-				isDriver = false
+				isDriverOrTeacher = false
 				parent = it
 			}
-			onDriver { isDriver = true }
+			onDriver { isDriverOrTeacher = true }
+			onTeacher { isDriverOrTeacher = true }
 		}
 		val result = mutableListOf<Student>()
 		data.forEach {
-			if (isDriver || it.parent == parent?.getKeyOrId()) {
+			if (isDriverOrTeacher || it.parent == parent?.getKeyOrId()) {
 				result.add(it)
 			}
 		}

@@ -38,7 +38,7 @@ class SelectCarFragment : Fragment(), Injectable {
 	private val viewFlipperProgressBarOwn by lazy {
 		ViewFlipperProgressBarOwn(viewFlipper)
 	}
-	private var adapter = MultipleViewAdapter<DelegateCar>(1)
+	private var adapter = MultipleViewAdapter(1)
 
 	companion object {
 		val TAG: String = SelectCarFragment::class.java.simpleName
