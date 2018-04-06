@@ -7,12 +7,12 @@ import android.view.ViewGroup
 /**
  * @author phompang on 21/1/2018 AD.
  */
-class MultipleViewAdapter<T>(factorySize: Int) : RecyclerView.Adapter<ItemViewHolder<T>>() {
-	private val viewHolderFactories: SparseArray<ViewHolderFactory<T>> = SparseArray(factorySize)
+class MultipleViewAdapter(factorySize: Int) : RecyclerView.Adapter<ItemViewHolder<Any>>() {
+	private val viewHolderFactories: SparseArray<ViewHolderFactory<*>> = SparseArray(factorySize)
 	private val list = mutableListOf<ObjectHolder>()
 
-	override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder<T> {
-		return viewHolderFactories[viewType].create(parent)
+	override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder<Any> {
+		return viewHolderFactories[viewType].create(parent) as ItemViewHolder<Any>
 	}
 
 	override fun getItemCount(): Int = list.size
@@ -21,7 +21,7 @@ class MultipleViewAdapter<T>(factorySize: Int) : RecyclerView.Adapter<ItemViewHo
 		return list[position].type
 	}
 
-	override fun onBindViewHolder(holder: ItemViewHolder<T>, position: Int) {
+	override fun onBindViewHolder(holder: ItemViewHolder<Any>, position: Int) {
 		if (position < list.size) {
 			val obj = list[position].obj
 			if (obj != null) {
@@ -30,11 +30,11 @@ class MultipleViewAdapter<T>(factorySize: Int) : RecyclerView.Adapter<ItemViewHo
 		}
 	}
 
-	fun registerViewHolderFactory(type: Int, viewHolderFactory: ViewHolderFactory<T>) {
+	fun registerViewHolderFactory(type: Int, viewHolderFactory: ViewHolderFactory<*>) {
 		viewHolderFactories.put(type, viewHolderFactory)
 	}
 
-	fun add(item: T, type: Int, position: Int = list.size, notifyItemInserted: Boolean = true) {
+	fun add(item: Any, type: Int, position: Int = list.size, notifyItemInserted: Boolean = true) {
 		if (viewHolderFactories.get(type) == null) {
 			throw NullPointerException("Register view holder factory before  type " + type)
 		}
@@ -51,7 +51,7 @@ class MultipleViewAdapter<T>(factorySize: Int) : RecyclerView.Adapter<ItemViewHo
 		}
 	}
 
-	fun addAll(items: List<T>, type: Int, notifyItemRangeInserted: Boolean = true) {
+	fun addAll(items: List<Any>, type: Int, notifyItemRangeInserted: Boolean = true) {
 		if (viewHolderFactories.get(type) == null) {
 			throw NullPointerException("Register view holder factory before  type " + type)
 		}
@@ -69,7 +69,7 @@ class MultipleViewAdapter<T>(factorySize: Int) : RecyclerView.Adapter<ItemViewHo
 		}
 	}
 
-	fun remove(item: T) {
+	fun remove(item: Any) {
 		var foundIndex = -1
 		list.forEachIndexed { index, objectHolder ->
 			if (objectHolder.obj == item) {
@@ -105,7 +105,7 @@ class MultipleViewAdapter<T>(factorySize: Int) : RecyclerView.Adapter<ItemViewHo
 		notifyDataSetChanged()
 	}
 
-	fun getItem(position: Int): T? = list[position].obj
+	fun getItem(position: Int): Any? = list[position].obj
 
-	inner class ObjectHolder(val obj: T?, val type: Int)
+	inner class ObjectHolder(val obj: Any?, val type: Int)
 }

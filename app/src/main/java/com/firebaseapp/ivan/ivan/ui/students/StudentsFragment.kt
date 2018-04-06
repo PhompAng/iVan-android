@@ -36,7 +36,7 @@ class StudentsFragment : Fragment(), Injectable {
 	private val user by lazy {
 		IVan.getUser(context!!)
 	}
-	private var adapter = MultipleViewAdapter<Student>(1)
+	private var adapter = MultipleViewAdapter(1)
 
 	companion object {
 		val TAG: String = StudentsFragment::class.java.simpleName
@@ -76,17 +76,18 @@ class StudentsFragment : Fragment(), Injectable {
 	}
 
 	private fun setUpData() {
-		var isDriver = false
+		var isDriverOrTeacher = false
 		var parent: Parent? = null
 		user.fold {
 			onParent {
-				isDriver = false
+				isDriverOrTeacher = false
 				parent = it
 			}
-			onDriver { isDriver = true }
+			onDriver { isDriverOrTeacher = true }
+			onTeacher { isDriverOrTeacher = true }
 		}
 		car.students.forEach {
-			if (isDriver || it.parent == parent?.getKeyOrId()) {
+			if (isDriverOrTeacher || it.parent == parent?.getKeyOrId()) {
 				adapter.add(it, TYPE_0)
 			}
 		}

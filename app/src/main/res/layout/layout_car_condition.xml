@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout android:layout_width="match_parent"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	android:layout_height="wrap_content"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:background="@android:color/white"
+	android:padding="@dimen/space_larger"
+	xmlns:android="http://schemas.android.com/apk/res/android">
+
+	<TextView
+		android:id="@+id/carConditionTextView"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:textSize="@dimen/text_large_4"
+		android:textColor="@color/textColor"
+		android:fontFamily="@font/kanit_light"
+		app:layout_constraintTop_toTopOf="parent"
+		app:layout_constraintLeft_toLeftOf="parent"
+		app:layout_constraintRight_toLeftOf="@+id/lastUpdateTextView"
+		tools:text="4.66" />
+
+	<TextView
+		android:id="@+id/carConditionHintTextView"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:fontFamily="@font/kanit_light"
+		android:text="@string/condition"
+		android:textColor="@color/textColorPrimary"
+		android:textSize="@dimen/text_large_1"
+		app:layout_constraintRight_toRightOf="@+id/carConditionTextView"
+		app:layout_constraintTop_toBottomOf="@+id/carConditionTextView"
+		app:layout_constraintLeft_toLeftOf="@+id/carConditionTextView"/>
+
+	<TextView
+		android:id="@+id/lastUpdateTextView"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:textSize="@dimen/text_large_4"
+		android:textColor="@color/textColor"
+		android:fontFamily="@font/kanit_light"
+		app:layout_constraintTop_toTopOf="parent"
+		app:layout_constraintLeft_toRightOf="@+id/carConditionTextView"
+		app:layout_constraintRight_toRightOf="parent"
+		tools:text="10 min"/>
+
+
+	<TextView
+		android:id="@+id/lastUpdateHintTextView"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:fontFamily="@font/kanit_light"
+		android:text="@string/last_update"
+		android:textColor="@color/textColorPrimary"
+		android:textSize="@dimen/text_large_1"
+		app:layout_constraintRight_toRightOf="@+id/lastUpdateTextView"
+		app:layout_constraintTop_toBottomOf="@+id/lastUpdateTextView"
+		app:layout_constraintLeft_toLeftOf="@+id/lastUpdateTextView"/>
+</android.support.constraint.ConstraintLayout>

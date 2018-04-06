@@ -15,6 +15,7 @@ open class Krefson(context: Context,
 
 		const val KEY_PARENT = "key-parent"
 		const val KEY_DRIVER = "key-driver"
+		const val KEY_TEACHER = "key-teacher"
 		const val KEY_CAR = "key-car"
 	}
 	val sharedPreferences: SharedPreferences = context.getSharedPreferences(name, Context.MODE_PRIVATE)

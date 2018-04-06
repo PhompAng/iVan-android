@@ -9,6 +9,7 @@ import com.firebaseapp.ivan.ivan.ui.parent.ParentViewModel
 import com.firebaseapp.ivan.ivan.ui.select.SelectCarViewModel
 import com.firebaseapp.ivan.ivan.ui.student.StudentViewModel
 import com.firebaseapp.ivan.ivan.ui.students.StudentsViewModel
+import com.firebaseapp.ivan.ivan.ui.teacher.TeacherViewModel
 
 /**
  * @author phompang on 16/1/2018 AD.
@@ -26,6 +27,7 @@ class ViewModelFactory : ViewModelProvider.Factory {
 					isAssignableFrom(StudentViewModel::class.java) -> StudentViewModel()
 					isAssignableFrom(NotificationViewModel::class.java) -> NotificationViewModel()
 					isAssignableFrom(ParentViewModel::class.java) -> ParentViewModel()
+					isAssignableFrom(TeacherViewModel::class.java) -> TeacherViewModel()
 					else -> throw IllegalArgumentException("Unknown ViewModel class: ${modelClass.name}")
 				} as T
 			}

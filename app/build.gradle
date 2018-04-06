@@ -36,6 +36,7 @@ androidExtensions {
 
 dependencies {
 	implementation fileTree(dir: 'libs', include: ['*.jar'])
+	implementation project(':glide')
 	implementation project(':livedata-adapter')
 	implementation project(':model')
 	implementation project(':multiple-viewtype-recyclerview')

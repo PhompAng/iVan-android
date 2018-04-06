@@ -82,6 +82,7 @@
 		<activity
 			android:name=".ui.parent.ParentActivity"
 			android:label="@string/title_map" />
+		<activity android:name=".ui.teacher.TeacherActivity" />
 	</application>
 
 </manifest>

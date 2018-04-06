@@ -4,17 +4,19 @@ import android.content.Context
 import com.firebaseapp.ivan.ivan.model.Car
 import com.firebaseapp.ivan.ivan.model.Driver
 import com.firebaseapp.ivan.ivan.model.Parent
+import com.firebaseapp.ivan.ivan.model.Teacher
 import com.firebaseapp.ivan.ivan.model.monad.Users
 import com.firebaseapp.ivan.ivan.model.monad.fold
-import com.firebaseapp.ivan.ivan.model.monad.left
-import com.firebaseapp.ivan.ivan.model.monad.right
+import com.firebaseapp.ivan.ivan.model.monad.parent
+import com.firebaseapp.ivan.ivan.model.monad.driver
+import com.firebaseapp.ivan.ivan.model.monad.teacher
 
 /**
  * @author phompang on 21/1/2018 AD.
  */
 
 object IVan {
-	fun setUser(context: Context, user: Users<Parent, Driver>) {
+	fun setUser(context: Context, user: Users<Parent, Driver, Teacher>) {
 		val krefson = Krefson(context)
 		user.fold {
 			onParent {
@@ -23,22 +25,24 @@ object IVan {
 			onDriver {
 				krefson[Krefson.KEY_DRIVER] = it
 			}
+			onTeacher {
+				krefson[Krefson.KEY_TEACHER] = it
+			}
 		}
 	}
 
-	fun getUser(context: Context): Users<Parent, Driver>? {
+	fun getUser(context: Context): Users<Parent, Driver, Teacher>? {
 		val krefson = Krefson(context)
 		val parent: Parent? = krefson[Krefson.KEY_PARENT]
+		val driver: Driver? = krefson[Krefson.KEY_DRIVER]
+		val teacher: Teacher? = krefson[Krefson.KEY_TEACHER]
 
-		if (parent != null) {
-			return left(parent)
-		} else {
-			val driver: Driver? = krefson[Krefson.KEY_DRIVER]
-			driver?.let {
-				return right(it)
-			}
+		return when {
+			parent != null -> parent(parent)
+			driver != null -> driver(driver)
+			teacher != null -> teacher(teacher)
+			else -> null
 		}
-		return null
 	}
 
 	fun getParent(context: Context): Parent? {
@@ -55,6 +59,14 @@ object IVan {
 			onDriver { driver = it }
 		}
 		return driver
+	}
+
+	fun getTeacher(context: Context): Teacher? {
+		var teacher: Teacher? = null
+		getUser(context).fold {
+			onTeacher { teacher = it}
+		}
+		return teacher
 	}
 
 	fun setCar(context: Context, car: Car) {

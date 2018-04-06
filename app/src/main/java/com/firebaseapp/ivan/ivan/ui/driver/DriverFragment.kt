@@ -24,7 +24,7 @@ import kotlinx.android.synthetic.main.fragment_recyclerview.*
  */
 class DriverFragment : Fragment(), Injectable {
 
-	private val adapter = MultipleViewAdapter<Car>(2)
+	private val adapter = MultipleViewAdapter(2)
 
 	private val viewFlipperProgressBarOwn by lazy {
 		ViewFlipperProgressBarOwn(viewFlipper)
