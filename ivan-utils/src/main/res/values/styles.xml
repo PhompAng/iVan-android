@@ -14,4 +14,9 @@
 
 	<style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
+	<style name="Title1">
+		<item name="android:fontFamily">@font/kanit_light</item>
+		<item name="android:textColor">@color/textColor</item>
+		<item name="android:textSize">@dimen/text_large_2</item>
+	</style>
 </resources>

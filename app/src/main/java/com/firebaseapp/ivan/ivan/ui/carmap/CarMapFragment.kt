@@ -3,9 +3,10 @@ package com.firebaseapp.ivan.ivan.ui.carmap
 import android.databinding.DataBindingUtil
 import android.graphics.Color
 import android.os.Bundle
+import android.support.design.widget.CoordinatorLayout
 import android.support.v4.app.Fragment
+import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.RecyclerView
-import android.support.v7.widget.StaggeredGridLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -22,11 +23,13 @@ import com.firebaseapp.ivan.ivan.model.Route
 import com.firebaseapp.ivan.ivan.model.Student
 import com.firebaseapp.ivan.ivan.model.containNow
 import com.firebaseapp.ivan.ivan.model.monad.fold
+import com.firebaseapp.ivan.ivan.ui.carmap.viewholder.CarConditionViewHolderFactory
+import com.firebaseapp.ivan.ivan.ui.carmap.viewholder.CarStaffListViewHolderFactory
 import com.firebaseapp.ivan.ivan.ui.carmap.viewholder.MobilityStatusViewHolderFactory
+import com.firebaseapp.ivan.ivan.utils.GridItemDecoration
 import com.firebaseapp.ivan.ivan.utils.obtainViewModel
 import com.firebaseapp.ivan.util.IVan
 import com.firebaseapp.ivan.util.convertToPx
-import com.firebaseapp.ivan.util.getRelativeTime
 import com.firebaseapp.ivan.util.observe
 import com.firebaseapp.ivan.util.view.ViewFlipperProgressBarOwn
 import com.github.reline.GoogleMapsBottomSheetBehavior
@@ -38,10 +41,7 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.gson.Gson
-import com.thekhaeng.recyclerviewmargin.LayoutMarginDecoration
-import com.wongnai.android.MultipleViewAdapter
-import com.wongnai.android.TYPE_0
-import com.wongnai.android.TYPE_1
+import com.wongnai.android.*
 
 /**
  * @author phompang on 21/1/2018 AD.
@@ -52,8 +52,6 @@ class CarMapFragment : Fragment(), Injectable, OnMapReadyCallback {
 	private lateinit var mapView: MapView
 	private lateinit var mMap: GoogleMap
 	private lateinit var bottomSheet: GoogleMapsBottomSheetBehavior<View>
-	private lateinit var carConditionTextView: TextView
-	private lateinit var lastUpdateTextView: TextView
 	private lateinit var recyclerView: RecyclerView
 	private val adapter = MultipleViewAdapter(1)
 
@@ -106,6 +104,8 @@ class CarMapFragment : Fragment(), Injectable, OnMapReadyCallback {
 	private fun setUpAdapter() {
 		adapter.registerViewHolderFactory(TYPE_0, MobilityStatusViewHolderFactory(R.color.colorPrimary, R.color.red500))
 		adapter.registerViewHolderFactory(TYPE_1, MobilityStatusViewHolderFactory(R.color.red500, R.color.colorPrimary))
+		adapter.registerViewHolderFactory(TYPE_2, CarStaffListViewHolderFactory())
+		adapter.registerViewHolderFactory(TYPE_3, CarConditionViewHolderFactory())
 	}
 
 	private fun setUpViewModel() {
@@ -128,11 +128,10 @@ class CarMapFragment : Fragment(), Injectable, OnMapReadyCallback {
 				}
 			}
 			adapter.clear()
+			adapter.add(it, TYPE_3)
 			adapter.add(DelegateMobilityStatus.getAvgSpeed(context!!, it), TYPE_0)
 			adapter.add(DelegateMobilityStatus.getOilLevel(context!!, it), TYPE_1)
-
-			carConditionTextView.text = "4.66"
-			lastUpdateTextView.text = it.timestamp.getRelativeTime(context!!)
+			adapter.add(car, TYPE_2)
 		}
 		viewModel.getSchool().observe(this) {
 			it ?: return@observe
@@ -185,8 +184,8 @@ class CarMapFragment : Fragment(), Injectable, OnMapReadyCallback {
 		})
 		binding.carBottomSheet.viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
 			override fun onGlobalLayout() {
-//				val layoutParam = CoordinatorLayout.LayoutParams(binding.carImageView.measuredWidth, bottomSheet.anchorOffset / 2)
-//				binding.carImageView.layoutParams = layoutParam
+				val layoutParam = CoordinatorLayout.LayoutParams(binding.carImageView.measuredWidth, binding.carImageView.measuredHeight)
+				binding.carImageView.layoutParams = layoutParam
 				binding.carBottomSheet.viewTreeObserver.removeOnGlobalLayoutListener(this)
 			}
 		})
@@ -196,13 +195,30 @@ class CarMapFragment : Fragment(), Injectable, OnMapReadyCallback {
 			it.findViewById<TextView>(R.id.provinceTextView).text = car.province
 		}
 		bottomSheet.contentLayout?.let {
-			carConditionTextView = it.findViewById(R.id.carConditionTextView)
-			lastUpdateTextView = it.findViewById(R.id.lastUpdateTextView)
 			recyclerView = it.findViewById(R.id.statusRecyclerView)
-			recyclerView.layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
-			recyclerView.addItemDecoration(LayoutMarginDecoration(2, convertToPx(context!!, 2)))
+			val layoutManager = GridLayoutManager(context, 2)
+			layoutManager.spanSizeLookup = getSpanSizeLookUp()
+			recyclerView.layoutManager = layoutManager
+			recyclerView.isNestedScrollingEnabled = false
+			val itemDecoration = GridItemDecoration(convertToPx(context!!, 2))
+			itemDecoration.setSpaceTop(false)
+			itemDecoration.setHasSpaceOnTheEdge(false)
+			itemDecoration.setAdapter(adapter)
+			itemDecoration.setSpanSizeLookup(getSpanSizeLookUp())
+			recyclerView.addItemDecoration(itemDecoration)
 			recyclerView.adapter = adapter
 		}
+	}
+
+	private fun getSpanSizeLookUp() = object : GridLayoutManager.SpanSizeLookup() {
+		override fun getSpanSize(position: Int): Int {
+			return when (adapter.getItemViewType(position)) {
+				TYPE_0, TYPE_1 -> 1
+				TYPE_2, TYPE_3 -> 2
+				else -> 1
+			}
+		}
+
 	}
 
 	override fun onMapReady(googleMap: GoogleMap?) {
