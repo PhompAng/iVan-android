@@ -2,7 +2,7 @@
 
 buildscript {
 	ext.kotlin_version = '1.2.31'
-	ext.androidPluginVersion = '3.1.0'
+	ext.androidPluginVersion = '3.1.1'
 	repositories {
 		google()
 		jcenter()
@@ -11,8 +11,8 @@ buildscript {
 		}
 	}
 	dependencies {
-		classpath 'com.android.tools.build:gradle:3.1.0'
-		classpath 'com.google.gms:google-services:3.1.1'
+		classpath "com.android.tools.build:gradle:$androidPluginVersion"
+		classpath 'com.google.gms:google-services:3.1.2'
 		classpath 'io.fabric.tools:gradle:1.25.1'
 		classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
 		classpath 'com.google.firebase:firebase-plugins:1.1.5'
@@ -31,7 +31,7 @@ allprojects {
 
 ext {
 	androidSupportLibVersion = '27.0.2'
-	googleServicesLibVersion = '11.8.0'
+	googleServicesLibVersion = '12.0.1'
 	architectureComponentsVersion = '1.0.0'
 	daggerVersion = '2.14.1'
 	anko_version = '0.10.4'

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:layout_width="wrap_content"
+	android:layout_height="wrap_content"
+	android:background="?attr/selectableItemBackground"
+	android:padding="@dimen/space_large">
+
+	<ImageView
+		android:id="@+id/userImageView"
+		android:layout_width="100dp"
+		android:layout_height="100dp"
+		app:layout_constraintLeft_toLeftOf="parent"
+		app:layout_constraintRight_toRightOf="parent"
+		app:layout_constraintTop_toTopOf="parent"
+		tools:src="@color/colorAccent" />
+
+	<TextView
+		android:id="@+id/nameTextView"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_marginTop="@dimen/space_normal"
+		android:fontFamily="@font/kanit_light"
+		android:textColor="@color/textColor"
+		android:textSize="@dimen/text_large_1"
+		app:layout_constraintHorizontal_chainStyle="packed"
+		app:layout_constraintLeft_toLeftOf="parent"
+		app:layout_constraintRight_toLeftOf="@+id/roleTextView"
+		app:layout_constraintTop_toBottomOf="@+id/userImageView"
+		tools:text="John Doe" />
+
+	<TextView
+		android:id="@+id/roleTextView"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_marginStart="@dimen/space_small"
+		android:fontFamily="@font/kanit_light"
+		android:textColor="@color/textColorPrimary"
+		android:textSize="@dimen/text_small_1"
+		app:layout_constraintBaseline_toBaselineOf="@+id/nameTextView"
+		app:layout_constraintLeft_toRightOf="@+id/nameTextView"
+		app:layout_constraintRight_toRightOf="parent"
+		tools:text="Driver" />
+
+</android.support.constraint.ConstraintLayout>

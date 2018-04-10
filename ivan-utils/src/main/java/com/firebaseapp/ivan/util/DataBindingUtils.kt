@@ -17,6 +17,7 @@ import com.firebaseapp.ivan.util.glide.GlideTransformClass.Companion.ROUND_CORNE
 import com.firebaseapp.ivan.util.glide.RoundedCornersTransformation
 import com.firebaseapp.ivan.util.view.PhotoGridView
 import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.StorageException
 import com.google.firebase.storage.StorageReference
 import com.tolstykh.textviewrichdrawable.TextViewRichDrawable
 import timber.log.Timber
@@ -51,13 +52,18 @@ object DataBindingUtils {
 			is Student -> refChild = ref.child("students")
 			is Driver -> refChild = ref.child("drivers")
 			is Parent -> refChild = ref.child("parents")
+			is Teacher -> refChild = ref.child("teacher")
 		}
 
 		if (data.getKeyOrId().isBlank()) {
 			glide.load(placeholder).apply(glideSetting).into(view)
 		} else {
-			refChild?.let {
-				glide.load(it.child(data.getKeyOrId())).apply(glideSetting).into(view)
+			try {
+				refChild?.let {
+					glide.load(it.child(data.getKeyOrId())).apply(glideSetting).into(view)
+				}
+			} catch (e: StorageException) {
+				glide.load(placeholder).apply(glideSetting).into(view)
 			}
 		}
 	}

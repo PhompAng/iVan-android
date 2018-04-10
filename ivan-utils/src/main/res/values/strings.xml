@@ -24,6 +24,7 @@
 	<string name="student_list">Student List</string>
 	<string name="home_location">Home Location</string>
 	<string name="driver">Driver</string>
+	<string name="teacher">Teacher</string>
 	<string name="phone">Phone</string>
 	<string name="parent">Parent</string>
 	<string name="profile">Profile</string>
@@ -47,4 +48,5 @@
 	<string name="server_key">AIzaSyA6kKThlimCYp3zUDeb99R0-inhVwxTmLE</string>
 	<string name="logout">Logout</string>
 	<string name="my_children">My Children</string>
+	<string name="car_staff">Car Staff</string>
 </resources>

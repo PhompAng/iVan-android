@@ -467,15 +467,14 @@ public class GoogleMapsBottomSheetBehavior<V extends View> extends CoordinatorLa
 	}
 
 	@Override
-	public boolean onStartNestedScroll(CoordinatorLayout coordinatorLayout, V child, View directTargetChild, View target,
-			int nestedScrollAxes) {
+	public boolean onStartNestedScroll(@NonNull CoordinatorLayout coordinatorLayout, @NonNull V child, @NonNull View directTargetChild, @NonNull View target, int axes, int type) {
 		mLastNestedScrollDy = 0;
 		mNestedScrolled = false;
-		return (nestedScrollAxes & ViewCompat.SCROLL_AXIS_VERTICAL) != 0;
+		return (axes & ViewCompat.SCROLL_AXIS_VERTICAL) != 0;
 	}
 
 	@Override
-	public void onNestedPreScroll(CoordinatorLayout coordinatorLayout, V child, View target, int dx, int dy, int[] consumed) {
+	public void onNestedPreScroll(@NonNull CoordinatorLayout coordinatorLayout, @NonNull V child, @NonNull View target, int dx, int dy, @NonNull int[] consumed, int type) {
 		View scrollingChild = mNestedScrollingChildRef.get();
 		if (target != scrollingChild) {
 			return;
@@ -511,7 +510,7 @@ public class GoogleMapsBottomSheetBehavior<V extends View> extends CoordinatorLa
 	}
 
 	@Override
-	public void onStopNestedScroll(CoordinatorLayout coordinatorLayout, V child, View target) {
+	public void onStopNestedScroll(@NonNull CoordinatorLayout coordinatorLayout, @NonNull V child, @NonNull View target, int type) {
 		if (child.getTop() == mMinOffset) {
 			setStateInternal(STATE_EXPANDED);
 			return;
@@ -978,7 +977,7 @@ public class GoogleMapsBottomSheetBehavior<V extends View> extends CoordinatorLa
 			}
 			if (mState == STATE_EXPANDED && mActivePointerId == pointerId) {
 				View scroll = mNestedScrollingChildRef.get();
-				if (scroll != null && ViewCompat.canScrollVertically(scroll, -1)) {
+				if (scroll != null && scroll.canScrollVertically(-1)) {
 					// Let the content scroll up
 					return false;
 				}
