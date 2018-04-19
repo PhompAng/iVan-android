@@ -10,11 +10,12 @@ import com.firebaseapp.ivan.ivan.model.deserializer
 import com.firebaseapp.ivan.util.livedata.FirebaseLiveData
 import com.firebaseapp.ivan.util.switchMap
 import com.google.firebase.database.FirebaseDatabase
+import javax.inject.Inject
 
 /**
  * @author phompang on 9/2/2018 AD.
  */
-class StudentViewModel : ViewModel() {
+class StudentViewModel @Inject constructor() : ViewModel() {
 	private val studentRef = FirebaseDatabase.getInstance().reference.child("students")
 	private val schoolRef = FirebaseDatabase.getInstance().reference.child("schools")
 	private val parentRef = FirebaseDatabase.getInstance().reference.child("parents")

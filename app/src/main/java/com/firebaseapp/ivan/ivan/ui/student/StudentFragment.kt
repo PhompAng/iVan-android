@@ -1,5 +1,6 @@
 package com.firebaseapp.ivan.ivan.ui.student
 
+import android.arch.lifecycle.ViewModelProvider
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
@@ -23,12 +24,15 @@ import com.wongnai.android.TYPE_0
 import com.wongnai.android.TYPE_1
 import kotlinx.android.synthetic.main.fragment_student.*
 import kotlinx.android.synthetic.main.layout_student_info.*
+import javax.inject.Inject
 
 /**
  * @author phompang on 4/2/2018 AD.
  */
 class StudentFragment : Fragment(), Injectable {
 
+	@Inject
+	lateinit var viewModelFactory: ViewModelProvider.Factory
 	private lateinit var viewModel: StudentViewModel
 	private val adapter = MultipleViewAdapter(1)
 	private var studentUid = ""
@@ -78,7 +82,7 @@ class StudentFragment : Fragment(), Injectable {
 	}
 
 	private fun setUpViewModel() {
-		viewModel = activity!!.obtainViewModel(StudentViewModel::class.java)
+		viewModel = activity!!.obtainViewModel(viewModelFactory, StudentViewModel::class.java)
 		viewModel.setStudentUid(studentUid)
 		viewModel.getStudent().observe(this) {
 			viewFlipperProgressBarOwn.hideProgressBar()

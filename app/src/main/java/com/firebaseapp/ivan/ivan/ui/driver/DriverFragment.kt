@@ -7,8 +7,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.firebaseapp.ivan.ivan.R
-import com.firebaseapp.ivan.ivan.di.Injectable
-import com.firebaseapp.ivan.ivan.model.Car
 import com.firebaseapp.ivan.ivan.ui.driver.viewholder.DriverCarViewHolderFactory
 import com.firebaseapp.ivan.ivan.ui.driver.viewholder.DriverContactViewHolderFactory
 import com.firebaseapp.ivan.util.IVan
@@ -22,7 +20,7 @@ import kotlinx.android.synthetic.main.fragment_recyclerview.*
 /**
  * @author phompang on 13/2/2018 AD.
  */
-class DriverFragment : Fragment(), Injectable {
+class DriverFragment : Fragment() {
 
 	private val adapter = MultipleViewAdapter(2)
 

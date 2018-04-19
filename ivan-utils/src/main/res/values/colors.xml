@@ -21,6 +21,9 @@
 	<color name="grey800">#424242</color>
 	<color name="grey900">#212121</color>
 
+	<color name="light_blue_700">#0288D1</color>
+
+	<color name="red200">#FF5252</color>
 	<color name="red500">#F44336</color>
 
 	<!--rate number-->

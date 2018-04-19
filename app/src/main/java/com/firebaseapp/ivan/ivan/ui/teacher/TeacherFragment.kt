@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.firebaseapp.ivan.ivan.R
+import com.firebaseapp.ivan.ivan.di.Injectable
 import com.firebaseapp.ivan.ivan.model.Teacher
 import com.firebaseapp.ivan.ivan.ui.INotifyDataSetChanged
 import com.firebaseapp.ivan.ivan.ui.teacher.viewholder.TeacherCarViewHolderFactory
@@ -22,7 +23,7 @@ import kotlinx.android.synthetic.main.fragment_recyclerview.*
 /**
  * @author phompang on 6/4/2018 AD.
  */
-class TeacherFragment : Fragment(), INotifyDataSetChanged {
+class TeacherFragment : Fragment(), Injectable, INotifyDataSetChanged {
 	private val adapter = MultipleViewAdapter(2)
 	private var teacher: Teacher? = null
 

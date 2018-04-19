@@ -1,6 +1,7 @@
 package com.firebaseapp.ivan.ivan.ui.main
 
 import android.Manifest
+import android.arch.lifecycle.ViewModelProvider
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -13,15 +14,14 @@ import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
-import com.firebaseapp.ivan.util.EXTRA_UID
 import com.firebaseapp.ivan.ivan.R
 import com.firebaseapp.ivan.ivan.model.Car
 import com.firebaseapp.ivan.ivan.model.Role
 import com.firebaseapp.ivan.ivan.model.fullName
 import com.firebaseapp.ivan.ivan.model.listDeserializer
 import com.firebaseapp.ivan.ivan.model.monad.fold
-import com.firebaseapp.ivan.ivan.ui.driver.DriverActivity
 import com.firebaseapp.ivan.ivan.ui.carmap.CarMapFragment
+import com.firebaseapp.ivan.ivan.ui.driver.DriverActivity
 import com.firebaseapp.ivan.ivan.ui.login.LoginActivity
 import com.firebaseapp.ivan.ivan.ui.notification.NotificationFragment
 import com.firebaseapp.ivan.ivan.ui.parent.ParentActivity
@@ -44,6 +44,8 @@ import timber.log.Timber
 import javax.inject.Inject
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener, HasSupportFragmentInjector, SelectCarFragment.SelectCarCallback {
+
+	@Inject lateinit var viewModelFactory: ViewModelProvider.Factory
 	@Inject
 	lateinit var androidInjector: DispatchingAndroidInjector<Fragment>
 	private lateinit var uid: String
@@ -63,7 +65,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 		super.onCreate(savedInstanceState)
 		setContentView(R.layout.activity_main)
 		setSupportActionBar(toolbar)
-		viewModel = obtainViewModel(MainViewModel::class.java)
+		viewModel = obtainViewModel(viewModelFactory, MainViewModel::class.java)
 
 		when (savedInstanceState) {
 			null -> {

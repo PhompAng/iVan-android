@@ -16,6 +16,9 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import kotlinx.android.synthetic.main.fragment_map.*
+import android.content.Intent
+import android.net.Uri
+
 
 /**
  * @author phompang on 19/2/2018 AD.
@@ -47,6 +50,12 @@ class MapFragment : Fragment(), OnMapReadyCallback {
 			else -> extractExtras(savedInstanceState)
 		}
 		setUpMap(savedInstanceState)
+		fab.setOnClickListener {
+			val geo = Uri.parse("geo:${location.lat},${location.lng}?q=${location.lat},${location.lng}()")
+			val intent = Intent(Intent.ACTION_VIEW, geo)
+			intent.`package` = "com.google.android.apps.maps"
+			startActivity(intent)
+		}
 	}
 
 	private fun extractExtras(bundle: Bundle?) {

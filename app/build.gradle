@@ -37,7 +37,6 @@ androidExtensions {
 dependencies {
 	implementation fileTree(dir: 'libs', include: ['*.jar'])
 	implementation project(':glide')
-	implementation project(':livedata-adapter')
 	implementation project(':model')
 	implementation project(':multiple-viewtype-recyclerview')
 	implementation project(':ivan-utils')
@@ -70,6 +69,7 @@ dependencies {
 	implementation ('com.squareup.retrofit2:converter-gson:2.3.0') {
 		exclude module: 'retrofit'
 	}
+	implementation 'com.squareup.okhttp3:logging-interceptor:3.10.0'
 	implementation 'com.google.code.gson:gson:2.8.2'
 	implementation 'com.jakewharton.timber:timber:4.6.0'
 	implementation 'me.zhanghai.android.materialratingbar:library:1.2.0'

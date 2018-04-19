@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.firebaseapp.ivan.ivan.R
+import com.firebaseapp.ivan.ivan.di.Injectable
 import com.firebaseapp.ivan.ivan.model.Parent
 import com.firebaseapp.ivan.ivan.ui.INotifyDataSetChanged
 import com.firebaseapp.ivan.ivan.ui.parent.viewholder.ParentContactViewHolderFactory
@@ -22,7 +23,7 @@ import timber.log.Timber
 /**
  * @author phompang on 20/2/2018 AD.
  */
-class ParentFragment : Fragment(), INotifyDataSetChanged {
+class ParentFragment : Fragment(), Injectable, INotifyDataSetChanged {
 	private val adapter = MultipleViewAdapter(2)
 	private var parent: Parent? = null
 

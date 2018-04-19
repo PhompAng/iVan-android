@@ -8,11 +8,12 @@ import com.firebaseapp.ivan.ivan.model.deserializer
 import com.firebaseapp.ivan.util.livedata.FirebaseLiveData
 import com.firebaseapp.ivan.util.switchMap
 import com.google.firebase.database.FirebaseDatabase
+import javax.inject.Inject
 
 /**
  * @author phompang on 4/2/2018 AD.
  */
-class StudentsViewModel : ViewModel() {
+class StudentsViewModel @Inject constructor(): ViewModel() {
 	private val schoolRef = FirebaseDatabase.getInstance().reference.child("schools")
 
 	private var car = MutableLiveData<Car>()
