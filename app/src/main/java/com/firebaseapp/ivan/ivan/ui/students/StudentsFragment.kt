@@ -1,5 +1,6 @@
 package com.firebaseapp.ivan.ivan.ui.students
 
+import android.arch.lifecycle.ViewModelProvider
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.StaggeredGridLayoutManager
@@ -9,23 +10,28 @@ import android.view.ViewGroup
 import com.firebaseapp.ivan.ivan.R
 import com.firebaseapp.ivan.ivan.di.Injectable
 import com.firebaseapp.ivan.ivan.model.Parent
-import com.firebaseapp.ivan.ivan.model.Student
 import com.firebaseapp.ivan.ivan.model.monad.fold
-import com.firebaseapp.ivan.ivan.ui.carmap.CarViewModel
+import com.firebaseapp.ivan.ivan.ui.carmap.CarMapViewModel
 import com.firebaseapp.ivan.ivan.ui.students.viewholder.StudentThumbnailViewHolderFactory
 import com.firebaseapp.ivan.ivan.utils.obtainViewModel
-import com.firebaseapp.ivan.util.*
+import com.firebaseapp.ivan.util.IVan
+import com.firebaseapp.ivan.util.convertToPx
+import com.firebaseapp.ivan.util.inflate
+import com.firebaseapp.ivan.util.observe
 import com.firebaseapp.ivan.util.view.ViewFlipperProgressBarOwn
 import com.thekhaeng.recyclerviewmargin.LayoutMarginDecoration
 import com.wongnai.android.MultipleViewAdapter
 import com.wongnai.android.TYPE_0
 import kotlinx.android.synthetic.main.fragment_students.*
+import javax.inject.Inject
 
 /**
  * @author phompang on 4/2/2018 AD.
  */
 class StudentsFragment : Fragment(), Injectable {
-	private lateinit var viewModel: CarViewModel
+	@Inject
+	lateinit var viewModelFactory: ViewModelProvider.Factory
+	private lateinit var viewModel: CarMapViewModel
 
 	private val viewFlipperProgressBarOwn by lazy {
 		ViewFlipperProgressBarOwn(viewFlipper)
@@ -66,7 +72,7 @@ class StudentsFragment : Fragment(), Injectable {
 	}
 
 	private fun setUpViewModel() {
-		viewModel = activity!!.obtainViewModel(CarViewModel::class.java)
+		viewModel = activity!!.obtainViewModel(viewModelFactory, CarMapViewModel::class.java)
 		viewModel.setCar(car)
 		viewModel.getSchool().observe(this) {
 			viewFlipperProgressBarOwn.hideProgressBar()

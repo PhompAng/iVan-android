@@ -8,11 +8,12 @@ import com.firebaseapp.ivan.ivan.model.listDeserializer
 import com.firebaseapp.ivan.util.livedata.FirebaseLiveData
 import com.firebaseapp.ivan.util.switchMap
 import com.google.firebase.database.FirebaseDatabase
+import javax.inject.Inject
 
 /**
  * @author phompang on 13/2/2018 AD.
  */
-class NotificationViewModel : ViewModel() {
+class NotificationViewModel @Inject constructor(): ViewModel() {
 	private val notificationRef = FirebaseDatabase.getInstance().reference.child("notifications")
 
 	private var userId = MutableLiveData<String>()

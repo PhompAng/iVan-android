@@ -10,11 +10,12 @@ import com.firebaseapp.ivan.util.filter
 import com.firebaseapp.ivan.util.livedata.FirebaseLiveData
 import com.firebaseapp.ivan.util.switchMap
 import com.google.firebase.database.FirebaseDatabase
+import javax.inject.Inject
 
 /**
  * @author phompang on 16/1/2018 AD.
  */
-class SelectCarViewModel : ViewModel() {
+class SelectCarViewModel @Inject constructor(): ViewModel() {
 	private val carsRef = FirebaseDatabase.getInstance().reference.child("cars")
 	private val studentRef = FirebaseDatabase.getInstance().reference.child("students")
 

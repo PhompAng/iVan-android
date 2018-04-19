@@ -1,11 +1,15 @@
 package com.firebaseapp.ivan.ivan.di
 
-import com.firebaseapp.ivan.ivan.ui.driver.DriverActivity
-import com.firebaseapp.ivan.ivan.ui.driver.DriverModule
+import com.firebaseapp.ivan.ivan.ui.alarmstatus.AlarmStatusActivity
+import com.firebaseapp.ivan.ivan.ui.alarmstatus.AlarmStatusModule
 import com.firebaseapp.ivan.ivan.ui.main.MainActivity
 import com.firebaseapp.ivan.ivan.ui.main.MainModule
+import com.firebaseapp.ivan.ivan.ui.parent.ParentActivity
+import com.firebaseapp.ivan.ivan.ui.parent.ParentModule
 import com.firebaseapp.ivan.ivan.ui.student.StudentActivity
 import com.firebaseapp.ivan.ivan.ui.student.StudentModule
+import com.firebaseapp.ivan.ivan.ui.teacher.TeacherActivity
+import com.firebaseapp.ivan.ivan.ui.teacher.TeacherModule
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 
@@ -20,6 +24,12 @@ internal abstract class UiModule {
 	@ContributesAndroidInjector(modules = [StudentModule::class])
 	internal abstract fun contributeStudentActivity(): StudentActivity
 
-	@ContributesAndroidInjector(modules = [DriverModule::class])
-	internal abstract fun contributeDriverActivity(): DriverActivity
+	@ContributesAndroidInjector(modules = [TeacherModule::class])
+	internal abstract fun contributeTeacherActivity(): TeacherActivity
+
+	@ContributesAndroidInjector(modules = [ParentModule::class])
+	internal abstract fun contributeParentActivity(): ParentActivity
+
+	@ContributesAndroidInjector(modules = [AlarmStatusModule::class])
+	internal abstract fun contributeAlarmStatusActivity(): AlarmStatusActivity
 }

@@ -15,6 +15,11 @@
 	<string name="navigation_drawer_close">Close navigation drawer</string>
 
 	<string name="action_settings">Settings</string>
+	<string name="action_close">Close</string>
+	<string name="action_cancel">Cancel</string>
+	<string name="action_report">Report</string>
+	<string name="action_open_map">Open Map</string>
+	<string name="action_detail">Detail</string>
 
 	<string name="select_car">Select Car</string>
 	<string name="sign_in">Sign In</string>
@@ -29,6 +34,9 @@
 	<string name="parent">Parent</string>
 	<string name="profile">Profile</string>
 	<string name="notification">Notification</string>
+	<string name="alarm_status">Alarm Status</string>
+	<string name="data">Data</string>
+	<string name="complete">Complete</string>
 
 	<string name="condition">Condition</string>
 	<string name="last_update">Last Update</string>
@@ -38,6 +46,8 @@
 	<string name="percent_value">%1$.2f %%</string>
 	<string name="distance_value">%1$.2f km.</string>
 	<string name="estimate_value">%1d min</string>
+	<string name="alarm_status_detection">Detection: %s</string>
+	<string name="alarm_status_row">Row: %d</string>
 
 	<string name="student_id">(ID: %1$s)</string>
 
@@ -49,4 +59,6 @@
 	<string name="logout">Logout</string>
 	<string name="my_children">My Children</string>
 	<string name="car_staff">Car Staff</string>
+	<string name="report_false_alarm">Report false alarm</string>
+	<string name="report_false_alarm_question">Do you want to report false alarm ?</string>
 </resources>

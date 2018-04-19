@@ -5,18 +5,19 @@ import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
 import com.firebaseapp.ivan.ivan.model.*
 import com.firebaseapp.ivan.ivan.model.monad.Users
-import com.firebaseapp.ivan.ivan.model.monad.parent
 import com.firebaseapp.ivan.ivan.model.monad.driver
+import com.firebaseapp.ivan.ivan.model.monad.parent
 import com.firebaseapp.ivan.ivan.model.monad.teacher
 import com.firebaseapp.ivan.util.either
 import com.firebaseapp.ivan.util.livedata.FirebaseLiveData
 import com.firebaseapp.ivan.util.switchMap
 import com.google.firebase.database.FirebaseDatabase
+import javax.inject.Inject
 
 /**
  * @author phompang on 21/1/2018 AD.
  */
-class MainViewModel : ViewModel() {
+class MainViewModel @Inject constructor() : ViewModel() {
 	private val userRef = FirebaseDatabase.getInstance().reference.child("users")
 	private val parentRef = FirebaseDatabase.getInstance().reference.child("parents")
 	private val driverRef = FirebaseDatabase.getInstance().reference.child("drivers")

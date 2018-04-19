@@ -2,33 +2,40 @@ package com.firebaseapp.ivan.ivan.di
 
 import android.arch.lifecycle.ViewModel
 import android.arch.lifecycle.ViewModelProvider
-import com.firebaseapp.ivan.ivan.ui.main.MainViewModel
-import com.firebaseapp.ivan.ivan.ui.carmap.CarViewModel
-import com.firebaseapp.ivan.ivan.ui.notification.NotificationViewModel
-import com.firebaseapp.ivan.ivan.ui.parent.ParentViewModel
-import com.firebaseapp.ivan.ivan.ui.select.SelectCarViewModel
-import com.firebaseapp.ivan.ivan.ui.student.StudentViewModel
-import com.firebaseapp.ivan.ivan.ui.students.StudentsViewModel
-import com.firebaseapp.ivan.ivan.ui.teacher.TeacherViewModel
+import javax.inject.Inject
+import javax.inject.Provider
+import javax.inject.Singleton
 
 /**
  * @author phompang on 16/1/2018 AD.
  */
-class ViewModelFactory : ViewModelProvider.Factory {
+@Suppress("UNCHECKED_CAST")
+@Singleton
+class ViewModelFactory
+@Inject
+constructor(
+		private val creators: Map<Class<out ViewModel>,
+				@JvmSuppressWildcards Provider<ViewModel>>
+) : ViewModelProvider.Factory {
 
-	@Suppress("UNCHECKED_CAST")
-	override fun <T : ViewModel?> create(modelClass: Class<T>): T =
-			with(modelClass) {
-				when {
-					isAssignableFrom(MainViewModel::class.java) -> MainViewModel()
-					isAssignableFrom(CarViewModel::class.java) -> CarViewModel()
-					isAssignableFrom(SelectCarViewModel::class.java) -> SelectCarViewModel()
-					isAssignableFrom(StudentsViewModel::class.java) -> StudentsViewModel()
-					isAssignableFrom(StudentViewModel::class.java) -> StudentViewModel()
-					isAssignableFrom(NotificationViewModel::class.java) -> NotificationViewModel()
-					isAssignableFrom(ParentViewModel::class.java) -> ParentViewModel()
-					isAssignableFrom(TeacherViewModel::class.java) -> TeacherViewModel()
-					else -> throw IllegalArgumentException("Unknown ViewModel class: ${modelClass.name}")
-				} as T
+	override fun <T : ViewModel> create(modelClass: Class<T>): T {
+		var creator: Provider<out ViewModel>? = creators[modelClass]
+		if (creator == null) {
+			for ((key, value) in creators) {
+				if (modelClass.isAssignableFrom(key)) {
+					creator = value
+					break
+				}
 			}
+		}
+		if (creator == null) {
+			throw IllegalArgumentException("unknown model class " + modelClass)
+		}
+		try {
+			return creator.get() as T
+		} catch (e: Exception) {
+			throw RuntimeException(e)
+		}
+
+	}
 }

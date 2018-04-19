@@ -8,11 +8,12 @@ import com.firebaseapp.ivan.util.livedata.FirebaseLiveData
 import com.firebaseapp.ivan.util.map
 import com.firebaseapp.ivan.util.switchMap
 import com.google.firebase.database.FirebaseDatabase
+import javax.inject.Inject
 
 /**
  * @author phompang on 22/1/2018 AD.
  */
-class CarViewModel : ViewModel() {
+class CarMapViewModel @Inject constructor(): ViewModel() {
 	private val schoolRef = FirebaseDatabase.getInstance().reference.child("schools")
 	private val mobilityStatusRef = FirebaseDatabase.getInstance().reference.child("mobility_status")
 

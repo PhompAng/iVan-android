@@ -1,5 +1,6 @@
 package com.firebaseapp.ivan.ivan.ui.notification
 
+import android.arch.lifecycle.ViewModelProvider
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.DividerItemDecoration
@@ -11,6 +12,7 @@ import com.firebaseapp.ivan.ivan.R
 import com.firebaseapp.ivan.ivan.di.Injectable
 import com.firebaseapp.ivan.ivan.model.Notification
 import com.firebaseapp.ivan.ivan.model.monad.fold
+import com.firebaseapp.ivan.ivan.ui.alarmstatus.AlarmStatusActivity
 import com.firebaseapp.ivan.ivan.ui.notification.viewholder.NotificationViewHolderFactory
 import com.firebaseapp.ivan.ivan.utils.obtainViewModel
 import com.firebaseapp.ivan.util.IVan
@@ -20,12 +22,16 @@ import com.firebaseapp.ivan.util.view.ViewFlipperProgressBarOwn
 import com.wongnai.android.MultipleViewAdapter
 import com.wongnai.android.TYPE_0
 import kotlinx.android.synthetic.main.fragment_recyclerview.*
+import org.jetbrains.anko.support.v4.startActivity
+import javax.inject.Inject
 
 /**
  * @author phompang on 13/2/2018 AD.
  */
 class NotificationFragment : Fragment(), Injectable {
 
+	@Inject
+	lateinit var viewModelFactory: ViewModelProvider.Factory
 	private lateinit var viewModel: NotificationViewModel
 	private val adapter = MultipleViewAdapter(1)
 	private val user by lazy {
@@ -64,7 +70,7 @@ class NotificationFragment : Fragment(), Injectable {
 	}
 
 	private fun setUpRecyclerView() {
-		adapter.registerViewHolderFactory(TYPE_0, NotificationViewHolderFactory())
+		adapter.registerViewHolderFactory(TYPE_0, NotificationViewHolderFactory(NotificationClickListener()))
 
 		recyclerView.adapter = adapter
 		recyclerView.layoutManager = LinearLayoutManager(context).apply {
@@ -76,7 +82,7 @@ class NotificationFragment : Fragment(), Injectable {
 	}
 
 	private fun setUpViewModel() {
-		viewModel = activity!!.obtainViewModel(NotificationViewModel::class.java)
+		viewModel = activity!!.obtainViewModel(viewModelFactory, NotificationViewModel::class.java)
 		user.fold {
 			onParent { viewModel.setUserId(it.getKeyOrId()) }
 			onDriver { viewModel.setUserId(it.getKeyOrId()) }
@@ -88,5 +94,12 @@ class NotificationFragment : Fragment(), Injectable {
 			adapter.clear()
 			adapter.addAll(it, TYPE_0)
 		}
+	}
+
+	private inner class NotificationClickListener : NotificationViewHolderFactory.OnNotificationClickListener {
+		override fun onClick(notification: Notification) {
+			startActivity<AlarmStatusActivity>(AlarmStatusActivity.EXTRA_UID to notification.alarmStatus.uid)
+		}
+
 	}
 }

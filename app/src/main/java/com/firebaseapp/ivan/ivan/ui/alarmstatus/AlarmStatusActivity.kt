@@ -1,4 +1,4 @@
-package com.firebaseapp.ivan.ivan.ui.student
+package com.firebaseapp.ivan.ivan.ui.alarmstatus
 
 import android.arch.lifecycle.ViewModelProvider
 import android.os.Bundle
@@ -14,17 +14,19 @@ import kotlinx.android.synthetic.main.app_bar_main.*
 import javax.inject.Inject
 
 /**
- * @author phompang on 4/2/2018 AD.
+ * @author phompang on 13/4/2018 AD.
  */
-class StudentActivity : AppCompatActivity(), HasSupportFragmentInjector {
+class AlarmStatusActivity : AppCompatActivity(), HasSupportFragmentInjector {
 
-	@Inject lateinit var viewModelFactory: ViewModelProvider.Factory
+	@Inject
+	lateinit var viewModelFactory: ViewModelProvider.Factory
 	@Inject
 	lateinit var androidInjector: DispatchingAndroidInjector<Fragment>
-	private var studentUid = ""
+
+	private lateinit var uid: String
 
 	companion object {
-		const val EXTRA_STUDENT_UID = "extra-student-uid"
+		const val EXTRA_UID = "extra_uid"
 	}
 
 	override fun supportFragmentInjector(): AndroidInjector<Fragment> = androidInjector
@@ -39,8 +41,8 @@ class StudentActivity : AppCompatActivity(), HasSupportFragmentInjector {
 			null -> {
 				extractExtras(intent.extras)
 				replaceFragmentSafely(
-						StudentFragment.newInstance(studentUid),
-						StudentFragment.TAG,
+						AlarmStatusFragment.newInstance(uid),
+						AlarmStatusFragment.TAG,
 						true,
 						R.id.flContent
 				)
@@ -50,7 +52,12 @@ class StudentActivity : AppCompatActivity(), HasSupportFragmentInjector {
 	}
 
 	private fun extractExtras(bundle: Bundle) {
-		studentUid = bundle.getString(EXTRA_STUDENT_UID, "")
+		uid = bundle.getString(EXTRA_UID)
+	}
+
+	override fun onSaveInstanceState(outState: Bundle?) {
+		super.onSaveInstanceState(outState)
+		outState?.putString(EXTRA_UID, uid)
 	}
 
 	override fun onOptionsItemSelected(item: MenuItem?): Boolean {
@@ -61,17 +68,5 @@ class StudentActivity : AppCompatActivity(), HasSupportFragmentInjector {
 			}
 		}
 		return super.onOptionsItemSelected(item)
-	}
-
-	override fun onSaveInstanceState(outState: Bundle?) {
-		super.onSaveInstanceState(outState)
-		outState?.putString(EXTRA_STUDENT_UID, studentUid)
-	}
-
-	override fun onRestoreInstanceState(savedInstanceState: Bundle?) {
-		super.onRestoreInstanceState(savedInstanceState)
-		savedInstanceState?.let {
-			extractExtras(it)
-		}
 	}
 }

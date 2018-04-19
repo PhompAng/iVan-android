@@ -1,5 +1,6 @@
 package com.firebaseapp.ivan.ivan.ui.carmap
 
+import android.arch.lifecycle.ViewModelProvider
 import android.databinding.DataBindingUtil
 import android.graphics.Color
 import android.os.Bundle
@@ -42,12 +43,15 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.gson.Gson
 import com.wongnai.android.*
+import javax.inject.Inject
 
 /**
  * @author phompang on 21/1/2018 AD.
  */
 class CarMapFragment : Fragment(), Injectable, OnMapReadyCallback {
-	private lateinit var viewModel: CarViewModel
+	@Inject
+	lateinit var viewModelFactory: ViewModelProvider.Factory
+	private lateinit var viewModel: CarMapViewModel
 	private lateinit var binding: FragmentCarMapBinding
 	private lateinit var mapView: MapView
 	private lateinit var mMap: GoogleMap
@@ -109,7 +113,7 @@ class CarMapFragment : Fragment(), Injectable, OnMapReadyCallback {
 	}
 
 	private fun setUpViewModel() {
-		viewModel = activity!!.obtainViewModel(CarViewModel::class.java)
+		viewModel = activity!!.obtainViewModel(viewModelFactory, CarMapViewModel::class.java)
 		viewModel.setCar(car)
 		viewModel.getMobilityStatus().observe(this) {
 			it ?: return@observe
