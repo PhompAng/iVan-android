@@ -20,6 +20,8 @@
 	<string name="action_report">Report</string>
 	<string name="action_open_map">Open Map</string>
 	<string name="action_detail">Detail</string>
+	<string name="action_confirm_student_secured">Confirm Student Secured</string>
+	<string name="action_confirm">Confirm</string>
 
 	<string name="select_car">Select Car</string>
 	<string name="sign_in">Sign In</string>
@@ -48,7 +50,7 @@
 	<string name="estimate_value">%1d min</string>
 	<string name="alarm_status_detection">Detection: %s</string>
 	<string name="alarm_status_row">Row: %d</string>
-
+	<string name="name_and_role">%1$s (%2$s)</string>
 	<string name="student_id">(ID: %1$s)</string>
 
 	<string name="msg_no_sms">Your device does not have the ability to send SMS.</string>
@@ -61,4 +63,9 @@
 	<string name="car_staff">Car Staff</string>
 	<string name="report_false_alarm">Report false alarm</string>
 	<string name="report_false_alarm_question">Do you want to report false alarm ?</string>
+	<string name="confirm_secured_question">Do you want to confirm student secured ?</string>
+	<string name="no_location">No location</string>
+	<string name="not_in_range">Not in range</string>
+
+	<string name="msg_waiting_current_location">Detecting current location…</string>
 </resources>

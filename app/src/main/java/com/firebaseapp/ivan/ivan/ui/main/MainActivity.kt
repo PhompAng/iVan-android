@@ -88,7 +88,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 					nav_view.menu.setGroupVisible(R.id.driverMenu, false)
 					nav_view.menu.setGroupVisible(R.id.teacherMenu, false)
 					DataBindingUtils.loadFromFirebaseStorage(userThumbnailImageView, it, getDrawable(R.mipmap.ic_launcher_round), CIRCLE)
-					userNameTextView.text = it.fullName()
+					userNameTextView.text = getString(R.string.name_and_role, it.fullName(), "Parent")
 					emailTextView.text = it.email
 				}
 				onDriver {
@@ -96,7 +96,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 					nav_view.menu.setGroupVisible(R.id.driverMenu, true)
 					nav_view.menu.setGroupVisible(R.id.teacherMenu, false)
 					DataBindingUtils.loadFromFirebaseStorage(userThumbnailImageView, it, getDrawable(R.mipmap.ic_launcher_round), CIRCLE)
-					userNameTextView.text = it.fullName()
+					userNameTextView.text = getString(R.string.name_and_role, it.fullName(), "Driver")
 					emailTextView.text = it.email
 					setCar(it.getKeyOrId(), Role.DRIVER)
 				}
@@ -105,7 +105,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 					nav_view.menu.setGroupVisible(R.id.driverMenu, false)
 					nav_view.menu.setGroupVisible(R.id.teacherMenu, true)
 					DataBindingUtils.loadFromFirebaseStorage(userThumbnailImageView, it, getDrawable(R.mipmap.ic_launcher_round), CIRCLE)
-					userNameTextView.text = it.fullName()
+					userNameTextView.text = getString(R.string.name_and_role, it.fullName(), "Teacher")
 					emailTextView.text = it.email
 					setCar(it.getKeyOrId(), Role.TEACHER)
 				}
