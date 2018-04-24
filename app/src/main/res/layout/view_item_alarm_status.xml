@@ -21,14 +21,14 @@
 		android:fontFamily="@font/kanit_bold"
 		android:padding="@dimen/space_larger"
 		android:text="FALSE ALARM"
-		android:visibility="gone"
-		tools:visibility="visible"
 		android:textAlignment="center"
 		android:textColor="@android:color/white"
 		android:textSize="@dimen/text_large_4"
+		android:visibility="gone"
 		app:layout_constraintEnd_toEndOf="parent"
 		app:layout_constraintStart_toStartOf="parent"
-		app:layout_constraintTop_toTopOf="parent" />
+		app:layout_constraintTop_toTopOf="parent"
+		tools:visibility="visible" />
 
 	<TextView
 		android:id="@+id/titleTextView"
@@ -82,5 +82,14 @@
 		android:text="@string/report_false_alarm"
 		app:layout_constraintEnd_toEndOf="parent"
 		app:layout_constraintTop_toBottomOf="@+id/recyclerView" />
+
+	<Button
+		android:id="@+id/confirmSecureButton"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:text="@string/action_confirm_student_secured"
+		app:layout_constraintEnd_toEndOf="parent"
+		app:layout_constraintStart_toStartOf="parent"
+		app:layout_constraintTop_toBottomOf="@+id/reportFalseButton" />
 
 </android.support.constraint.ConstraintLayout>

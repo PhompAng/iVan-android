@@ -5,6 +5,9 @@ import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
 import com.firebaseapp.ivan.ivan.api.AlarmStatusApi
 import com.firebaseapp.ivan.ivan.model.AlarmStatus
+import com.firebaseapp.ivan.ivan.model.Location
+import com.firebaseapp.ivan.ivan.model.api.request.ConfirmSecuredData
+import com.firebaseapp.ivan.ivan.model.api.request.ConfirmSecuredRequest
 import com.firebaseapp.ivan.ivan.model.api.request.ReportFalseAlarmRequest
 import com.firebaseapp.ivan.ivan.model.deserializer
 import com.firebaseapp.ivan.util.livedata.FirebaseLiveData
@@ -21,14 +24,14 @@ import javax.inject.Inject
  */
 class AlarmStatusViewModel @Inject constructor(private val alarmStatusApi: AlarmStatusApi) : ViewModel() {
 	private val alarmStatusRef = FirebaseDatabase.getInstance().reference.child("alarm_status_data")
-	private val reportFalseResult = MutableLiveData<Boolean>()
+	private val callResult = MutableLiveData<Boolean>()
 	private val alarmStatusUid = MutableLiveData<String>()
 	private val alarmStatus = alarmStatusUid.switchMap {
 		FirebaseLiveData(alarmStatusRef.child(it), deserializer<AlarmStatus>()).getLiveData()
 	}
 
 	init {
-		reportFalseResult.value = false
+		callResult.value = false
 	}
 
 	fun setAlarmStatusUid(uid: String) {
@@ -39,21 +42,34 @@ class AlarmStatusViewModel @Inject constructor(private val alarmStatusApi: Alarm
 		return alarmStatus
 	}
 
-	fun getReportFalseResult() = reportFalseResult
+	fun getCallResult() = callResult
 
-	fun setReportFalseResult(result: Boolean) {
-		this.reportFalseResult.value = result
+	fun setCallResult(result: Boolean) {
+		this.callResult.value = result
 	}
 
 	fun reportFalseAlarm(uid: String) {
 		alarmStatusApi.reportFalseAlarm(ReportFalseAlarmRequest(uid)).enqueue(object : Callback<String> {
 			override fun onFailure(call: Call<String>?, t: Throwable?) {
 				Timber.e(t)
-				reportFalseResult.value = false
+				callResult.value = false
 			}
 
 			override fun onResponse(call: Call<String>?, response: Response<String>?) {
-				reportFalseResult.value = true
+				callResult.value = true
+			}
+		})
+	}
+
+	fun confirmSecured(uid: String, reporterUid: String, location: Location) {
+		alarmStatusApi.confirmSecured(ConfirmSecuredRequest(uid, ConfirmSecuredData(reporterUid, location))).enqueue(object : Callback<String> {
+			override fun onFailure(call: Call<String>?, t: Throwable?) {
+				Timber.e(t)
+				callResult.value = false
+			}
+
+			override fun onResponse(call: Call<String>?, response: Response<String>?) {
+				callResult.value = true
 			}
 		})
 	}

@@ -13,7 +13,10 @@ import kotlinx.android.synthetic.main.view_item_alarm_status.view.*
 /**
  * @author phompang on 14/4/2018 AD.
  */
-class AlarmStatusViewHolderFactory(private val onReportFalseAlarmListener: OnReportFalseAlarmListener) : ViewHolderFactory<AlarmStatus> {
+class AlarmStatusViewHolderFactory(
+		private val onReportFalseAlarmListener: OnReportFalseAlarmListener,
+		private val onConfirmStudentSecuredListener: OnConfirmStudentSecuredListener
+) : ViewHolderFactory<AlarmStatus> {
 	override fun create(parent: ViewGroup?): ItemViewHolder<*> {
 		return AlarmStatusViewHolder(parent!!.inflate(R.layout.view_item_alarm_status))
 	}
@@ -22,7 +25,7 @@ class AlarmStatusViewHolderFactory(private val onReportFalseAlarmListener: OnRep
 		private val adapter = MultipleViewAdapter(1)
 		private lateinit var data: AlarmStatus
 
-		private val dialog by lazy {
+		private val reportFalseDialog by lazy {
 			AlertDialog.Builder(getContext())
 					.setTitle(R.string.report_false_alarm_question)
 					.setNegativeButton(R.string.action_cancel) { dialog, _ ->
@@ -34,10 +37,28 @@ class AlarmStatusViewHolderFactory(private val onReportFalseAlarmListener: OnRep
 					}
 		}
 
+		private val confirmDialog by lazy {
+			AlertDialog.Builder(getContext())
+					.setTitle(R.string.confirm_secured_question)
+					.setNegativeButton(R.string.action_cancel) { dialog, _ ->
+						dialog.dismiss()
+					}
+					.setPositiveButton(R.string.action_confirm) { dialog, _ ->
+						onConfirmStudentSecuredListener.onConfirm(data)
+						dialog.dismiss()
+					}
+		}
+
 		init {
 			adapter.registerViewHolderFactory(TYPE_0, AlarmStatusDataViewHolderFactory())
 			itemView.recyclerView.adapter = adapter
 			itemView.recyclerView.layoutManager = LinearLayoutManager(getContext())
+			itemView.reportFalseButton.setOnClickListener {
+				reportFalseDialog.show()
+			}
+			itemView.confirmSecureButton.setOnClickListener {
+				confirmDialog.show()
+			}
 		}
 
 		override fun fillData(data: AlarmStatus, position: Int) {
@@ -50,14 +71,16 @@ class AlarmStatusViewHolderFactory(private val onReportFalseAlarmListener: OnRep
 				itemView.falseAlarmView.visibility = View.VISIBLE
 				itemView.alarmStatusGroup.background = getContext().getDrawable(R.drawable.fg_disabled)
 				itemView.reportFalseButton.visibility = View.GONE
-			}
-			itemView.reportFalseButton.setOnClickListener {
-				dialog.show()
+				itemView.confirmSecureButton.visibility = View.GONE
 			}
 		}
 	}
 
 	interface OnReportFalseAlarmListener {
 		fun onReport(data: AlarmStatus)
+	}
+
+	interface OnConfirmStudentSecuredListener {
+		fun onConfirm(data: AlarmStatus)
 	}
 }
