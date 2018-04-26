@@ -13,6 +13,13 @@
 		android:layout_height="wrap_content"
 		app:constraint_referenced_ids="titleTextView,detection,dataTextView,recyclerView" />
 
+	<android.support.constraint.Barrier
+		android:id="@+id/reportBarrier"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		app:barrierDirection="bottom"
+		app:constraint_referenced_ids="falseAlarmView,confirmedView"/>
+
 	<TextView
 		android:id="@+id/falseAlarmView"
 		android:layout_width="0dp"
@@ -31,6 +38,23 @@
 		tools:visibility="visible" />
 
 	<TextView
+		android:id="@+id/confirmedView"
+		android:layout_width="0dp"
+		android:layout_height="wrap_content"
+		android:background="@color/light_green_500"
+		android:fontFamily="@font/kanit_bold"
+		android:padding="@dimen/space_larger"
+		android:text="CONFIRMED"
+		android:textAlignment="center"
+		android:textColor="@android:color/white"
+		android:textSize="@dimen/text_large_4"
+		android:visibility="gone"
+		app:layout_constraintEnd_toEndOf="parent"
+		app:layout_constraintStart_toStartOf="parent"
+		app:layout_constraintTop_toTopOf="parent"
+		tools:visibility="visible" />
+
+	<TextView
 		android:id="@+id/titleTextView"
 		style="@style/Title1"
 		android:layout_width="wrap_content"
@@ -38,7 +62,7 @@
 		android:layout_marginTop="@dimen/space_normal"
 		android:text="@string/alarm_status"
 		app:layout_constraintStart_toStartOf="parent"
-		app:layout_constraintTop_toBottomOf="@+id/falseAlarmView" />
+		app:layout_constraintTop_toBottomOf="@+id/reportBarrier" />
 
 	<TextView
 		android:id="@+id/detection"
@@ -55,6 +79,17 @@
 		tools:text="Detection: Detect" />
 
 	<TextView
+		android:id="@+id/timestampTextView"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:fontFamily="@font/kanit"
+		android:textColor="@color/textColorPrimary"
+		android:textSize="@dimen/text_small_1"
+		app:layout_constraintEnd_toEndOf="parent"
+		app:layout_constraintTop_toBottomOf="@+id/detection"
+		tools:text="24 April 2018 : 11:23" />
+
+	<TextView
 		android:id="@+id/dataTextView"
 		style="@style/Title1"
 		android:layout_width="wrap_content"
@@ -62,7 +97,7 @@
 		android:layout_marginTop="@dimen/space_normal"
 		android:text="@string/data"
 		app:layout_constraintStart_toStartOf="parent"
-		app:layout_constraintTop_toBottomOf="@+id/detection" />
+		app:layout_constraintTop_toBottomOf="@+id/timestampTextView" />
 
 	<android.support.v7.widget.RecyclerView
 		android:id="@+id/recyclerView"
@@ -92,4 +127,14 @@
 		app:layout_constraintStart_toStartOf="parent"
 		app:layout_constraintTop_toBottomOf="@+id/reportFalseButton" />
 
+	<TextView
+		android:id="@+id/confirmHint"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:text="@string/confirm_hint"
+		android:textColor="@color/textColorPrimary"
+		android:textSize="@dimen/text_small_1"
+		app:layout_constraintEnd_toEndOf="parent"
+		app:layout_constraintStart_toStartOf="parent"
+		app:layout_constraintTop_toBottomOf="@+id/confirmSecureButton" />
 </android.support.constraint.ConstraintLayout>

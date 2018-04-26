@@ -68,4 +68,5 @@
 	<string name="not_in_range">Not in range</string>
 
 	<string name="msg_waiting_current_location">Detecting current location…</string>
+	<string name="confirm_hint">* Press this button when you reach the scene</string>
 </resources>

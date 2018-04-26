@@ -26,6 +26,8 @@
 	<color name="red200">#FF5252</color>
 	<color name="red500">#F44336</color>
 
+	<color name="light_green_500">#8BC34A</color>
+
 	<!--rate number-->
 	<color name="rate_number_0">@color/grey500</color>
 	<color name="rate_number_1">#A69B85</color>

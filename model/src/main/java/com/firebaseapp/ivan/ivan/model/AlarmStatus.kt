@@ -1,6 +1,7 @@
 package com.firebaseapp.ivan.ivan.model
 
 import android.os.Parcelable
+import com.firebaseapp.ivan.ivan.model.api.request.ReporterData
 import com.google.firebase.database.PropertyName
 import kotlinx.android.parcel.Parcelize
 
@@ -14,6 +15,9 @@ data class AlarmStatus(@get:PropertyName("data")
 					   @get:PropertyName("carId")
 					   @set:PropertyName("carId")
 					   var carId: String = "",
+					   @get:PropertyName("confirm")
+					   @set:PropertyName("confirm")
+					   var confirm: Confirm = Confirm(),
 					   @get:PropertyName("location")
 					   @set:PropertyName("location")
 					   var location: Location = Location(),
@@ -57,3 +61,14 @@ data class SensorData(@get:PropertyName("pir")
 					  @get:PropertyName("ultrasonic_based_value")
 					  @set:PropertyName("ultrasonic_based_value")
 					  var ultrasonicBasedValue: Int = 0) : FirebaseModel(), Parcelable
+
+@Parcelize
+data class Confirm(@get:PropertyName("reportLocation")
+				   @set:PropertyName("reportLocation")
+				   var reportLocation: Location = Location(),
+				   @get:PropertyName("reporter")
+				   @set:PropertyName("reporter")
+				   var reporter: ReporterData = ReporterData(),
+				   @get:PropertyName("timestamp")
+				   @set:PropertyName("timestamp")
+				   var timestamp: Long = 0) : Parcelable
