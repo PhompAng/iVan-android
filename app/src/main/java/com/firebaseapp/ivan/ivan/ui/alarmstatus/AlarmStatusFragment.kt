@@ -15,6 +15,8 @@ import android.view.ViewGroup
 import com.firebaseapp.ivan.ivan.R
 import com.firebaseapp.ivan.ivan.di.Injectable
 import com.firebaseapp.ivan.ivan.model.AlarmStatus
+import com.firebaseapp.ivan.ivan.model.Role
+import com.firebaseapp.ivan.ivan.model.fullName
 import com.firebaseapp.ivan.ivan.model.monad.fold
 import com.firebaseapp.ivan.ivan.ui.alarmstatus.holder.AlarmStatusViewHolderFactory
 import com.firebaseapp.ivan.ivan.ui.alarmstatus.holder.StaticMapViewHolderFactory
@@ -186,14 +188,14 @@ class AlarmStatusFragment : Fragment(), Injectable {
 					when {
 						currentLocation == null -> getNoLocationDialog().show()
 						!isInRange(data.location) -> getNotInRangeDialog().show()
-						else -> viewModel.confirmSecured(data.uid, it.getKeyOrId(), com.firebaseapp.ivan.ivan.model.Location(currentLocation!!.latitude, currentLocation!!.longitude))
+						else -> viewModel.confirmSecured(data.uid, it.getKeyOrId(), it.fullName(), Role.DRIVER, getLocation(currentLocation!!.latitude, currentLocation!!.longitude))
 					}
 				}
 				onTeacher {
 					when {
 						currentLocation == null -> getNoLocationDialog().show()
 						!isInRange(data.location) -> getNotInRangeDialog().show()
-						else -> viewModel.confirmSecured(data.uid, it.getKeyOrId(), getLocation(currentLocation!!.latitude, currentLocation!!.longitude))
+						else -> viewModel.confirmSecured(data.uid, it.getKeyOrId(), it.fullName(), Role.TEACHER, getLocation(currentLocation!!.latitude, currentLocation!!.longitude))
 					}
 				}
 			}
@@ -202,6 +204,7 @@ class AlarmStatusFragment : Fragment(), Injectable {
 		private fun isInRange(location: com.firebaseapp.ivan.ivan.model.Location): Boolean {
 			val curLocation = com.firebaseapp.ivan.ivan.model.Location(currentLocation!!.latitude, currentLocation!!.longitude)
 			val distance = distanceBetween(curLocation, location)
+			Timber.d("$distance")
 			return when (distance) {
 				null -> false
 				else -> distance <= 100

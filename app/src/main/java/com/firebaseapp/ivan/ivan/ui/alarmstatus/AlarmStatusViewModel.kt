@@ -9,6 +9,7 @@ import com.firebaseapp.ivan.ivan.model.Location
 import com.firebaseapp.ivan.ivan.model.api.request.ConfirmSecuredData
 import com.firebaseapp.ivan.ivan.model.api.request.ConfirmSecuredRequest
 import com.firebaseapp.ivan.ivan.model.api.request.ReportFalseAlarmRequest
+import com.firebaseapp.ivan.ivan.model.api.request.ReporterData
 import com.firebaseapp.ivan.ivan.model.deserializer
 import com.firebaseapp.ivan.util.livedata.FirebaseLiveData
 import com.firebaseapp.ivan.util.switchMap
@@ -61,8 +62,17 @@ class AlarmStatusViewModel @Inject constructor(private val alarmStatusApi: Alarm
 		})
 	}
 
-	fun confirmSecured(uid: String, reporterUid: String, location: Location) {
-		alarmStatusApi.confirmSecured(ConfirmSecuredRequest(uid, ConfirmSecuredData(reporterUid, location))).enqueue(object : Callback<String> {
+	fun confirmSecured(uid: String, reporterUid: String, reporterName: String, reporterRole: Int, location: Location) {
+		alarmStatusApi.confirmSecured(
+				ConfirmSecuredRequest(
+						uid,
+						ConfirmSecuredData(
+								ReporterData(
+										reporterUid,
+										reporterName,
+										reporterRole),
+								location)))
+				.enqueue(object : Callback<String> {
 			override fun onFailure(call: Call<String>?, t: Throwable?) {
 				Timber.e(t)
 				callResult.value = false
