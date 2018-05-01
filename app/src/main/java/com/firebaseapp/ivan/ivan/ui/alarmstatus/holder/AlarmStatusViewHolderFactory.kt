@@ -77,7 +77,7 @@ class AlarmStatusViewHolderFactory(
 				itemView.reportFalseButton.visibility = View.GONE
 				itemView.confirmSecureButton.visibility = View.GONE
 				itemView.confirmHint.visibility = View.GONE
-			} else if (data.confirm.timestamp == 0L) {
+			} else if (data.confirm.timestamp != 0L) {
 				itemView.confirmedView.visibility = View.VISIBLE
 				itemView.falseAlarmView.visibility = View.GONE
 				itemView.alarmStatusGroup.background = getContext().getDrawable(R.drawable.fg_disabled)

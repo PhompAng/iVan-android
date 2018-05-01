@@ -3,6 +3,7 @@ package com.firebaseapp.ivan.ivan.ui.login
 import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import com.akexorcist.localizationactivity.ui.LocalizationActivity
 import com.firebaseapp.ivan.ivan.ui.main.MainActivity
 import com.firebaseapp.ivan.ivan.R
 import com.firebaseapp.ivan.util.invisible
@@ -15,7 +16,7 @@ import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_login.*
 import timber.log.Timber
 
-class LoginActivity : AppCompatActivity() {
+class LoginActivity : LocalizationActivity() {
 
 	private lateinit var viewModel: LoginViewModel
 

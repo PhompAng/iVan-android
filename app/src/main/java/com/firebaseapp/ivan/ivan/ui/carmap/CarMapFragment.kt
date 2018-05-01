@@ -135,6 +135,10 @@ class CarMapFragment : Fragment(), Injectable, OnMapReadyCallback {
 			adapter.add(it, TYPE_3)
 			adapter.add(DelegateMobilityStatus.getAvgSpeed(context!!, it), TYPE_0)
 			adapter.add(DelegateMobilityStatus.getOilLevel(context!!, it), TYPE_1)
+			adapter.add(DelegateMobilityStatus.getEngineOilMileage(context!!, it), TYPE_0)
+			adapter.add(DelegateMobilityStatus.getBrakeOilMileage(context!!, it), TYPE_0)
+			adapter.add(DelegateMobilityStatus.getSpeedExceed(context!!, it), TYPE_0)
+			adapter.add(DelegateMobilityStatus.getMileage(context!!, it), TYPE_0)
 			adapter.add(car, TYPE_2)
 		}
 		viewModel.getSchool().observe(this) {

@@ -3,6 +3,7 @@ package com.firebaseapp.ivan.ivan.ui.driver
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.view.MenuItem
+import com.akexorcist.localizationactivity.ui.LocalizationActivity
 import com.firebaseapp.ivan.ivan.R
 import com.firebaseapp.ivan.ivan.model.fullName
 import com.firebaseapp.ivan.util.DataBindingUtils
@@ -14,7 +15,7 @@ import kotlinx.android.synthetic.main.collapsing_toolbar_main.*
 /**
  * @author phompang on 13/2/2018 AD.
  */
-class DriverActivity : AppCompatActivity() {
+class DriverActivity : LocalizationActivity() {
 	private val driver by lazy {
 		IVan.getCar(applicationContext).drivers[0]
 	}
