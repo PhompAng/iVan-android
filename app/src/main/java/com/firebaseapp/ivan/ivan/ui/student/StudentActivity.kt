@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.app.AppCompatActivity
 import android.view.MenuItem
+import com.akexorcist.localizationactivity.ui.LocalizationActivity
 import com.firebaseapp.ivan.ivan.R
 import com.firebaseapp.ivan.util.replaceFragmentSafely
 import dagger.android.AndroidInjector
@@ -16,7 +17,7 @@ import javax.inject.Inject
 /**
  * @author phompang on 4/2/2018 AD.
  */
-class StudentActivity : AppCompatActivity(), HasSupportFragmentInjector {
+class StudentActivity : LocalizationActivity(), HasSupportFragmentInjector {
 
 	@Inject lateinit var viewModelFactory: ViewModelProvider.Factory
 	@Inject

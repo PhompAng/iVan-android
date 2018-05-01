@@ -3,6 +3,7 @@ package com.firebaseapp.ivan.ivan.ui
 import android.os.Bundle
 import android.os.Handler
 import android.support.v7.app.AppCompatActivity
+import com.akexorcist.localizationactivity.ui.LocalizationActivity
 import com.firebaseapp.ivan.ivan.R
 import com.firebaseapp.ivan.ivan.ui.login.LoginActivity
 import kotlinx.android.synthetic.main.activity_splash_screen.*
@@ -11,7 +12,7 @@ import org.jetbrains.anko.startActivity
 /**
  * @author phompang on 15/2/2018 AD.
  */
-class SplashScreenActivity : AppCompatActivity() {
+class SplashScreenActivity : LocalizationActivity() {
 
 	private lateinit var handler: Handler
 	private lateinit var runnable: Runnable

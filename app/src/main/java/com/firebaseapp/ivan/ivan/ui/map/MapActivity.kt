@@ -3,6 +3,7 @@ package com.firebaseapp.ivan.ivan.ui.map
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.view.MenuItem
+import com.akexorcist.localizationactivity.ui.LocalizationActivity
 import com.firebaseapp.ivan.ivan.R
 import com.firebaseapp.ivan.ivan.model.Location
 import com.firebaseapp.ivan.util.replaceFragmentSafely
@@ -11,7 +12,7 @@ import kotlinx.android.synthetic.main.app_bar_main.*
 /**
  * @author phompang on 19/2/2018 AD.
  */
-class MapActivity : AppCompatActivity() {
+class MapActivity : LocalizationActivity() {
 
 	private lateinit var location: Location
 

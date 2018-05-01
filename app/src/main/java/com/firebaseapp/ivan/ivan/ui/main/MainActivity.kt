@@ -14,6 +14,7 @@ import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
+import com.akexorcist.localizationactivity.ui.LocalizationActivity
 import com.firebaseapp.ivan.ivan.R
 import com.firebaseapp.ivan.ivan.model.Car
 import com.firebaseapp.ivan.ivan.model.Role
@@ -26,6 +27,7 @@ import com.firebaseapp.ivan.ivan.ui.login.LoginActivity
 import com.firebaseapp.ivan.ivan.ui.notification.NotificationFragment
 import com.firebaseapp.ivan.ivan.ui.parent.ParentActivity
 import com.firebaseapp.ivan.ivan.ui.select.SelectCarFragment
+import com.firebaseapp.ivan.ivan.ui.setting.SettingsActivity
 import com.firebaseapp.ivan.ivan.ui.students.StudentsFragment
 import com.firebaseapp.ivan.ivan.ui.teacher.TeacherActivity
 import com.firebaseapp.ivan.ivan.utils.obtainViewModel
@@ -43,7 +45,7 @@ import org.jetbrains.anko.startActivity
 import timber.log.Timber
 import javax.inject.Inject
 
-class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener, HasSupportFragmentInjector, SelectCarFragment.SelectCarCallback {
+class MainActivity : LocalizationActivity(), NavigationView.OnNavigationItemSelectedListener, HasSupportFragmentInjector, SelectCarFragment.SelectCarCallback {
 
 	@Inject lateinit var viewModelFactory: ViewModelProvider.Factory
 	@Inject
@@ -222,7 +224,10 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
 	override fun onOptionsItemSelected(item: MenuItem): Boolean {
 		return when (item.itemId) {
-			R.id.action_settings -> true
+			R.id.action_settings -> {
+				startActivity<SettingsActivity>()
+				true
+			}
 			else -> super.onOptionsItemSelected(item)
 		}
 	}

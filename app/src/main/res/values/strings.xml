@@ -2,4 +2,7 @@
 <resources>
 	<string name="app_name">iVan</string>
 	<string name="app_subtitle">Van tracking app</string>
+	<string name="title_activity_settings">Settings</string>
+	<string name="lang_dialog_title_list_preference">Select Language</string>
+	<string name="pref_header_general">General</string>
 </resources>
