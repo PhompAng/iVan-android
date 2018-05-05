@@ -39,6 +39,8 @@
 	<string name="alarm_status">Alarm Status</string>
 	<string name="data">Data</string>
 	<string name="complete" translatable="false">Complete</string>
+	<string name="language">Language</string>
+	<string name="car_history">Car History</string>
 
 	<string name="condition">Condition</string>
 	<string name="last_update">Last Update</string>
@@ -56,6 +58,9 @@
 	<string name="engine_oil_mileage">Engine Oil Mileage</string>
 	<string name="mileage">Mileage</string>
 	<string name="speed_exceed">Speed Exceed Count</string>
+	<string name="pickup_value">Pick up: %s</string>
+	<string name="getoff_value">Get Off: %s</string>
+	<string name="come">Come</string>
 
 	<string name="msg_no_sms" translatable="false">Your device does not have the ability to send SMS.</string>
 	<string name="msg_no_phone" translatable="false">Your device does not have the ability to make a phone call.</string>
@@ -73,5 +78,4 @@
 
 	<string name="msg_waiting_current_location" translatable="false">Detecting current location…</string>
 	<string name="confirm_hint">* Press this button when you reach the scene</string>
-	<string name="language">Language</string>
 </resources>

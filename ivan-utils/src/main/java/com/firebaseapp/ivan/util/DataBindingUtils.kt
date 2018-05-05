@@ -16,6 +16,7 @@ import com.firebaseapp.ivan.util.glide.GlideTransformClass.Companion.CIRCLE
 import com.firebaseapp.ivan.util.glide.GlideTransformClass.Companion.ROUND_CORNER
 import com.firebaseapp.ivan.util.glide.RoundedCornersTransformation
 import com.firebaseapp.ivan.util.view.PhotoGridView
+import com.firebaseapp.ivan.util.view.StarRatingNumberView
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageException
 import com.google.firebase.storage.StorageReference
@@ -52,7 +53,7 @@ object DataBindingUtils {
 			is Student -> refChild = ref.child("students")
 			is Driver -> refChild = ref.child("drivers")
 			is Parent -> refChild = ref.child("parents")
-			is Teacher -> refChild = ref.child("teacher")
+			is Teacher -> refChild = ref.child("teachers")
 		}
 
 		if (data.getKeyOrId().isBlank()) {
@@ -92,6 +93,16 @@ object DataBindingUtils {
 	}
 
 	@JvmStatic
+	@BindingAdapter("star")
+	fun fillStar(view: StarRatingNumberView, data: MobilityStatus?) {
+		if (data == null) {
+			view.fillData(-1F)
+		} else {
+			view.fillData(data.star.toFloat())
+		}
+	}
+
+	@JvmStatic
 	@BindingAdapter(value = ["distance_from", "parent_location"], requireAll = true)
 	fun fillDistance(view: TextViewRichDrawable, data: MobilityStatus?, parentLocation: Location?) {
 		if (data == null) {
@@ -111,13 +122,15 @@ object DataBindingUtils {
 			estimateTime(view.context, Location(data.lat, data.lng), parentLocation, { direction: Direction?, rawBody ->
 				direction?.let {
 					Timber.d(rawBody)
-					val time = it.routeList[0].legList.fold(0) { acc: Int, leg: Leg? ->
-						when (leg) {
-							null -> acc
-							else -> acc + leg.duration.value.toInt()
+					if (it.routeList.isNotEmpty()) {
+						val time = it.routeList[0].legList.fold(0) { acc: Int, leg: Leg? ->
+							when (leg) {
+								null -> acc
+								else -> acc + leg.duration.value.toInt()
+							}
 						}
+						view.text = formatTime(view.context, time)
 					}
-					view.text = formatTime(view.context, time)
 				}
 			})
 		}
