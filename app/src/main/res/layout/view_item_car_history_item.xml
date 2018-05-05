@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:layout_width="match_parent"
+	android:layout_height="wrap_content"
+	android:paddingVertical="@dimen/space_normal">
+
+	<TextView
+		android:id="@+id/dateTextView"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:fontFamily="@font/kanit_regular"
+		android:textColor="@color/textColor"
+		android:textSize="@dimen/text_large_1"
+		app:layout_constraintStart_toStartOf="parent"
+		app:layout_constraintTop_toTopOf="parent"
+		tools:text="13 February 2017" />
+
+	<TextView
+		android:id="@+id/pickUpTextView"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:textColor="@color/textColorPrimary"
+		android:textSize="@dimen/text_large_1"
+		app:layout_constraintStart_toStartOf="parent"
+		app:layout_constraintTop_toBottomOf="@+id/dateTextView"
+		tools:text="Pick up: 6:45 AM" />
+
+	<TextView
+		android:id="@+id/getOffTextView"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_marginStart="@dimen/space_normal"
+		android:textColor="@color/textColorPrimary"
+		android:textSize="@dimen/text_large_1"
+		app:layout_constraintBaseline_toBaselineOf="@+id/pickUpTextView"
+		app:layout_constraintStart_toEndOf="@+id/pickUpTextView"
+		tools:text="Get off: 6:45 PM" />
+
+	<TextView
+		android:id="@+id/summaryTextView"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:fontFamily="@font/kanit_medium"
+		android:textColor="@color/colorPrimary"
+		android:textSize="@dimen/text_large_2"
+		app:layout_constraintBottom_toBottomOf="parent"
+		app:layout_constraintEnd_toEndOf="parent"
+		app:layout_constraintTop_toTopOf="parent"
+		tools:text="Come" />
+</android.support.constraint.ConstraintLayout>

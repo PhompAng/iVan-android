@@ -19,11 +19,11 @@ class StarRatingNumberView @JvmOverloads constructor(
 		ratingTextView.setPadding(0, 0, 0, 0)
 		ratingTextView.includeFontPadding = false
 		ratingTextView.typeface = resources.getFont(R.font.kanit_regular)
-		ratingTextView.text = "4.7"
+		ratingTextView.text = "-"
 	}
 
 	override fun fillDataInEditMode() {
-		ratingTextView.text = "4.7"
+		ratingTextView.text = "-"
 	}
 
 	override fun fillDataNonNull(d: Float) {

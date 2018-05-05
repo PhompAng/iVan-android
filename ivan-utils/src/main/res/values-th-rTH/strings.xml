@@ -47,4 +47,10 @@
 	<string name="alarm_status_detection">การตรวจพบ: %s</string>
 	<string name="alarm_status_row">แถว: %d</string>
 	<string name="language">ภาษา</string>
+	<string name="car_history">ประวัติ</string>
+	<string name="come">มา</string>
+	<string name="brake_oil_mileage">เลขไมล์น้ำมันเบรก</string>
+	<string name="engine_oil_mileage">เลขไมล์น้ำมันเครื่อง</string>
+	<string name="pickup_value">มารับ: %s</string>
+	<string name="getoff_value">ไปส่ง: %s</string>
 </resources>
