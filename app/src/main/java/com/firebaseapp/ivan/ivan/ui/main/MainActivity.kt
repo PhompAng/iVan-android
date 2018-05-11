@@ -1,19 +1,26 @@
 package com.firebaseapp.ivan.ivan.ui.main
 
 import android.Manifest
+import android.annotation.TargetApi
 import android.arch.lifecycle.ViewModelProvider
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.PixelFormat
+import android.net.Uri
+import android.os.Build
 import android.os.Bundle
+import android.provider.Settings
+import android.support.annotation.RequiresApi
 import android.support.design.widget.NavigationView
 import android.support.v4.app.Fragment
 import android.support.v4.view.GravityCompat
 import android.support.v4.widget.DrawerLayout
 import android.support.v7.app.ActionBarDrawerToggle
-import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
+import android.view.WindowManager
 import com.akexorcist.localizationactivity.ui.LocalizationActivity
 import com.firebaseapp.ivan.ivan.R
 import com.firebaseapp.ivan.ivan.model.Car
@@ -40,7 +47,7 @@ import dagger.android.DispatchingAndroidInjector
 import dagger.android.support.HasSupportFragmentInjector
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
-import kotlinx.android.synthetic.main.nav_header_main.*
+import kotlinx.android.synthetic.main.nav_header_main.view.*
 import org.jetbrains.anko.startActivity
 import timber.log.Timber
 import javax.inject.Inject
@@ -50,15 +57,16 @@ class MainActivity : LocalizationActivity(), NavigationView.OnNavigationItemSele
 	@Inject lateinit var viewModelFactory: ViewModelProvider.Factory
 	@Inject
 	lateinit var androidInjector: DispatchingAndroidInjector<Fragment>
-	private lateinit var uid: String
 	private lateinit var viewModel: MainViewModel
+	private val user by lazy {
+		IVan.getUser(this)
+	}
 
 	companion object {
 		const val REQUEST_CODE_ASK_MULTIPLE_PERMISSIONS = 124
+		const val REQUEST_CODE_ASK_OVERLAY_PERMISSION = 125
 
-		fun createIntent(ctx: Context, uid: String): Intent = Intent(ctx, MainActivity::class.java).apply {
-			putExtra(EXTRA_UID, uid)
-		}
+		fun createIntent(ctx: Context): Intent = Intent(ctx, MainActivity::class.java)
 	}
 
 	override fun supportFragmentInjector(): AndroidInjector<Fragment> = androidInjector
@@ -69,53 +77,62 @@ class MainActivity : LocalizationActivity(), NavigationView.OnNavigationItemSele
 		setSupportActionBar(toolbar)
 		viewModel = obtainViewModel(viewModelFactory, MainViewModel::class.java)
 
-		when (savedInstanceState) {
-			null -> {
-				extractExtras(intent.extras)
-				replaceFragment(R.id.nav_select_car)
-			}
-			else -> extractExtras(savedInstanceState)
-		}
-
 		requestPermissions()
+		requestOverlayPermission()
 		setUpDrawer()
 
-		viewModel.setUid(this.uid)
-		viewModel.getUser().observe(this) {
-			it ?: return@observe
-			IVan.setUser(applicationContext, it)
-			it.fold {
-				onParent {
-					nav_view.menu.setGroupVisible(R.id.parentMenu, true)
-					nav_view.menu.setGroupVisible(R.id.driverMenu, false)
-					nav_view.menu.setGroupVisible(R.id.teacherMenu, false)
-					DataBindingUtils.loadFromFirebaseStorage(userThumbnailImageView, it, getDrawable(R.mipmap.ic_launcher_round), CIRCLE)
-					userNameTextView.text = getString(R.string.name_and_role, it.fullName(), "Parent")
-					emailTextView.text = it.email
-				}
-				onDriver {
-					nav_view.menu.setGroupVisible(R.id.parentMenu, false)
-					nav_view.menu.setGroupVisible(R.id.driverMenu, true)
-					nav_view.menu.setGroupVisible(R.id.teacherMenu, false)
-					DataBindingUtils.loadFromFirebaseStorage(userThumbnailImageView, it, getDrawable(R.mipmap.ic_launcher_round), CIRCLE)
-					userNameTextView.text = getString(R.string.name_and_role, it.fullName(), "Driver")
-					emailTextView.text = it.email
-					setCar(it.getKeyOrId(), Role.DRIVER)
-				}
-				onTeacher {
-					nav_view.menu.setGroupVisible(R.id.parentMenu, false)
-					nav_view.menu.setGroupVisible(R.id.driverMenu, false)
-					nav_view.menu.setGroupVisible(R.id.teacherMenu, true)
-					DataBindingUtils.loadFromFirebaseStorage(userThumbnailImageView, it, getDrawable(R.mipmap.ic_launcher_round), CIRCLE)
-					userNameTextView.text = getString(R.string.name_and_role, it.fullName(), "Teacher")
-					emailTextView.text = it.email
-					setCar(it.getKeyOrId(), Role.TEACHER)
-				}
+		when (savedInstanceState) {
+			null -> {
+				initFragment()
 			}
 		}
 
+		setNavigationHeader()
 		if (IVan.getCarNullable(applicationContext) == null) {
 			drawer_layout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
+		}
+	}
+
+	private fun initFragment() {
+		user.fold {
+			onParent {
+				replaceFragment(R.id.nav_select_car)
+			}
+			onDriver {
+				setCar(it.getKeyOrId(), Role.DRIVER)
+			}
+			onTeacher {
+				setCar(it.getKeyOrId(), Role.TEACHER)
+			}
+		}
+	}
+
+	private fun setNavigationHeader() {
+		user.fold {
+			onParent {
+				nav_view.menu.setGroupVisible(R.id.parentMenu, true)
+				nav_view.menu.setGroupVisible(R.id.driverMenu, false)
+				nav_view.menu.setGroupVisible(R.id.teacherMenu, false)
+				DataBindingUtils.loadFromFirebaseStorage(nav_view.getHeaderView(0).userThumbnailImageView, it, getDrawable(R.mipmap.ic_launcher_round), CIRCLE)
+				nav_view.getHeaderView(0).userNameTextView.text = getString(R.string.name_and_role, it.fullName(), "Parent")
+				nav_view.getHeaderView(0).emailTextView.text = it.email
+			}
+			onDriver {
+				nav_view.menu.setGroupVisible(R.id.parentMenu, false)
+				nav_view.menu.setGroupVisible(R.id.driverMenu, true)
+				nav_view.menu.setGroupVisible(R.id.teacherMenu, false)
+				DataBindingUtils.loadFromFirebaseStorage(nav_view.getHeaderView(0).userThumbnailImageView, it, getDrawable(R.mipmap.ic_launcher_round), CIRCLE)
+				nav_view.getHeaderView(0).userNameTextView.text = getString(R.string.name_and_role, it.fullName(), "Driver")
+				nav_view.getHeaderView(0).emailTextView.text = it.email
+			}
+			onTeacher {
+				nav_view.menu.setGroupVisible(R.id.parentMenu, false)
+				nav_view.menu.setGroupVisible(R.id.driverMenu, false)
+				nav_view.menu.setGroupVisible(R.id.teacherMenu, true)
+				DataBindingUtils.loadFromFirebaseStorage(nav_view.getHeaderView(0).userThumbnailImageView, it, getDrawable(R.mipmap.ic_launcher_round), CIRCLE)
+				nav_view.getHeaderView(0).userNameTextView.text = getString(R.string.name_and_role, it.fullName(), "Teacher")
+				nav_view.getHeaderView(0).emailTextView.text = it.email
+			}
 		}
 	}
 
@@ -148,10 +165,6 @@ class MainActivity : LocalizationActivity(), NavigationView.OnNavigationItemSele
 		}
 	}
 
-	private fun extractExtras(bundle: Bundle) {
-		uid = bundle.getString(EXTRA_UID)
-	}
-
 	private fun requestPermissions() {
 		val permissionsNeeded = mutableListOf<String>()
 		if (!applicationContext.gotPermission(Manifest.permission.CALL_PHONE)) {
@@ -169,6 +182,14 @@ class MainActivity : LocalizationActivity(), NavigationView.OnNavigationItemSele
 		}
 	}
 
+	@RequiresApi(api = Build.VERSION_CODES.M)
+	private fun requestOverlayPermission() {
+		if (!canDrawOverlays(this)) {
+			val intent = Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION, Uri.parse("package:$packageName"))
+			startActivityForResult(intent, REQUEST_CODE_ASK_OVERLAY_PERMISSION)
+		}
+	}
+
 	private fun setUpDrawer() {
 		val toggle = ActionBarDrawerToggle(
 				this, drawer_layout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close)
@@ -176,18 +197,6 @@ class MainActivity : LocalizationActivity(), NavigationView.OnNavigationItemSele
 		toggle.syncState()
 
 		nav_view.setNavigationItemSelectedListener(this)
-	}
-
-	override fun onSaveInstanceState(outState: Bundle?) {
-		super.onSaveInstanceState(outState)
-		outState?.putString(EXTRA_UID, uid)
-	}
-
-	override fun onRestoreInstanceState(savedInstanceState: Bundle?) {
-		super.onRestoreInstanceState(savedInstanceState)
-		savedInstanceState?.let {
-			extractExtras(it)
-		}
 	}
 
 	override fun onBackPressed() {
@@ -217,6 +226,45 @@ class MainActivity : LocalizationActivity(), NavigationView.OnNavigationItemSele
 		}
 	}
 
+	@TargetApi(Build.VERSION_CODES.M)
+	override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+		super.onActivityResult(requestCode, resultCode, data)
+		when (requestCode) {
+			REQUEST_CODE_ASK_OVERLAY_PERMISSION -> {
+				if (!Settings.canDrawOverlays(this)) {
+					requestOverlayPermission()
+				} else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+					if (!canDrawOverlays(this)) {
+						requestOverlayPermission()
+					}
+				}
+			}
+		}
+	}
+
+	@SuppressWarnings("deprecation")
+	private fun canDrawOverlays(context: Context): Boolean {
+    if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.O_MR1) {
+        return Settings.canDrawOverlays(context)
+    } else {
+        if (Settings.canDrawOverlays(context)) return true
+        try {
+            val mgr = context.getSystemService(Context.WINDOW_SERVICE) as? WindowManager ?: return false
+            val viewToAdd = View(context)
+            val params = WindowManager.LayoutParams(0, 0, if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O)
+                    WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY else WindowManager.LayoutParams.TYPE_SYSTEM_ALERT,
+                    WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE or WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE, PixelFormat.TRANSPARENT)
+			viewToAdd.layoutParams = params
+            mgr.addView(viewToAdd, params)
+            mgr.removeView(viewToAdd)
+            return true
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+        return false
+    }
+}
+
 	override fun onCreateOptionsMenu(menu: Menu): Boolean {
 		menuInflater.inflate(R.menu.main, menu)
 		return true
@@ -245,7 +293,7 @@ class MainActivity : LocalizationActivity(), NavigationView.OnNavigationItemSele
 		val tag: String
 		when (id) {
 			R.id.nav_select_car -> {
-				fragment = SelectCarFragment.newInstance(uid)
+				fragment = SelectCarFragment.newInstance()
 				tag = SelectCarFragment.TAG
 			}
 			R.id.nav_car_tracking, R.id.nav_car_tracking_driver, R.id.nav_car_tracking_teacher -> {

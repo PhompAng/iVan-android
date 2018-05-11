@@ -35,6 +35,9 @@ class MyFirebaseMessagingService: FirebaseMessagingService() {
 					NOTIFICATION_TYPE_NOTIFY -> {
 						sendNotification("WARNING", "รถใกล้ถึงบ้านแล้วจ้า")
 					}
+					NOTIFICATION_CONFIRM -> {
+						sendNotification("ALERT!!", "เด็กได้รับการช่วยเหลือแล้ว")
+					}
 				}
 			}
 		}
@@ -66,6 +69,7 @@ class MyFirebaseMessagingService: FirebaseMessagingService() {
 	}
 
 	private fun sendNotification(title: String?, body: String?) {
+		//TODO notification type
 		if (title != null && body != null) {
 			val helper = NotificationHelper(this)
 			val noti = helper.getDetectNotification(title, body)

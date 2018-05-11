@@ -100,6 +100,5 @@ class NotificationFragment : Fragment(), Injectable {
 		override fun onClick(notification: Notification) {
 			startActivity<AlarmStatusActivity>(AlarmStatusActivity.EXTRA_UID to notification.alarmStatus.uid)
 		}
-
 	}
 }
