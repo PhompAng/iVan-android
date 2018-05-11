@@ -16,7 +16,6 @@ import com.firebaseapp.ivan.ivan.di.Injectable
 import com.firebaseapp.ivan.ivan.model.Car
 import com.firebaseapp.ivan.ivan.ui.select.viewholder.SelectCarViewHolderFactory
 import com.firebaseapp.ivan.ivan.utils.obtainViewModel
-import com.firebaseapp.ivan.util.EXTRA_UID
 import com.firebaseapp.ivan.util.IVan
 import com.firebaseapp.ivan.util.observe
 import com.firebaseapp.ivan.util.view.ViewFlipperProgressBarOwn
@@ -25,6 +24,7 @@ import com.wongnai.android.MultipleViewAdapter
 import com.wongnai.android.TYPE_0
 import com.wongnai.android.TypeItemEventListener
 import kotlinx.android.synthetic.main.fragment_recyclerview.*
+import timber.log.Timber
 import javax.inject.Inject
 
 
@@ -34,7 +34,6 @@ class SelectCarFragment : Fragment(), Injectable {
 	private lateinit var viewModel: SelectCarViewModel
 
 	private lateinit var selectCarCallBack: SelectCarCallback
-	private lateinit var uid: String
 	private val parent by lazy {
 		IVan.getParent(context!!)
 	}
@@ -46,11 +45,7 @@ class SelectCarFragment : Fragment(), Injectable {
 	companion object {
 		val TAG: String = SelectCarFragment::class.java.simpleName
 
-		fun newInstance(uid: String): SelectCarFragment = SelectCarFragment().apply {
-			arguments = Bundle().apply {
-				putString(EXTRA_UID, uid)
-			}
-		}
+		fun newInstance(): SelectCarFragment = SelectCarFragment()
 	}
 
 	override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -62,36 +57,27 @@ class SelectCarFragment : Fragment(), Injectable {
 		viewFlipperProgressBarOwn.showProgressBar()
 		viewModel = activity!!.obtainViewModel(viewModelFactory, SelectCarViewModel::class.java)
 
-		when (savedInstanceState) {
-			null -> extractExtra(arguments)
-			else -> extractExtra(savedInstanceState)
-		}
 		adapter.registerViewHolderFactory(TYPE_0, SelectCarViewHolderFactory(OnCarClickListener()))
 		recyclerView.adapter = adapter
 		recyclerView.layoutManager = LinearLayoutManager(context)
 		recyclerView.addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
 
-		viewModel.setUid(this.uid)
+		parent?.getKeyOrId()?.let {
+			viewModel.setUid(it)
+		}
 		viewModel.getCars().observe(this) { list: List<Car>? ->
+			Timber.d("$list")
 			list ?: return@observe
 			viewFlipperProgressBarOwn.hideProgressBar()
 			adapter.clear()
 			list.forEach {
 				FirebaseMessaging.getInstance().subscribeToTopic(it.key)
+				Timber.d("$parent")
 				parent?.let { p ->
 					adapter.add(DelegateCar(it, p), TYPE_0)
 				}
 			}
 		}
-	}
-
-	private fun extractExtra(bundle: Bundle?) {
-		uid = bundle?.getString(EXTRA_UID, "") ?: ""
-	}
-
-	override fun onSaveInstanceState(outState: Bundle) {
-		super.onSaveInstanceState(outState)
-		outState.putString(EXTRA_UID, uid)
 	}
 
 	override fun onAttach(context: Context?) {

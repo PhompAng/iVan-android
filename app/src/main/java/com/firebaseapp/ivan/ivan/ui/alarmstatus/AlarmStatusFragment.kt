@@ -188,14 +188,14 @@ class AlarmStatusFragment : Fragment(), Injectable {
 					when {
 						currentLocation == null -> getNoLocationDialog().show()
 						!isInRange(data.location) -> getNotInRangeDialog().show()
-						else -> viewModel.confirmSecured(data.uid, it.getKeyOrId(), it.fullName(), Role.DRIVER, getLocation(currentLocation!!.latitude, currentLocation!!.longitude))
+						else -> viewModel.confirmSecured(data.uid, data.carId, it.getKeyOrId(), it.fullName(), Role.DRIVER, getLocation(currentLocation!!.latitude, currentLocation!!.longitude))
 					}
 				}
 				onTeacher {
 					when {
 						currentLocation == null -> getNoLocationDialog().show()
 						!isInRange(data.location) -> getNotInRangeDialog().show()
-						else -> viewModel.confirmSecured(data.uid, it.getKeyOrId(), it.fullName(), Role.TEACHER, getLocation(currentLocation!!.latitude, currentLocation!!.longitude))
+						else -> viewModel.confirmSecured(data.uid, data.carId, it.getKeyOrId(), it.fullName(), Role.TEACHER, getLocation(currentLocation!!.latitude, currentLocation!!.longitude))
 					}
 				}
 			}

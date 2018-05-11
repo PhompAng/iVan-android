@@ -123,14 +123,7 @@ class CarMapFragment : Fragment(), Injectable, OnMapReadyCallback {
 			mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng))
 			mMap.animateCamera(CameraUpdateFactory.zoomTo(15f))
 
-			user.fold {
-				onDriver {
-					setUpRoute()
-				}
-				onTeacher {
-					setUpRoute()
-				}
-			}
+			setUpRoute()
 			adapter.clear()
 			adapter.add(it, TYPE_3)
 			adapter.add(DelegateMobilityStatus.getAvgSpeed(context!!, it), TYPE_0)
@@ -144,7 +137,7 @@ class CarMapFragment : Fragment(), Injectable, OnMapReadyCallback {
 		viewModel.getSchool().observe(this) {
 			it ?: return@observe
 			binding.destinationTextView.text = it.name.th
-			//TODO school pin
+			mMap.addMarker(MarkerOptions().position(LatLng(it.location.lat, it.location.lng)).icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_destination)))
 		}
 	}
 
@@ -157,8 +150,24 @@ class CarMapFragment : Fragment(), Injectable, OnMapReadyCallback {
 	}
 
 	private fun renderRoute(waypoints: List<Student>, route: Route) {
-		for (i in waypoints) {
-			mMap.addMarker(MarkerOptions().position(LatLng(i.location.lat, i.location.lng)).icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_waypoint)))
+		user.fold {
+			onDriver {
+				for (i in waypoints) {
+					mMap.addMarker(MarkerOptions().position(LatLng(i.location.lat, i.location.lng)).icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_waypoint)))
+				}
+			}
+			onTeacher {
+				for (i in waypoints) {
+					mMap.addMarker(MarkerOptions().position(LatLng(i.location.lat, i.location.lng)).icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_waypoint)))
+				}
+			}
+			onParent {
+				for (i in waypoints) {
+					if (it.location == i.location) {
+						mMap.addMarker(MarkerOptions().position(LatLng(i.location.lat, i.location.lng)).icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_waypoint)))
+					}
+				}
+			}
 		}
 		if (route.routes.isNotBlank()) {
 			val direction = gson.fromJson(route.routes, Direction::class.java)

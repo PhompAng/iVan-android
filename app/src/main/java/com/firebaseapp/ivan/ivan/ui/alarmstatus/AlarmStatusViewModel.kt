@@ -62,10 +62,11 @@ class AlarmStatusViewModel @Inject constructor(private val alarmStatusApi: Alarm
 		})
 	}
 
-	fun confirmSecured(uid: String, reporterUid: String, reporterName: String, reporterRole: Int, location: Location) {
+	fun confirmSecured(uid: String, carId: String, reporterUid: String, reporterName: String, reporterRole: Int, location: Location) {
 		alarmStatusApi.confirmSecured(
 				ConfirmSecuredRequest(
 						uid,
+						carId,
 						ConfirmSecuredData(
 								ReporterData(
 										reporterUid,

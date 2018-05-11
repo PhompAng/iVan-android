@@ -7,6 +7,8 @@ import android.view.View
 import android.view.ViewGroup
 import com.firebaseapp.ivan.ivan.R
 import com.firebaseapp.ivan.ivan.model.AlarmStatus
+import com.firebaseapp.ivan.ivan.model.monad.fold
+import com.firebaseapp.ivan.util.IVan
 import com.firebaseapp.ivan.util.getRelativeTime
 import com.firebaseapp.ivan.util.inflate
 import com.wongnai.android.*
@@ -26,6 +28,9 @@ class AlarmStatusViewHolderFactory(
 	private inner class AlarmStatusViewHolder(container: View) : NormalViewHolder<AlarmStatus>(container) {
 		private val adapter = MultipleViewAdapter(1)
 		private lateinit var data: AlarmStatus
+		private val user by lazy {
+			IVan.getUser(getContext())
+		}
 
 		private val reportFalseDialog by lazy {
 			AlertDialog.Builder(getContext())
@@ -84,6 +89,13 @@ class AlarmStatusViewHolderFactory(
 				itemView.reportFalseButton.visibility = View.GONE
 				itemView.confirmSecureButton.visibility = View.GONE
 				itemView.confirmHint.visibility = View.GONE
+			}
+			user.fold {
+				onParent {
+					itemView.reportFalseButton.visibility = View.GONE
+					itemView.confirmSecureButton.visibility = View.GONE
+					itemView.confirmHint.visibility = View.GONE
+				}
 			}
 		}
 	}
