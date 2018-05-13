@@ -53,6 +53,7 @@ dependencies {
 	implementation reclyclerviewV7
 	implementation palleteV7
 	implementation design
+	implementation customtabs
 	implementation googlePlayServices
 	implementation firebase
 	implementation architectureComponents

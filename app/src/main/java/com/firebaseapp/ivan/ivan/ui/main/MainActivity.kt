@@ -3,6 +3,7 @@ package com.firebaseapp.ivan.ivan.ui.main
 import android.Manifest
 import android.annotation.TargetApi
 import android.arch.lifecycle.ViewModelProvider
+import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -12,8 +13,10 @@ import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
 import android.support.annotation.RequiresApi
+import android.support.customtabs.*
 import android.support.design.widget.NavigationView
 import android.support.v4.app.Fragment
+import android.support.v4.content.ContextCompat
 import android.support.v4.view.GravityCompat
 import android.support.v4.widget.DrawerLayout
 import android.support.v7.app.ActionBarDrawerToggle
@@ -62,6 +65,9 @@ class MainActivity : LocalizationActivity(), NavigationView.OnNavigationItemSele
 		IVan.getUser(this)
 	}
 
+	private var customTabsConnection: CustomTabsServiceConnection? = null
+	private var customTabsSession: CustomTabsSession? = null
+
 	companion object {
 		const val REQUEST_CODE_ASK_MULTIPLE_PERMISSIONS = 124
 		const val REQUEST_CODE_ASK_OVERLAY_PERMISSION = 125
@@ -91,6 +97,7 @@ class MainActivity : LocalizationActivity(), NavigationView.OnNavigationItemSele
 		if (IVan.getCarNullable(applicationContext) == null) {
 			drawer_layout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
 		}
+		connectCustomTabsService()
 	}
 
 	private fun initFragment() {
@@ -197,6 +204,33 @@ class MainActivity : LocalizationActivity(), NavigationView.OnNavigationItemSele
 		toggle.syncState()
 
 		nav_view.setNavigationItemSelectedListener(this)
+	}
+
+	private fun connectCustomTabsService() {
+		val chromePackage = "com.android.chrome"
+		customTabsConnection = object : CustomTabsServiceConnection() {
+			override fun onCustomTabsServiceConnected(name: ComponentName?, client: CustomTabsClient?) {
+				createCustomTabsSessions(client)
+			}
+
+			override fun onServiceDisconnected(name: ComponentName?) {
+			}
+		}
+	}
+
+	private fun createCustomTabsSessions(client: CustomTabsClient?) {
+		customTabsSession = client?.newSession(object : CustomTabsCallback() {
+			override fun onNavigationEvent(navigationEvent: Int, extras: Bundle?) {
+
+			}
+		})
+	}
+
+	override fun onDestroy() {
+		super.onDestroy()
+		customTabsConnection?.let {
+			unbindService(it)
+		}
 	}
 
 	override fun onBackPressed() {
@@ -320,6 +354,15 @@ class MainActivity : LocalizationActivity(), NavigationView.OnNavigationItemSele
 						startActivity<TeacherActivity>(TeacherActivity.EXTRA_TEACHER_ID to it.getKeyOrId())
 					}
 				}
+				return
+			}
+			R.id.nav_live, R.id.nav_live_driver, R.id.nav_live_teacher -> {
+				val uri = Uri.parse("https://media-ivan.meranote.in.th/player/${IVan.getCar(applicationContext).getKeyOrId()}")
+				val builder = CustomTabsIntent.Builder(customTabsSession)
+				builder.setToolbarColor(ContextCompat.getColor(this, R.color.colorPrimary))
+				builder.setShowTitle(true)
+				val intent = builder.build()
+				intent.launchUrl(this, uri)
 				return
 			}
 			R.id.nav_notification, R.id.nav_notification_driver, R.id.nav_notification_teacher -> {

@@ -36,7 +36,7 @@ object DataBindingUtils {
 
 	@JvmStatic
 	@BindingAdapter(value = ["storage", "placeholder", "transform"], requireAll = false)
-	fun loadFromFirebaseStorage(view: ImageView, data: FirebaseModel, placeholder: Drawable?, @GlideTransformClass.GlideTransform transform: Long?) {
+	fun loadFromFirebaseStorage(view: ImageView, data: FirebaseModel, placeholder: Drawable?, @GlideTransformClass.GlideTransform transform: Int?) {
 		val ref = FirebaseStorage.getInstance().reference
 		val glide = GlideApp.with(view.context)
 		var glideSetting: RequestOptions = if (placeholder == null) RequestOptions().placeholder(R.drawable.ic_photo_grey500_24dp) else RequestOptions().placeholder(placeholder)

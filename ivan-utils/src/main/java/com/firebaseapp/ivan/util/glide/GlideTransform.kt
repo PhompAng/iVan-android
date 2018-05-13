@@ -7,9 +7,9 @@ import android.support.annotation.IntDef
  */
 class GlideTransformClass {
 	companion object {
-		const val NONE = 0L
-		const val CIRCLE = 1L
-		const val ROUND_CORNER = 2L
+		const val NONE = 0
+		const val CIRCLE = 1
+		const val ROUND_CORNER = 2
 	}
 
 	@IntDef(CIRCLE, ROUND_CORNER)
