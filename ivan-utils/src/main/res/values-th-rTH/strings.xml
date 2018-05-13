@@ -24,6 +24,7 @@
 	<string name="phone">โทรศัพท์</string>
 	<string name="parent">ผู้ปกครอง</string>
 	<string name="profile">โปรไฟล์</string>
+	<string name="live">การถ่ายทอดสด</string>
 	<string name="notification">การแจ้งเตือน</string>
 	<string name="data">ข้อมูล</string>
 	<string name="condition">ความน่าเชื่อถือ</string>

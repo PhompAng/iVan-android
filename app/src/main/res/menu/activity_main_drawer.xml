@@ -27,6 +27,10 @@
 			android:icon="@drawable/ic_account_box_black_24dp"
 			android:title="@string/profile" />
 		<item
+			android:id="@+id/nav_live"
+			android:icon="@drawable/ic_videocam_black_24dp"
+			android:title="@string/live" />
+		<item
 			android:id="@+id/nav_notification"
 			android:icon="@drawable/ic_notifications_black_24dp"
 			android:title="@string/notification" />
@@ -49,6 +53,10 @@
 			android:id="@+id/nav_profile_driver"
 			android:icon="@drawable/ic_account_box_black_24dp"
 			android:title="@string/profile" />
+		<item
+			android:id="@+id/nav_live_driver"
+			android:icon="@drawable/ic_videocam_black_24dp"
+			android:title="@string/live" />
 		<item
 			android:id="@+id/nav_notification_driver"
 			android:icon="@drawable/ic_notifications_black_24dp"
@@ -77,11 +85,14 @@
 			android:icon="@drawable/ic_account_box_black_24dp"
 			android:title="@string/profile" />
 		<item
+			android:id="@+id/nav_live_teacher"
+			android:icon="@drawable/ic_videocam_black_24dp"
+			android:title="@string/live" />
+		<item
 			android:id="@+id/nav_notification_teacher"
 			android:icon="@drawable/ic_notifications_black_24dp"
 			android:title="@string/notification" />
 	</group>
-
 
 	<item
 		android:id="@+id/nav_logout"

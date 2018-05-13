@@ -21,7 +21,7 @@ class CarConditionViewHolderFactory : ViewHolderFactory<MobilityStatus> {
 
 	private inner class CarConditionViewHolder(container: View) : NormalViewHolder<MobilityStatus>(container) {
 		override fun fillData(data: MobilityStatus, position: Int) {
-			itemView.carConditionTextView.text = String.format("%.2f", data.star)
+			itemView.carConditionTextView.text = String.format("%.2f★", data.star)
 			itemView.lastUpdateTextView.text = data.timestamp.getRelativeTime(getContext())
 		}
 	}

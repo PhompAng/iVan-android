@@ -33,7 +33,7 @@ class MyFirebaseMessagingService: FirebaseMessagingService() {
 						sendNotification(title, text)
 					}
 					NOTIFICATION_TYPE_NOTIFY -> {
-						sendNotification("WARNING", "รถใกล้ถึงบ้านแล้วจ้า")
+						sendNotification("WARNING", "รถใกล้ถึงบ้านแล้ว")
 					}
 					NOTIFICATION_CONFIRM -> {
 						sendNotification("ALERT!!", "เด็กได้รับการช่วยเหลือแล้ว")

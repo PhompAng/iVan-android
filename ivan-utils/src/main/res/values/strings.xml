@@ -35,6 +35,7 @@
 	<string name="phone">Phone</string>
 	<string name="parent">Parent</string>
 	<string name="profile">Profile</string>
+	<string name="live">Live Streaming</string>
 	<string name="notification">Notification</string>
 	<string name="alarm_status">Alarm Status</string>
 	<string name="data">Data</string>
