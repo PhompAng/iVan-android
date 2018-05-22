@@ -5,11 +5,7 @@ import com.firebaseapp.ivan.ivan.model.Car
 import com.firebaseapp.ivan.ivan.model.Driver
 import com.firebaseapp.ivan.ivan.model.Parent
 import com.firebaseapp.ivan.ivan.model.Teacher
-import com.firebaseapp.ivan.ivan.model.monad.Users
-import com.firebaseapp.ivan.ivan.model.monad.fold
-import com.firebaseapp.ivan.ivan.model.monad.parent
-import com.firebaseapp.ivan.ivan.model.monad.driver
-import com.firebaseapp.ivan.ivan.model.monad.teacher
+import com.firebaseapp.ivan.ivan.model.monad.*
 
 /**
  * @author phompang on 21/1/2018 AD.
@@ -43,6 +39,16 @@ object IVan {
 			teacher != null -> teacher(teacher)
 			else -> null
 		}
+	}
+
+	fun getUserId(context: Context): String? {
+		var uid: String? = null
+		getUser(context).fold {
+			onDriver { uid = it.getKeyOrId() }
+			onParent { uid = it.getKeyOrId() }
+			onTeacher { uid = it.getKeyOrId() }
+		}
+		return uid
 	}
 
 	fun getParent(context: Context): Parent? {

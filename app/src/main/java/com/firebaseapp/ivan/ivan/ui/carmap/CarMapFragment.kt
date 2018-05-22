@@ -133,6 +133,7 @@ class CarMapFragment : Fragment(), Injectable, OnMapReadyCallback {
 			adapter.add(DelegateMobilityStatus.getSpeedExceed(context!!, it), TYPE_0)
 			adapter.add(DelegateMobilityStatus.getMileage(context!!, it), TYPE_0)
 			adapter.add(car, TYPE_2)
+			adapter.notifyDataSetChanged()
 		}
 		viewModel.getSchool().observe(this) {
 			it ?: return@observe
