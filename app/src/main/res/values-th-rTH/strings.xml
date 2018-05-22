@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<string name="app_name">iVan</string>
+	<string name="title_activity_settings">การตั้งค่า</string>
+	<string name="lang_dialog_title_list_preference">เลือกภาษา</string>
+	<string name="pref_header_general">ทั่วไป</string>
+</resources>

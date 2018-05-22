@@ -1,1 +1,1 @@
-include ':app'
+include ':app', ':livedata-adapter', ':model', ':multiple-viewtype-recyclerview', ':ivan-utils', ':google-maps-bottomsheet', ':glide'

@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools">
+
+	<data>
+
+		<import type="com.firebaseapp.ivan.util.glide.GlideTransformClass" />
+
+		<variable
+			name="car"
+			type="com.firebaseapp.ivan.ivan.model.Car" />
+
+		<variable
+			name="school"
+			type="com.firebaseapp.ivan.ivan.model.School" />
+
+		<variable
+			name="parent"
+			type="com.firebaseapp.ivan.ivan.model.Parent" />
+
+		<variable
+			name="mobilityStatus"
+			type="com.firebaseapp.ivan.ivan.model.MobilityStatus" />
+	</data>
+
+	<android.support.constraint.ConstraintLayout
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:background="@android:color/white"
+		android:clickable="true"
+		android:focusable="true"
+		android:foreground="?attr/selectableItemBackground"
+		android:padding="@dimen/space_large">
+
+		<ImageView
+			android:id="@+id/driverImageView"
+			android:layout_width="72dp"
+			android:layout_height="72dp"
+			android:scaleType="fitXY"
+			app:layout_constraintLeft_toLeftOf="parent"
+			app:layout_constraintTop_toTopOf="parent"
+			app:placeholder="@{@drawable/portrait_placeholder}"
+			app:storage="@{car.drivers.get(0)}"
+			app:transform="@{GlideTransformClass.CIRCLE}"
+			tools:src="@color/colorAccent" />
+
+		<TextView
+			android:id="@+id/carPlateNumberTextView"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_marginStart="@dimen/space_large"
+			android:fontFamily="@font/kanit_regular"
+			android:text="@{car.plateNumber}"
+			android:textColor="@color/textColor"
+			android:textSize="@dimen/text_large_1"
+			app:layout_constraintLeft_toRightOf="@+id/driverImageView"
+			app:layout_constraintTop_toTopOf="@+id/driverImageView"
+			tools:text="ฮพ 3867" />
+
+		<TextView
+			android:id="@+id/provinceTextView"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_marginStart="@dimen/space_normal"
+			android:fontFamily="@font/kanit_regular"
+			android:text="@{car.province}"
+			android:textColor="@color/textColorPrimary"
+			android:textSize="@dimen/text_large_1"
+			app:layout_constraintLeft_toRightOf="@+id/carPlateNumberTextView"
+			app:layout_constraintTop_toTopOf="@+id/carPlateNumberTextView"
+			tools:text="กรุงเทพมหานคร" />
+
+		<TextView
+			android:id="@+id/schoolNameTextView"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:fontFamily="@font/kanit_regular"
+			android:text="@{school.name.th}"
+			android:textColor="@color/textColor"
+			android:textSize="@dimen/text_small_1"
+			app:layout_constraintLeft_toLeftOf="@+id/carPlateNumberTextView"
+			app:layout_constraintTop_toBottomOf="@+id/carPlateNumberTextView"
+			tools:text="โรงเรียนบดินทรเดชา (สิงห์ สิงหเสนี)" />
+
+		<com.firebaseapp.ivan.util.view.StarRatingNumberView
+			android:id="@+id/starRating"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			app:layout_constraintLeft_toLeftOf="@+id/schoolNameTextView"
+			app:layout_constraintTop_toBottomOf="@+id/schoolNameTextView"
+			app:star="@{mobilityStatus}" />
+
+		<com.tolstykh.textviewrichdrawable.TextViewRichDrawable
+			android:id="@+id/estimateTimeTextView"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_marginStart="@dimen/space_normal"
+			android:drawablePadding="@dimen/space_small"
+			android:fontFamily="@font/kanit_regular"
+			android:textColor="@color/textColorPrimary"
+			android:textSize="@dimen/text_small_1"
+			app:compoundDrawableHeight="16dp"
+			app:drawableStartVector="@drawable/ic_access_time_black_24dp"
+			app:drawableTint="@color/textColorPrimary"
+			app:estimate_time="@{mobilityStatus}"
+			app:layout_constraintBottom_toBottomOf="@+id/starRating"
+			app:layout_constraintLeft_toRightOf="@+id/starRating"
+			app:layout_constraintTop_toBottomOf="@+id/schoolNameTextView"
+			app:parent_location="@{parent.location}" />
+
+		<com.tolstykh.textviewrichdrawable.TextViewRichDrawable
+			android:id="@+id/distanceTextView"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_marginStart="@dimen/space_normal"
+			android:drawablePadding="@dimen/space_small"
+			android:fontFamily="@font/kanit_regular"
+			android:textColor="@color/textColorPrimary"
+			android:textSize="@dimen/text_small_1"
+			app:compoundDrawableHeight="16dp"
+			app:distance_from="@{mobilityStatus}"
+			app:drawableStartVector="@drawable/ic_location_on_black_24dp"
+			app:drawableTint="@color/textColorPrimary"
+			app:layout_constraintBottom_toBottomOf="@+id/starRating"
+			app:layout_constraintLeft_toRightOf="@+id/estimateTimeTextView"
+			app:layout_constraintTop_toBottomOf="@+id/schoolNameTextView"
+			app:parent_location="@{parent.location}"
+			tools:text="10.5 km." />
+
+		<com.firebaseapp.ivan.util.view.PhotoGridView
+			android:id="@+id/photoGridView"
+			android:layout_width="0dp"
+			android:layout_height="wrap_content"
+			android:layout_marginTop="@dimen/space_large"
+			app:fill_data="@{car.students}"
+			app:layout_constraintLeft_toLeftOf="parent"
+			app:layout_constraintRight_toRightOf="parent"
+			app:layout_constraintTop_toBottomOf="@+id/driverImageView" />
+	</android.support.constraint.ConstraintLayout>
+</layout>

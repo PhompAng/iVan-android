@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<level-list xmlns:android="http://schemas.android.com/apk/res/android">
+	<item
+		android:drawable="@drawable/rating_background_rate5"
+		android:maxLevel="50"
+		android:minLevel="42" />
+	<item
+		android:drawable="@drawable/rating_background_rate4"
+		android:maxLevel="41"
+		android:minLevel="37" />
+	<item
+		android:drawable="@drawable/rating_background_rate3"
+		android:maxLevel="36"
+		android:minLevel="30" />
+	<item
+		android:drawable="@drawable/rating_background_rate2"
+		android:maxLevel="29"
+		android:minLevel="20" />
+	<item
+		android:drawable="@drawable/rating_background_rate1"
+		android:maxLevel="19"
+		android:minLevel="10" />
+	<item
+		android:drawable="@drawable/rating_background_rate0"
+		android:maxLevel="9"
+		android:minLevel="0" />
+</level-list>

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:layout_width="match_parent"
+	android:layout_height="wrap_content"
+	android:background="@android:color/white"
+	android:padding="@dimen/space_large">
+
+	<TextView
+		android:id="@+id/valueTextView"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:fontFamily="@font/kanit_light"
+		android:textColor="@color/colorPrimary"
+		android:textSize="@dimen/text_large_3"
+		app:layout_constraintLeft_toLeftOf="parent"
+		app:layout_constraintRight_toRightOf="parent"
+		app:layout_constraintTop_toTopOf="parent"
+		tools:text="90 Km/hr" />
+
+	<TextView
+		android:id="@+id/titleTextView"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:fontFamily="@font/kanit_light"
+		android:textColor="@color/grey600"
+		android:textSize="@dimen/text_normal"
+		app:layout_constraintLeft_toLeftOf="@+id/valueTextView"
+		app:layout_constraintRight_toRightOf="@+id/valueTextView"
+		app:layout_constraintTop_toBottomOf="@+id/valueTextView"
+		tools:text="Average Speed" />
+
+</android.support.constraint.ConstraintLayout>

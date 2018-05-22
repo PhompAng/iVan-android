@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:layout_width="match_parent"
+	android:layout_height="wrap_content"
+	android:background="@android:color/white"
+	android:orientation="horizontal"
+	android:padding="@dimen/space_large">
+
+	<TextView
+		android:id="@+id/carPlateNumberTextView"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:fontFamily="@font/kanit_medium"
+		android:textColor="@color/textColor"
+		android:textSize="@dimen/text_large_3"
+		tools:text="ฮพ 3867" />
+
+	<TextView
+		android:id="@+id/provinceTextView"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_marginStart="@dimen/space_normal"
+		android:fontFamily="@font/kanit_regular"
+		android:textColor="@color/textColorPrimary"
+		android:textSize="@dimen/text_large_2"
+		tools:text="กรุงเทพมหานคร" />
+</LinearLayout>
