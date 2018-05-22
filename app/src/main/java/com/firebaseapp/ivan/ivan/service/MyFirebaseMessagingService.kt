@@ -33,7 +33,14 @@ class MyFirebaseMessagingService: FirebaseMessagingService() {
 						sendNotification(title, text)
 					}
 					NOTIFICATION_TYPE_NOTIFY -> {
-						sendNotification("WARNING", "รถใกล้ถึงบ้านแล้ว")
+						Timber.d("${IVan.getUserId(applicationContext)}")
+						Timber.d(it[PAYLOAD_PARENT_ID])
+						if (IVan.getUserId(applicationContext) == it[PAYLOAD_PARENT_ID]) {
+							sendNotification("WARNING", "รถใกล้ถึงบ้านแล้ว")
+						}
+					}
+					NOTIFICATION_TYPE_MOCK_SCHOOL -> {
+						sendNotification("WARNING", "รถถึงโรงเรียนแล้ว")
 					}
 					NOTIFICATION_CONFIRM -> {
 						sendNotification("ALERT!!", "เด็กได้รับการช่วยเหลือแล้ว")

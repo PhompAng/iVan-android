@@ -229,7 +229,7 @@ class MainActivity : LocalizationActivity(), NavigationView.OnNavigationItemSele
 	override fun onDestroy() {
 		super.onDestroy()
 		customTabsConnection?.let {
-			unbindService(it)
+//			unbindService(it)
 		}
 	}
 
